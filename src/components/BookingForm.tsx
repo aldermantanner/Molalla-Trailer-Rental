@@ -191,7 +191,21 @@ export function BookingForm() {
 
       console.log('Service type:', serviceType, 'Delivery required:', formData.delivery_required);
 
-      if (serviceType === 'rental' && !formData.delivery_required) {
+      if (serviceType === 'junk_removal' || serviceType === 'material_delivery') {
+        console.log('Quote request submitted - no payment required');
+        setSubmitStatus('success');
+        setPendingBookingId(null);
+        setFormData({
+          customer_name: '',
+          customer_email: '',
+          customer_phone: '',
+          start_date: '',
+          end_date: '',
+          delivery_address: '',
+          delivery_required: false,
+          notes: '',
+        });
+      } else if (serviceType === 'rental' && !formData.delivery_required) {
         console.log('Showing rental agreement');
         setShowAgreement(true);
       } else {
@@ -339,7 +353,9 @@ export function BookingForm() {
         </div>
         <h3 className="text-2xl font-bold text-green-900 mb-2">Booking Complete!</h3>
         <p className="text-green-800 mb-6">
-          Thank you for completing your {serviceType === 'rental' ? 'rental agreement' : 'booking request'}. We'll contact you shortly at the phone number you provided to confirm your {serviceType === 'rental' ? 'trailer rental' : serviceType === 'material_delivery' ? 'material delivery' : 'junk removal service'}.
+          {serviceType === 'rental'
+            ? "Thank you for completing your rental agreement. We'll contact you shortly at the phone number you provided to confirm your trailer rental."
+            : "Thank you for your quote request! We'll review your request and contact you within 24 hours with a detailed quote and payment instructions."}
         </p>
         <button
           onClick={() => setSubmitStatus('idle')}
@@ -631,39 +647,35 @@ export function BookingForm() {
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="space-y-2">
               {serviceType === 'rental' && (
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Rental Fee:</span>
-                  <span className="text-lg font-semibold text-gray-900">${calculateBasePrice()}</span>
+                <>
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Rental Fee:</span>
+                    <span className="text-lg font-semibold text-gray-900">${calculateBasePrice()}</span>
+                  </div>
+                  {calculateDeliveryFee() > 0 && (
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700">Delivery Fee:</span>
+                      <span className="text-lg font-semibold text-gray-900">${calculateDeliveryFee()}</span>
+                    </div>
+                  )}
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-700">Refundable Deposit:</span>
+                    <span className="text-lg font-semibold text-gray-900">${calculateDeposit()}</span>
+                  </div>
+                  <div className="border-t border-green-300 pt-2 mt-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-700 font-semibold">Total Due Now:</span>
+                      <span className="text-2xl font-bold text-green-600">${calculateTotalPrice()}</span>
+                    </div>
+                  </div>
+                </>
+              )}
+              {(serviceType === 'junk_removal' || serviceType === 'material_delivery') && (
+                <div className="text-center py-4">
+                  <p className="text-lg font-semibold text-gray-900">Custom Quote Required</p>
+                  <p className="text-sm text-gray-600 mt-2">We'll contact you with pricing details</p>
                 </div>
               )}
-              {serviceType === 'junk_removal' && (
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Service Fee:</span>
-                  <span className="text-lg font-semibold text-gray-900">Custom quote</span>
-                </div>
-              )}
-              {serviceType === 'material_delivery' && (
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Service Fee:</span>
-                  <span className="text-lg font-semibold text-gray-900">Custom quote + delivery</span>
-                </div>
-              )}
-              {calculateDeliveryFee() > 0 && (
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Delivery Fee:</span>
-                  <span className="text-lg font-semibold text-gray-900">${calculateDeliveryFee()}</span>
-                </div>
-              )}
-              <div className="flex justify-between items-center">
-                <span className="text-gray-700">Refundable Deposit:</span>
-                <span className="text-lg font-semibold text-gray-900">${calculateDeposit()}</span>
-              </div>
-              <div className="border-t border-green-300 pt-2 mt-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700 font-semibold">Total Due Now:</span>
-                  <span className="text-2xl font-bold text-green-600">${calculateTotalPrice()}</span>
-                </div>
-              </div>
             </div>
             {serviceType === 'rental' && (
               <p className="text-sm text-gray-600 mt-3">

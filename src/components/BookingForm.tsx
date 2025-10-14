@@ -45,9 +45,6 @@ export function BookingForm() {
   const [uploadingFiles, setUploadingFiles] = useState(false);
 
   const calculateDeliveryFee = () => {
-    if (serviceType === 'junk_removal' || serviceType === 'material_delivery') {
-      return 30;
-    }
     if (serviceType === 'rental' && formData.delivery_required) {
       return 30;
     }
@@ -55,7 +52,10 @@ export function BookingForm() {
   };
 
   const calculateDeposit = () => {
-    return 50;
+    if (serviceType === 'rental') {
+      return 50;
+    }
+    return 0;
   };
 
   const calculateBasePrice = () => {
@@ -636,10 +636,16 @@ export function BookingForm() {
                   <span className="text-lg font-semibold text-gray-900">${calculateBasePrice()}</span>
                 </div>
               )}
-              {serviceType !== 'rental' && (
+              {serviceType === 'junk_removal' && (
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700">Service Fee:</span>
-                  <span className="text-lg font-semibold text-gray-900">To be quoted</span>
+                  <span className="text-lg font-semibold text-gray-900">Custom quote</span>
+                </div>
+              )}
+              {serviceType === 'material_delivery' && (
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700">Service Fee:</span>
+                  <span className="text-lg font-semibold text-gray-900">Custom quote + delivery</span>
                 </div>
               )}
               {calculateDeliveryFee() > 0 && (
@@ -659,9 +665,16 @@ export function BookingForm() {
                 </div>
               </div>
             </div>
-            <p className="text-sm text-gray-600 mt-3">
-              * $50 deposit is refundable after trailer inspection
-            </p>
+            {serviceType === 'rental' && (
+              <p className="text-sm text-gray-600 mt-3">
+                * $50 deposit is refundable after trailer inspection
+              </p>
+            )}
+            {serviceType !== 'rental' && (
+              <p className="text-sm text-gray-600 mt-3">
+                * Final pricing will be provided after we review your request
+              </p>
+            )}
           </div>
         )}
 

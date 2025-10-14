@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle } from 'lucide-react';
+import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle, Shield } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import RentalAgreement from './RentalAgreement';
+import { FileUpload } from './FileUpload';
 
 type ServiceType = 'rental' | 'junk_removal' | 'material_delivery';
 type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
@@ -39,6 +40,9 @@ export function BookingForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [showAgreement, setShowAgreement] = useState(false);
   const [pendingBookingId, setPendingBookingId] = useState<string | null>(null);
+  const [driversLicenseFile, setDriversLicenseFile] = useState<File | null>(null);
+  const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
+  const [uploadingFiles, setUploadingFiles] = useState(false);
 
   const calculateDeliveryFee = () => {
     if (serviceType === 'junk_removal' || serviceType === 'material_delivery') {
@@ -84,11 +88,41 @@ export function BookingForm() {
     return basePrice + deliveryFee + deposit;
   };
 
+  const uploadFileToStorage = async (file: File, bookingId: string, fileType: 'license' | 'insurance'): Promise<string> => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${bookingId}_${fileType}_${Date.now()}.${fileExt}`;
+    const filePath = `documents/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('booking-documents')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('booking-documents')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     console.log('📝 handleSubmit called');
     e.preventDefault();
     console.log('✅ preventDefault called');
     console.log('📋 Form data:', formData);
+
+    if (serviceType === 'rental' && (!driversLicenseFile || !insuranceFile)) {
+      setErrorMessage('Please upload both your driver\'s license and insurance document.');
+      setSubmitStatus('error');
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setErrorMessage('');
@@ -125,6 +159,35 @@ export function BookingForm() {
 
       console.log('Booking created with ID:', data.id);
       setPendingBookingId(data.id);
+
+      if (serviceType === 'rental' && driversLicenseFile && insuranceFile) {
+        try {
+          setUploadingFiles(true);
+          console.log('Uploading documents...');
+
+          const licenseUrl = await uploadFileToStorage(driversLicenseFile, data.id, 'license');
+          const insuranceUrl = await uploadFileToStorage(insuranceFile, data.id, 'insurance');
+
+          const { error: updateError } = await supabase
+            .from('bookings')
+            .update({
+              drivers_license_url: licenseUrl,
+              insurance_document_url: insuranceUrl
+            })
+            .eq('id', data.id);
+
+          if (updateError) {
+            console.error('Error updating booking with document URLs:', updateError);
+          } else {
+            console.log('Documents uploaded successfully');
+          }
+        } catch (uploadError) {
+          console.error('Error uploading documents:', uploadError);
+          setErrorMessage('Warning: Booking created but documents failed to upload. Please contact us.');
+        } finally {
+          setUploadingFiles(false);
+        }
+      }
 
       console.log('Service type:', serviceType, 'Delivery required:', formData.delivery_required);
 
@@ -179,11 +242,26 @@ export function BookingForm() {
   const handleStripeCheckout = async (bookingId: string, agreementData?: any) => {
     try {
       console.log('Starting Stripe checkout for booking:', bookingId);
-      await supabase.auth.getSession();
+
+      if (agreementData) {
+        const { error: updateError } = await supabase
+          .from('bookings')
+          .update({
+            ...agreementData,
+            agreement_completed: true,
+            rental_order_signature_date: new Date().toISOString(),
+            terms_signature_date: new Date().toISOString(),
+            trailer_details_signature_date: new Date().toISOString(),
+          })
+          .eq('id', bookingId);
+
+        if (updateError) {
+          throw new Error('Failed to save agreement');
+        }
+      }
 
       const origin = window.location.origin;
       const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout-session`;
-      console.log('Calling edge function:', apiUrl);
 
       const response = await fetch(apiUrl, {
         method: 'POST',
@@ -195,27 +273,19 @@ export function BookingForm() {
           bookingId,
           successUrl: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
           cancelUrl: `${origin}/?canceled=true`,
-          agreementData: agreementData || null
         }),
       });
 
-      console.log('Response status:', response.status);
-
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Checkout error:', errorData);
         throw new Error(errorData.error || 'Failed to create checkout session');
       }
 
-      const responseData = await response.json();
-      console.log('Response data:', responseData);
-
-      const { url } = responseData;
+      const { url } = await response.json();
       if (!url) {
         throw new Error('No checkout URL returned');
       }
 
-      console.log('Redirecting to:', url);
       window.location.href = url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
@@ -514,6 +584,49 @@ export function BookingForm() {
           />
         </div>
 
+        {serviceType === 'rental' && (
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 space-y-6">
+            <div className="flex items-start gap-3">
+              <Shield className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Required Documents</h3>
+                <p className="text-sm text-gray-700 mb-4">
+                  For your safety and ours, we require a valid driver's license and proof of insurance for all trailer rentals.
+                  Your information is securely stored and only used for rental verification purposes.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <FileUpload
+                label="Driver's License"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                onFileSelect={setDriversLicenseFile}
+                required={true}
+                helpText="Upload a clear photo or scan of your valid driver's license"
+              />
+
+              <FileUpload
+                label="Insurance Document"
+                accept=".jpg,.jpeg,.png,.pdf"
+                maxSizeMB={5}
+                onFileSelect={setInsuranceFile}
+                required={true}
+                helpText="Upload your current auto insurance card or policy document"
+              />
+            </div>
+
+            <div className="bg-white border border-blue-200 rounded p-3">
+              <p className="text-xs text-gray-600">
+                <strong>Privacy Notice:</strong> Your documents are encrypted and stored securely. We only use this information
+                to verify rental eligibility and will never share it with third parties. Documents are automatically deleted
+                30 days after your rental period ends.
+              </p>
+            </div>
+          </div>
+        )}
+
         {((serviceType === 'rental' && formData.start_date && formData.end_date) || serviceType === 'junk_removal' || serviceType === 'material_delivery') && (
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="space-y-2">
@@ -560,12 +673,12 @@ export function BookingForm() {
 
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || uploadingFiles}
           onMouseDown={() => console.log('🖱️ Mouse down on button')}
           onClick={() => console.log('🔘 Button onClick fired')}
           className="w-full bg-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Submitting...' : serviceType === 'rental' ? 'Request Booking' : 'Request Quote'}
+          {uploadingFiles ? 'Uploading Documents...' : isSubmitting ? 'Submitting...' : serviceType === 'rental' ? 'Request Booking' : 'Request Quote'}
         </button>
 
         <p className="text-sm text-gray-600 text-center">

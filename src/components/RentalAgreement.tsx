@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, CheckCircle } from 'lucide-react';
 import SignaturePad from './SignaturePad';
 
@@ -44,6 +44,10 @@ interface AgreementData {
 export default function RentalAgreement({ bookingData, onComplete, onCancel }: RentalAgreementProps) {
   const [step, setStep] = useState(1);
   const [showSignaturePad, setShowSignaturePad] = useState<'rental' | 'terms' | 'trailer' | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [formData, setFormData] = useState({
     customer_address: '',

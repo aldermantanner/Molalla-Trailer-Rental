@@ -165,10 +165,10 @@ function App() {
       <header className="bg-slate-800 shadow-lg sticky top-0 z-50">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
+            <button onClick={() => setCurrentView('home')} className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
               <img src="/logo Offical.JPG" alt="Molalla Trailer Rentals" className="h-14 w-14 rounded-full object-cover" />
               <span className="text-2xl font-bold text-white">Molalla Trailer Rentals</span>
-            </div>
+            </button>
             <div className="hidden md:flex space-x-8">
               <a href="#services" className="text-gray-200 hover:text-green-400 transition-colors">Services</a>
               <a href="#reviews" className="text-gray-200 hover:text-green-400 transition-colors">Reviews</a>

@@ -31,7 +31,7 @@ Deno.serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
 
-    const { bookingId, successUrl, cancelUrl, agreementData } = await req.json();
+    const { bookingId, successUrl, cancelUrl } = await req.json();
 
     const { data: booking, error } = await supabase
       .from("bookings")
@@ -45,24 +45,6 @@ Deno.serve(async (req: Request) => {
 
     if (!successUrl || !cancelUrl) {
       throw new Error("Success and cancel URLs are required");
-    }
-
-    if (agreementData) {
-      const { error: updateError } = await supabase
-        .from("bookings")
-        .update({
-          ...agreementData,
-          agreement_completed: true,
-          rental_order_signature_date: new Date().toISOString(),
-          terms_signature_date: new Date().toISOString(),
-          trailer_details_signature_date: new Date().toISOString(),
-        })
-        .eq("id", bookingId);
-
-      if (updateError) {
-        console.error("Error updating agreement:", updateError);
-        throw new Error("Failed to save agreement");
-      }
     }
 
     const lineItems = [];

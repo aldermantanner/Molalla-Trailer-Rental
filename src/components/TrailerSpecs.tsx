@@ -158,105 +158,104 @@ export function TrailerSpecs() {
               key={index}
               className="bg-white rounded-xl shadow-xl overflow-hidden"
             >
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="relative h-96 md:h-auto">
+              <div className="grid md:grid-cols-3 gap-0">
+                <div className="relative h-80 md:h-auto md:col-span-1">
                   <img
                     src={trailer.image}
                     alt={trailer.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain bg-gray-100 rounded-l-xl"
                   />
                   <div className="absolute top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg font-bold shadow-lg">
                     From {trailer.price.daily}/day
                   </div>
                 </div>
-                <div className="p-8">
-                  <h3 className="text-3xl font-bold text-slate-800 mb-6">
-                    {trailer.name}
-                  </h3>
 
-                  <div className="mb-8">
-                    <h4 className="text-lg font-semibold text-slate-800 mb-4">
-                      Rental Rates
-                    </h4>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="bg-gray-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-green-600">
-                          {trailer.price.daily}
+                <div className="md:col-span-2 grid md:grid-cols-2">
+                  <div className="p-8 border-b md:border-b-0 md:border-r border-gray-200">
+                    <h3 className="text-2xl font-bold text-slate-800 mb-6">
+                      {trailer.name}
+                    </h3>
+
+                    <div className="mb-8">
+                      <h4 className="text-lg font-semibold text-slate-800 mb-4">
+                        Rental Rates
+                      </h4>
+                      <div className="space-y-3">
+                        <div className="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                          <span className="text-gray-700 font-medium">Daily</span>
+                          <span className="text-xl font-bold text-green-600">{trailer.price.daily}</span>
                         </div>
-                        <div className="text-sm text-gray-600">Daily</div>
+                        <div className="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                          <span className="text-gray-700 font-medium">Weekly</span>
+                          <span className="text-xl font-bold text-green-600">{trailer.price.weekly}</span>
+                        </div>
+                        <div className="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
+                          <span className="text-gray-700 font-medium">Monthly</span>
+                          <span className="text-xl font-bold text-green-600">{trailer.price.monthly}</span>
+                        </div>
                       </div>
-                      <div className="bg-gray-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-green-600">
-                          {trailer.price.weekly}
-                        </div>
-                        <div className="text-sm text-gray-600">Weekly</div>
-                      </div>
-                      <div className="bg-gray-50 p-4 rounded-lg text-center">
-                        <div className="text-2xl font-bold text-green-600">
-                          {trailer.price.monthly}
-                        </div>
-                        <div className="text-sm text-gray-600">Monthly</div>
+                    </div>
+
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-800 mb-4">
+                        Technical Specifications
+                      </h4>
+                      <div className="space-y-3">
+                        {trailer.specs.map((spec, specIndex) => (
+                          <div
+                            key={specIndex}
+                            className="flex items-start gap-3"
+                          >
+                            <div className="text-green-600 mt-1">
+                              {spec.icon}
+                            </div>
+                            <div className="flex-1">
+                              <div className="text-sm text-gray-600">
+                                {spec.label}
+                              </div>
+                              <div className="font-semibold text-slate-800">
+                                {spec.value}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="mb-8">
-                    <h4 className="text-lg font-semibold text-slate-800 mb-4">
-                      Technical Specifications
-                    </h4>
-                    <div className="grid grid-cols-2 gap-4">
-                      {trailer.specs.map((spec, specIndex) => (
-                        <div
-                          key={specIndex}
-                          className="flex items-start gap-3"
-                        >
-                          <div className="text-green-600 mt-1">
-                            {spec.icon}
-                          </div>
-                          <div>
-                            <div className="text-sm text-gray-600">
-                              {spec.label}
-                            </div>
-                            <div className="font-semibold text-slate-800">
-                              {spec.value}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="p-8 bg-gray-50">
+                    <div className="mb-8">
+                      <h4 className="text-lg font-semibold text-slate-800 mb-4">
+                        Key Features
+                      </h4>
+                      <ul className="space-y-2">
+                        {trailer.features.map((feature, featureIndex) => (
+                          <li
+                            key={featureIndex}
+                            className="flex items-start gap-2 text-gray-700"
+                          >
+                            <span className="text-green-600 mt-1 font-bold">•</span>
+                            <span className="text-sm">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
 
-                  <div className="mb-8">
-                    <h4 className="text-lg font-semibold text-slate-800 mb-4">
-                      Key Features
-                    </h4>
-                    <ul className="space-y-2">
-                      {trailer.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="flex items-start gap-2 text-gray-700"
-                        >
-                          <span className="text-green-600 mt-1">•</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h4 className="text-lg font-semibold text-slate-800 mb-4">
-                      Included with Your Rental
-                    </h4>
-                    <div className="grid grid-cols-2 gap-3">
-                      {trailer.includedItems.map((item, itemIndex) => (
-                        <div
-                          key={itemIndex}
-                          className="flex items-start gap-2 text-gray-700 bg-green-50 px-3 py-2 rounded-lg"
-                        >
-                          <span className="text-green-600 mt-0.5">✓</span>
-                          <span className="text-sm font-medium">{item}</span>
-                        </div>
-                      ))}
+                    <div>
+                      <h4 className="text-lg font-semibold text-slate-800 mb-4">
+                        Included with Your Rental
+                      </h4>
+                      <div className="space-y-2">
+                        {trailer.includedItems.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-start gap-2 text-gray-700 bg-white px-3 py-2 rounded-lg"
+                          >
+                            <span className="text-green-600 mt-0.5 font-bold">✓</span>
+                            <span className="text-sm font-medium">{item}</span>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -3,6 +3,7 @@ import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle,
 import { supabase } from '../lib/supabase';
 import RentalAgreement from './RentalAgreement';
 import { FileUpload } from './FileUpload';
+import { PaymentTrust } from './PaymentTrust';
 
 type ServiceType = 'rental' | 'junk_removal' | 'material_delivery';
 type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
@@ -425,7 +426,7 @@ export function BookingForm() {
               id="trailer_type"
               value={trailerType}
               onChange={(e) => setTrailerType(e.target.value as TrailerType)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
             >
               <option value="Southland 6x12 10k">Southland 6x12 10k - $120/day • $825/week • $3,250/month</option>
               <option value="Southland 7x14 14k">Southland 7x14 14k - $130/day • $900/week • $3,550/month</option>
@@ -447,7 +448,7 @@ export function BookingForm() {
               required
               value={formData.customer_name}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
               placeholder="John Doe"
             />
           </div>
@@ -465,7 +466,7 @@ export function BookingForm() {
               required
               value={formData.customer_phone}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
               placeholder="503-500-6121"
             />
           </div>
@@ -503,7 +504,7 @@ export function BookingForm() {
               value={formData.start_date}
               onChange={handleInputChange}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
             />
           </div>
 
@@ -521,7 +522,7 @@ export function BookingForm() {
                 value={formData.end_date}
                 onChange={handleInputChange}
                 min={formData.start_date || new Date().toISOString().split('T')[0]}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
               />
             </div>
           )}
@@ -575,7 +576,7 @@ export function BookingForm() {
               required={formData.delivery_required || serviceType === 'junk_removal' || serviceType === 'material_delivery'}
               value={formData.delivery_address}
               onChange={handleInputChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
               placeholder="123 Main St, Molalla, OR 97038"
             />
           </div>
@@ -678,9 +679,16 @@ export function BookingForm() {
               )}
             </div>
             {serviceType === 'rental' && (
-              <p className="text-sm text-gray-600 mt-3">
-                * $50 deposit is refundable after trailer inspection
-              </p>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mt-3">
+                <p className="text-sm text-blue-800 font-semibold mb-1">
+                  💡 How Payment Works:
+                </p>
+                <ul className="text-xs text-blue-700 space-y-1 ml-4 list-disc">
+                  <li>Pay rental fee + delivery (if selected) + $50 deposit today</li>
+                  <li>Use trailer for your project</li>
+                  <li>Return clean - get $50 deposit back in 2-3 business days</li>
+                </ul>
+              </div>
             )}
             {serviceType !== 'rental' && (
               <p className="text-sm text-gray-600 mt-3">
@@ -688,6 +696,10 @@ export function BookingForm() {
               </p>
             )}
           </div>
+        )}
+
+        {serviceType === 'rental' && formData.start_date && formData.end_date && (
+          <PaymentTrust />
         )}
 
         {submitStatus === 'error' && (

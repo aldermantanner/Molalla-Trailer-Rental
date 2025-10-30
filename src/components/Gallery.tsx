@@ -1,19 +1,34 @@
 export function Gallery() {
   const galleryImages = [
     {
-      src: '/image copy copy copy copy copy.png',
-      alt: 'Professional trailer service',
-      category: 'Our Fleet'
+      src: '/trailer-dumping.jpg.jpg',
+      alt: 'Hydraulic dump trailer in action, unloading debris',
+      category: 'Dumping'
     },
     {
-      src: '/image copy copy copy copy copy copy copy copy.png',
-      alt: 'Junk removal project',
+      src: '/trailer-excavator.jpg.jpg',
+      alt: 'Heavy equipment loading trailer at construction site',
+      category: 'Construction'
+    },
+    {
+      src: '/trailer-junk-removal.jpg.jpg',
+      alt: 'Junk removal and debris hauling service',
       category: 'Junk Removal'
     },
     {
-      src: '/image copy copy copy copy copy copy copy copy copy.png',
-      alt: 'Construction debris removal',
-      category: 'Construction'
+      src: '/trailer-soil.jpg.jpg',
+      alt: 'Soil and material delivery for landscaping projects',
+      category: 'Material Delivery'
+    },
+    {
+      src: '/trailer-dirt-load.jpg.jpg',
+      alt: 'Trailer loaded with dirt for residential project',
+      category: 'Dirt Hauling'
+    },
+    {
+      src: '/image copy copy copy copy copy copy.png',
+      alt: 'Professional dump trailer ready for your next project',
+      category: 'Our Fleet'
     }
   ];
 
@@ -36,6 +51,7 @@ export function Gallery() {
                 src={image.src}
                 alt={image.alt}
                 className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute bottom-0 left-0 right-0 p-4">

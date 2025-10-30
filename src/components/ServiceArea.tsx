@@ -27,8 +27,11 @@ export function ServiceArea() {
                 Service Area
               </h2>
             </div>
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-gray-600 mb-6">
               We proudly serve Molalla and surrounding communities throughout Clackamas County and beyond. Our dump trailer rentals, junk removal, and material delivery services are available across the region.
+            </p>
+            <p className="text-base text-gray-600 mb-8">
+              Based in Molalla, Oregon, we specialize in serving homeowners, contractors, and businesses throughout Clackamas County. Whether you need a dump trailer in Canby, junk removal in Oregon City, or material delivery in Woodburn, we've got you covered with professional service and competitive rates.
             </p>
 
             <div className="bg-gray-50 rounded-lg p-6 mb-8">

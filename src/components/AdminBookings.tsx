@@ -234,6 +234,27 @@ export function AdminBookings() {
     }
   };
 
+  const markAsPaidCard = async (bookingId: string) => {
+    if (!confirm('Mark this booking as paid with card?')) return;
+
+    try {
+      const { error } = await supabase
+        .from('bookings')
+        .update({
+          payment_status: 'paid',
+          status: 'confirmed',
+        })
+        .eq('id', bookingId);
+
+      if (error) throw error;
+
+      await fetchBookings();
+    } catch (error) {
+      console.error('Error marking as paid:', error);
+      alert('Failed to update payment status');
+    }
+  };
+
   const filteredBookings = bookings
     .filter(b => filter === 'all' || b.status === filter)
     .filter(b => {
@@ -621,6 +642,13 @@ export function AdminBookings() {
                         >
                           <CheckCircle className="h-4 w-4" />
                           Mark Paid (Cash)
+                        </button>
+                        <button
+                          onClick={() => markAsPaidCard(booking.id)}
+                          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold flex items-center gap-2"
+                        >
+                          <CheckCircle className="h-4 w-4" />
+                          Mark Paid (Card)
                         </button>
                       </div>
                     </div>

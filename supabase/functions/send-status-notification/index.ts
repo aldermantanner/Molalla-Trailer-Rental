@@ -97,6 +97,39 @@ Veteran Owned & Operated
       status,
     });
 
+    const resendApiKey = Deno.env.get('RESEND_API_KEY');
+
+    if (resendApiKey) {
+      try {
+        const resendResponse = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${resendApiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: 'Molalla Trailer Rentals <bookings@molallatrailerrentals.com>',
+            to: [customerEmail],
+            subject: subject,
+            text: emailBody,
+          }),
+        });
+
+        if (!resendResponse.ok) {
+          const errorData = await resendResponse.json();
+          console.error('Resend API error:', errorData);
+          throw new Error('Failed to send email via Resend');
+        }
+
+        const resendData = await resendResponse.json();
+        console.log('Email sent successfully via Resend:', resendData);
+      } catch (emailError) {
+        console.error('Error sending email:', emailError);
+      }
+    } else {
+      console.log('RESEND_API_KEY not configured, email not sent (development mode)');
+    }
+
     return new Response(
       JSON.stringify({
         success: true,

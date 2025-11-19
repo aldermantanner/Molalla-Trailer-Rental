@@ -406,7 +406,9 @@ export function AdminBookings() {
       ) : (
         <div className="space-y-4">
           {filteredBookings.map((booking) => (
-            <div key={booking.id} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-600">
+            <div key={booking.id} className={`bg-white rounded-lg shadow-md p-6 border-l-4 ${
+            booking.status === 'overdue' ? 'border-red-600 bg-red-50' : 'border-green-600'
+          }`}>
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
@@ -538,89 +540,28 @@ export function AdminBookings() {
                 {/* Action Buttons */}
                 <div className="space-y-3">
                   {/* Booking Status Actions */}
-                  {booking.status !== 'cancelled' && (
-                    <div>
-                      <p className="text-xs font-semibold text-gray-600 mb-2">Booking Actions:</p>
-                      <div className="flex gap-2 flex-wrap">
-                        {booking.status === 'pending' && (
-                          <>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'confirmed')}
-                              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold flex items-center gap-1"
-                            >
-                              <CheckCircle className="h-4 w-4" />
-                              Approve & Confirm
-                            </button>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
-                              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold"
-                            >
-                              Decline
-                            </button>
-                          </>
-                        )}
-                        {booking.status === 'confirmed' && (
-                          <>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'active')}
-                              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-semibold flex items-center gap-1"
-                            >
-                              <Truck className="h-4 w-4" />
-                              Mark as Active Rental
-                            </button>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
-                              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold"
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        )}
-                        {booking.status === 'active' && (
-                          <>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'completed')}
-                              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold flex items-center gap-1"
-                            >
-                              <CheckCircle className="h-4 w-4" />
-                              Mark Complete (Returned)
-                            </button>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
-                              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-semibold"
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        )}
-                        {booking.status === 'overdue' && (
-                          <>
-                            <div className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-bold animate-pulse">
-                              🚨 OVERDUE - Contact Customer ASAP!
-                            </div>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'completed')}
-                              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold flex items-center gap-1"
-                            >
-                              <CheckCircle className="h-4 w-4" />
-                              Mark Complete (Returned)
-                            </button>
-                            <button
-                              onClick={() => updateBookingStatus(booking.id, 'active')}
-                              className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm font-semibold"
-                            >
-                              Mark as Active (Extension Granted)
-                            </button>
-                          </>
-                        )}
-                        {booking.status === 'completed' && (
-                          <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg text-sm font-semibold">
-                            ✓ Booking Completed
-                          </span>
-                        )}
-                      </div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-600 mb-2">Update Booking Status:</p>
+                    <div className="flex items-center gap-3">
+                      <select
+                        value={booking.status}
+                        onChange={(e) => updateBookingStatus(booking.id, e.target.value as Booking['status'])}
+                        className="px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm font-semibold min-w-[200px]"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="active">Active Rental</option>
+                        <option value="overdue">Overdue</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                      </select>
+                      {booking.status === 'overdue' && (
+                        <span className="px-3 py-2 bg-red-600 text-white rounded-lg text-xs font-bold animate-pulse">
+                          🚨 Contact Customer ASAP!
+                        </span>
+                      )}
                     </div>
-                  )}
+                  </div>
 
                   {/* Payment Actions */}
                   {booking.payment_status !== 'paid' && booking.status !== 'cancelled' && (

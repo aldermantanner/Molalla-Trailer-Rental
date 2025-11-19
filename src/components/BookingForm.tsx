@@ -136,7 +136,7 @@ export function BookingForm() {
 
       console.log('Calculated prices:', { basePrice, deliveryFee, deposit, totalPrice });
 
-      const { data, error } = await supabase.from('bookings').insert({
+      const bookingData = {
         customer_name: formData.customer_name,
         customer_email: formData.customer_email,
         customer_phone: formData.customer_phone,
@@ -151,15 +151,27 @@ export function BookingForm() {
         total_price: totalPrice,
         delivery_fee: deliveryFee,
         deposit_amount: deposit,
-      }).select().single();
+      };
 
-      if (error) {
-        console.error('Database error:', error);
-        throw error;
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-booking`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create booking');
       }
 
-      console.log('Booking created with ID:', data.id);
-      setPendingBookingId(data.id);
+      const { bookingId } = await response.json();
+
+      console.log('Booking created with ID:', bookingId);
+      setPendingBookingId(bookingId);
 
       if (serviceType === 'rental' && driversLicenseFile && insuranceFile) {
         try {

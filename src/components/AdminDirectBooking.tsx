@@ -33,6 +33,7 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
     notes: '',
     total_price: 0,
     deposit_amount: 50,
+    payment_method: 'card' as 'cash' | 'card' | '',
   });
 
   const [files, setFiles] = useState<{
@@ -97,9 +98,16 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
         throw new Error('Please fill in all required customer information');
       }
 
-      if (formData.service_type === 'rental' && (!formData.start_date || !formData.end_date)) {
-        throw new Error('Please select rental dates');
+      if (!formData.start_date) {
+        throw new Error('Please select a start date');
       }
+
+      if (formData.service_type === 'rental' && !formData.end_date) {
+        throw new Error('Please select an end date for rental');
+      }
+
+      const isJunkRemoval = formData.service_type === 'junk_removal';
+      const depositAmount = isJunkRemoval ? 0 : formData.deposit_amount;
 
       const bookingData = {
         customer_name: formData.customer_name,
@@ -116,14 +124,15 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
         service_type: formData.service_type,
         trailer_type: formData.trailer_type,
         start_date: formData.start_date,
-        end_date: formData.end_date || null,
+        end_date: formData.end_date || formData.start_date,
         delivery_address: formData.delivery_address || formData.address || '',
         delivery_required: formData.delivery_required,
         notes: formData.notes || '',
         status: 'confirmed',
         total_price: formData.total_price,
-        deposit_amount: formData.deposit_amount,
+        deposit_amount: depositAmount,
         payment_status: 'pending',
+        payment_method: formData.payment_method || null,
         created_by_admin: true,
       };
 
@@ -135,7 +144,7 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
 
       if (bookingError) throw bookingError;
 
-      if (Object.keys(files).length > 0) {
+      if (Object.keys(files).length > 0 && formData.service_type === 'rental') {
         setUploadingFiles(true);
         await uploadFiles(booking.id);
 
@@ -411,19 +420,21 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  End Date *
-                </label>
-                <input
-                  type="date"
-                  name="end_date"
-                  value={formData.end_date}
-                  onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
-                />
-              </div>
+              {formData.service_type === 'rental' && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    End Date *
+                  </label>
+                  <input
+                    type="date"
+                    name="end_date"
+                    value={formData.end_date}
+                    onChange={handleInputChange}
+                    required={formData.service_type === 'rental'}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+              )}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Total Price ($)
@@ -438,20 +449,40 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
                   placeholder="150.00"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Deposit Amount ($)
-                </label>
-                <input
-                  type="number"
-                  name="deposit_amount"
-                  value={formData.deposit_amount}
-                  onChange={handleInputChange}
-                  step="0.01"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
-                  placeholder="50.00"
-                />
-              </div>
+              {formData.service_type !== 'junk_removal' && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Deposit Amount ($)
+                  </label>
+                  <input
+                    type="number"
+                    name="deposit_amount"
+                    value={formData.deposit_amount}
+                    onChange={handleInputChange}
+                    step="0.01"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                    placeholder="50.00"
+                  />
+                </div>
+              )}
+              {formData.service_type === 'junk_removal' && (
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Payment Method *
+                  </label>
+                  <select
+                    name="payment_method"
+                    value={formData.payment_method}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="">Select payment method</option>
+                    <option value="cash">Cash</option>
+                    <option value="card">Card</option>
+                  </select>
+                </div>
+              )}
               <div className="md:col-span-2">
                 <label className="flex items-center gap-2">
                   <input
@@ -482,14 +513,15 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
             </div>
           </div>
 
-          {/* Document Upload */}
-          <div>
-            <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
-              <FileText className="h-5 w-5" />
-              Document Upload (License & Insurance)
-            </h3>
-            <div className="space-y-4">
-              <div className="grid md:grid-cols-3 gap-4">
+          {/* Document Upload - Only show for rentals */}
+          {formData.service_type === 'rental' && (
+            <div>
+              <h3 className="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Document Upload (License & Insurance)
+              </h3>
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Driver's License (Front)
@@ -575,11 +607,12 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
                   )}
                 </div>
               </div>
-              <p className="text-xs text-gray-500">
-                You can upload these documents now or later when the customer arrives
-              </p>
+                <p className="text-xs text-gray-500">
+                  You can upload these documents now or later when the customer arrives
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Notes */}
           <div>

@@ -5,7 +5,7 @@ import { createClient } from "npm:@supabase/supabase-js@2.39.3";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey, X-Session-Token",
 };
 
 Deno.serve(async (req: Request) => {
@@ -26,7 +26,22 @@ Deno.serve(async (req: Request) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
 
-    const { bookingId } = await req.json();
+    const { bookingId, sessionToken } = await req.json();
+
+    if (!sessionToken) {
+      throw new Error("Unauthorized: Session token required");
+    }
+
+    const { data: session, error: sessionError } = await supabase
+      .from("verified_sessions")
+      .select("*")
+      .eq("session_token", sessionToken)
+      .gt("expires_at", new Date().toISOString())
+      .maybeSingle();
+
+    if (sessionError || !session) {
+      throw new Error("Unauthorized: Invalid or expired session");
+    }
 
     const { data: booking, error } = await supabase
       .from("bookings")
@@ -36,6 +51,13 @@ Deno.serve(async (req: Request) => {
 
     if (error || !booking) {
       throw new Error("Booking not found");
+    }
+
+    const bookingEmail = booking.customer_email.toLowerCase().trim();
+    const sessionEmail = session.email.toLowerCase().trim();
+
+    if (bookingEmail !== sessionEmail) {
+      throw new Error("Unauthorized: This booking does not belong to you");
     }
 
     if (!booking.stripe_payment_intent) {

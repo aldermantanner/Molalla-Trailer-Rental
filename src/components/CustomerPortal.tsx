@@ -37,11 +37,21 @@ export function CustomerPortal() {
   useEffect(() => {
     const token = sessionStorage.getItem('customer_session_token');
     const storedEmail = sessionStorage.getItem('customer_email');
-    if (token && storedEmail) {
-      setSessionToken(token);
-      setEmail(storedEmail);
-      setStep('bookings');
-      loadBookings(token, storedEmail);
+    const expiresAt = sessionStorage.getItem('customer_session_expires');
+
+    if (token && storedEmail && expiresAt) {
+      const now = Date.now();
+      const expirationTime = parseInt(expiresAt);
+
+      if (now < expirationTime) {
+        setSessionToken(token);
+        setEmail(storedEmail);
+        setStep('bookings');
+        loadBookings(token, storedEmail);
+      } else {
+        sessionStorage.clear();
+        setStep('email');
+      }
     }
   }, []);
 
@@ -117,8 +127,10 @@ export function CustomerPortal() {
       }
 
       setSessionToken(data.sessionToken);
+      const expiresAt = Date.now() + (10 * 60 * 1000);
       sessionStorage.setItem('customer_session_token', data.sessionToken);
       sessionStorage.setItem('customer_email', data.email);
+      sessionStorage.setItem('customer_session_expires', expiresAt.toString());
       setStep('bookings');
       await loadBookings(data.sessionToken, data.email);
     } catch (err: any) {

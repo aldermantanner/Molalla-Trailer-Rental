@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Calendar, Phone, Mail, MapPin, Clock, CheckCircle, DollarSign, Copy, Check, Truck, Plus, Search, MessageSquare } from 'lucide-react';
+import { Calendar, Phone, Mail, MapPin, Clock, CheckCircle, DollarSign, Copy, Check, Plus, Search, MessageSquare } from 'lucide-react';
 import { supabase, type Booking } from '../lib/supabase';
 import { AdminDirectBooking } from './AdminDirectBooking';
 

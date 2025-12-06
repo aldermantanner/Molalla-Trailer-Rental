@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Shield } from 'lucide-react';
+import { Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Shield } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface Booking {
@@ -21,14 +21,14 @@ interface Booking {
 }
 
 export function CustomerPortal() {
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
   const [error, setError] = useState('');
   const [refundingBookingId, setRefundingBookingId] = useState<string | null>(null);
   const [refundSuccess, setRefundSuccess] = useState<string | null>(null);
-  const [step, setStep] = useState<'phone' | 'verify' | 'bookings'>('phone');
+  const [step, setStep] = useState<'email' | 'verify' | 'bookings'>('email');
   const [verificationCode, setVerificationCode] = useState('');
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [sendingCode, setSendingCode] = useState(false);
@@ -36,12 +36,12 @@ export function CustomerPortal() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('customer_session_token');
-    const storedPhone = sessionStorage.getItem('customer_phone');
-    if (token && storedPhone) {
+    const storedEmail = sessionStorage.getItem('customer_email');
+    if (token && storedEmail) {
       setSessionToken(token);
-      setPhone(storedPhone);
+      setEmail(storedEmail);
       setStep('bookings');
-      loadBookings(token, storedPhone);
+      loadBookings(token, storedEmail);
     }
   }, []);
 
@@ -50,21 +50,21 @@ export function CustomerPortal() {
     setSendingCode(true);
     setError('');
 
-    if (!phone) {
-      setError('Please enter your phone number');
+    if (!email) {
+      setError('Please enter your email address');
       setSendingCode(false);
       return;
     }
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-verification-sms`;
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-verification-email`;
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
-        body: JSON.stringify({ phoneNumber: phone }),
+        body: JSON.stringify({ email: email }),
       });
 
       const data = await response.json();
@@ -134,21 +134,28 @@ export function CustomerPortal() {
     setSearched(true);
 
     try {
-      const cleanEmail = userEmail.toLowerCase().trim();
-      const { data, error: fetchError } = await supabase
-        .from('bookings')
-        .select('*')
-        .eq('customer_email', cleanEmail)
-        .order('created_at', { ascending: false });
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-customer-bookings`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          sessionToken: token,
+          email: userEmail,
+        }),
+      });
 
-      if (fetchError) {
-        throw fetchError;
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to load bookings');
       }
 
-      setBookings(data || []);
+      setBookings(data.bookings || []);
     } catch (err: any) {
       setError('Error loading bookings. Please try again.');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -275,7 +282,7 @@ export function CustomerPortal() {
                   Email Address
                 </label>
                 <p className="text-sm text-gray-600 mb-3">
-                  Enter the email you used when making your booking. We'll send you a verification code.
+                  Enter the email address you used when making your booking. We'll send you a verification code.
                 </p>
                 <input
                   type="email"
@@ -408,7 +415,7 @@ export function CustomerPortal() {
             <AlertCircle className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-yellow-800 mb-2">No Bookings Found</h3>
             <p className="text-yellow-700">
-              We couldn't find any bookings with the provided information. Please check your email or phone number and try again.
+              We couldn't find any bookings with the provided email address. Please check your email and try again.
             </p>
           </div>
         )}

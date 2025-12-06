@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { User, Phone, Mail, MapPin, Calendar, Truck, FileText, Upload, X } from 'lucide-react';
+import { User, Phone, MapPin, Truck, FileText, Upload, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
 interface AdminDirectBookingProps {

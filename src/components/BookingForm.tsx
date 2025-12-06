@@ -22,8 +22,6 @@ const TRAILER_PRICING = {
 };
 
 export function BookingForm() {
-  console.log('🚀 BookingForm component mounted/rendered');
-
   const [serviceType, setServiceType] = useState<ServiceType>('rental');
   const [trailerType, setTrailerType] = useState<TrailerType>('Southland 7x14 14k');
   const [formData, setFormData] = useState({
@@ -113,10 +111,7 @@ export function BookingForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log('📝 handleSubmit called');
     e.preventDefault();
-    console.log('✅ preventDefault called');
-    console.log('📋 Form data:', formData);
 
     if (serviceType === 'rental' && (!driversLicenseFile || !insuranceFile)) {
       setErrorMessage('Please upload both your driver\'s license and insurance document.');
@@ -133,8 +128,6 @@ export function BookingForm() {
       const deliveryFee = calculateDeliveryFee();
       const deposit = calculateDeposit();
       const totalPrice = calculateTotalPrice();
-
-      console.log('Calculated prices:', { basePrice, deliveryFee, deposit, totalPrice });
 
       const bookingData = {
         customer_name: formData.customer_name,
@@ -170,16 +163,14 @@ export function BookingForm() {
 
       const { bookingId } = await response.json();
 
-      console.log('Booking created with ID:', bookingId);
       setPendingBookingId(bookingId);
 
       if (serviceType === 'rental' && driversLicenseFile && insuranceFile) {
         try {
           setUploadingFiles(true);
-          console.log('Uploading documents...');
 
-          const licenseUrl = await uploadFileToStorage(driversLicenseFile, data.id, 'license');
-          const insuranceUrl = await uploadFileToStorage(insuranceFile, data.id, 'insurance');
+          const licenseUrl = await uploadFileToStorage(driversLicenseFile, bookingId, 'license');
+          const insuranceUrl = await uploadFileToStorage(insuranceFile, bookingId, 'insurance');
 
           const { error: updateError } = await supabase
             .from('bookings')
@@ -187,12 +178,10 @@ export function BookingForm() {
               drivers_license_url: licenseUrl,
               insurance_document_url: insuranceUrl
             })
-            .eq('id', data.id);
+            .eq('id', bookingId);
 
           if (updateError) {
             console.error('Error updating booking with document URLs:', updateError);
-          } else {
-            console.log('Documents uploaded successfully');
           }
         } catch (uploadError) {
           console.error('Error uploading documents:', uploadError);
@@ -202,10 +191,7 @@ export function BookingForm() {
         }
       }
 
-      console.log('Service type:', serviceType, 'Delivery required:', formData.delivery_required);
-
       if (serviceType === 'junk_removal' || serviceType === 'material_delivery') {
-        console.log('Quote request submitted - no payment required');
         setSubmitStatus('success');
         setPendingBookingId(null);
         setFormData({
@@ -219,18 +205,15 @@ export function BookingForm() {
           notes: '',
         });
       } else if (serviceType === 'rental' && !formData.delivery_required) {
-        console.log('Showing rental agreement');
         setShowAgreement(true);
       } else {
-        console.log('Calling handleStripeCheckout');
-        await handleStripeCheckout(data.id);
+        await handleStripeCheckout(bookingId);
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
       setSubmitStatus('error');
       setErrorMessage('Failed to submit booking. Please try again or call us directly.');
     } finally {
-      console.log('Finally block - setting isSubmitting to false');
       setIsSubmitting(false);
     }
   };
@@ -268,8 +251,6 @@ export function BookingForm() {
 
   const handleStripeCheckout = async (bookingId: string, agreementData?: any) => {
     try {
-      console.log('Starting Stripe checkout for booking:', bookingId);
-
       if (agreementData) {
         const { error: updateError } = await supabase
           .from('bookings')
@@ -723,8 +704,6 @@ export function BookingForm() {
         <button
           type="submit"
           disabled={isSubmitting || uploadingFiles}
-          onMouseDown={() => console.log('🖱️ Mouse down on button')}
-          onClick={() => console.log('🔘 Button onClick fired')}
           className="w-full bg-green-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           {uploadingFiles ? 'Uploading Documents...' : isSubmitting ? 'Submitting...' : serviceType === 'rental' ? 'Request Booking' : 'Request Quote'}

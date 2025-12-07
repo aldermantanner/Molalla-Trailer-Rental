@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Phone, Menu, X, Facebook, Lock, Mail, MapPin } from 'lucide-react';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const navigate = useNavigate();
   const location = useLocation();
 
   const isHomePage = location.pathname === '/';

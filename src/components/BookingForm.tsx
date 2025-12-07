@@ -124,7 +124,6 @@ export function BookingForm() {
     setErrorMessage('');
 
     try {
-      const basePrice = calculateBasePrice();
       const deliveryFee = calculateDeliveryFee();
       const deposit = calculateDeposit();
       const totalPrice = calculateTotalPrice();

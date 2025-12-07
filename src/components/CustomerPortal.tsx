@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Shield } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 
 interface Booking {
   id: string;

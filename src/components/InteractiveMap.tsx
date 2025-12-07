@@ -46,7 +46,7 @@ export function InteractiveMap() {
       maxZoom: 19,
     }).addTo(map);
 
-    const serviceRadius = L.circle(molallaCoords, {
+    L.circle(molallaCoords, {
       color: '#22c55e',
       fillColor: '#22c55e',
       fillOpacity: 0.1,

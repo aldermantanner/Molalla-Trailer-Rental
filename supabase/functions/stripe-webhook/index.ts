@@ -41,7 +41,7 @@ Deno.serve(async (req: Request) => {
       return new Response(
         JSON.stringify({ error: "Webhook signature verification failed" }),
         {
-          status: 400,
+          status: 401,
           headers: {
             ...corsHeaders,
             "Content-Type": "application/json",

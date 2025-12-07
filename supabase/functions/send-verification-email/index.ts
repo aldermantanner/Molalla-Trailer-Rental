@@ -37,19 +37,19 @@ Deno.serve(async (req: Request) => {
       throw new Error("Invalid email address");
     }
 
-    const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+    const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
     const { data: recentCodes, error: checkError } = await supabase
       .from("verification_codes")
       .select("*")
       .eq("email", cleanEmail)
-      .gt("created_at", oneMinuteAgo);
+      .gt("created_at", oneHourAgo);
 
     if (checkError) {
       console.error("Error checking recent codes:", checkError);
     }
 
     if (recentCodes && recentCodes.length >= 3) {
-      throw new Error("Too many verification requests. Please wait a minute and try again.");
+      throw new Error("Too many verification requests. Please try again in 1 hour.");
     }
 
     const code = generateCode();
@@ -113,15 +113,10 @@ Veteran Owned & Operated
           console.error('Resend API error:', errorData);
           throw new Error('Failed to send email');
         }
-
-        console.log("Email sent successfully to:", cleanEmail);
       } catch (emailError) {
         console.error('Error sending email:', emailError);
         throw new Error('Failed to send verification email');
       }
-    } else {
-      console.log("DEVELOPMENT MODE: Verification code:", code);
-      console.log("Email:", cleanEmail);
     }
 
     return new Response(

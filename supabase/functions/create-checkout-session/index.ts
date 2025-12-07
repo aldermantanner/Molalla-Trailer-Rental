@@ -33,6 +33,19 @@ Deno.serve(async (req: Request) => {
 
     const { bookingId, successUrl, cancelUrl } = await req.json();
 
+    if (!bookingId || typeof bookingId !== 'string') {
+      throw new Error("Valid booking ID is required");
+    }
+
+    if (!successUrl || !cancelUrl) {
+      throw new Error("Success and cancel URLs are required");
+    }
+
+    const urlRegex = /^https?:\/\/.+/;
+    if (!urlRegex.test(successUrl) || !urlRegex.test(cancelUrl)) {
+      throw new Error("Invalid URL format");
+    }
+
     const { data: booking, error } = await supabase
       .from("bookings")
       .select("*")
@@ -41,10 +54,6 @@ Deno.serve(async (req: Request) => {
 
     if (error || !booking) {
       throw new Error("Booking not found");
-    }
-
-    if (!successUrl || !cancelUrl) {
-      throw new Error("Success and cancel URLs are required");
     }
 
     const lineItems = [];

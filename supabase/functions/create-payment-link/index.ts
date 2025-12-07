@@ -2,13 +2,23 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Stripe from "npm:stripe@14.11.0";
 import { createClient } from "npm:@supabase/supabase-js@2.39.3";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+const allowedOrigins = [
+  "https://rentmolallatrailers.com",
+  "https://www.rentmolallatrailers.com",
+  "http://localhost:5173",
+];
+
+const getCorsHeaders = (origin: string) => ({
+  "Access-Control-Allow-Origin": allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Client-Info, Apikey",
-};
+  "Access-Control-Allow-Credentials": "true",
+});
 
 Deno.serve(async (req: Request) => {
+  const origin = req.headers.get("origin") || "";
+  const corsHeaders = getCorsHeaders(origin);
+
   if (req.method === "OPTIONS") {
     return new Response(null, {
       status: 200,
@@ -17,11 +27,56 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized: Missing authorization header" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL") || "",
+      Deno.env.get("SUPABASE_ANON_KEY") || ""
+    );
+
+    const jwt = authHeader.replace("Bearer ", "");
+    const { data: { user }, error: authError } = await supabase.auth.getUser(jwt);
+
+    if (authError || !user) {
+      return new Response(
+        JSON.stringify({ error: "Unauthorized: Invalid token" }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const { data: adminCheck } = await supabase
+      .from("admin_emails")
+      .select("id")
+      .eq("email", user.email)
+      .maybeSingle();
+
+    if (!adminCheck) {
+      return new Response(
+        JSON.stringify({ error: "Forbidden: Admin access required" }),
+        {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2023-10-16",
     });
 
-    const supabase = createClient(
+    const supabaseAdmin = createClient(
       Deno.env.get("SUPABASE_URL") || "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || ""
     );
@@ -32,7 +87,15 @@ Deno.serve(async (req: Request) => {
       throw new Error("Booking ID and amount are required");
     }
 
-    const { data: booking, error } = await supabase
+    if (typeof amount !== 'number' || amount <= 0) {
+      throw new Error("Amount must be a positive number");
+    }
+
+    if (amount > 100000) {
+      throw new Error("Amount exceeds maximum allowed value");
+    }
+
+    const { data: booking, error } = await supabaseAdmin
       .from("bookings")
       .select("*")
       .eq("id", bookingId)
@@ -41,8 +104,6 @@ Deno.serve(async (req: Request) => {
     if (error || !booking) {
       throw new Error("Booking not found");
     }
-
-    const origin = req.headers.get("origin") || "";
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -68,9 +129,9 @@ Deno.serve(async (req: Request) => {
       },
     });
 
-    await supabase
+    await supabaseAdmin
       .from("bookings")
-      .update({ 
+      .update({
         stripe_session_id: session.id,
         total_price: amount
       })

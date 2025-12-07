@@ -25,6 +25,16 @@ Deno.serve(async (req: Request) => {
   try {
     const booking: SMSNotification = await req.json();
 
+    if (!booking.customer_name || !booking.customer_phone || !booking.service_type) {
+      throw new Error("Missing required booking information");
+    }
+
+    const phoneRegex = /^\d{10}$/;
+    const cleanPhone = booking.customer_phone.replace(/\D/g, '');
+    if (!phoneRegex.test(cleanPhone)) {
+      throw new Error("Invalid phone number format");
+    }
+
     const adminPhone = Deno.env.get("ADMIN_PHONE") || "5035006121";
     const twilioAccountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
     const twilioAuthToken = Deno.env.get("TWILIO_AUTH_TOKEN");

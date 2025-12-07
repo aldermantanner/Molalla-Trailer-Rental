@@ -27,6 +27,21 @@ Deno.serve(async (req: Request) => {
       throw new Error("Missing required customer information");
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(bookingData.customer_email)) {
+      throw new Error("Invalid email format");
+    }
+
+    const phoneRegex = /^\d{10}$/;
+    const cleanPhone = bookingData.customer_phone.replace(/\D/g, '');
+    if (!phoneRegex.test(cleanPhone)) {
+      throw new Error("Invalid phone number format. Must be 10 digits.");
+    }
+
+    if (!bookingData.service_type || !['rental', 'junk_removal', 'material_delivery'].includes(bookingData.service_type)) {
+      throw new Error("Invalid service type");
+    }
+
     const { data, error } = await supabase
       .from("bookings")
       .insert(bookingData)
@@ -37,8 +52,6 @@ Deno.serve(async (req: Request) => {
       console.error("Database error:", error);
       throw new Error("Failed to create booking");
     }
-
-    console.log("Booking created successfully:", data.id);
 
     return new Response(
       JSON.stringify({

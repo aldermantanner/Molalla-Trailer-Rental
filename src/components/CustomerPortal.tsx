@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Calendar, MapPin, DollarSign, Clock, CheckCircle, XCircle, AlertCircle, Shield } from 'lucide-react';
+import { ConfirmDialog } from './ConfirmDialog';
+import { useToast } from './Toast';
 
 interface Booking {
   id: string;
@@ -32,6 +34,15 @@ export function CustomerPortal() {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [sendingCode, setSendingCode] = useState(false);
   const [devCode, setDevCode] = useState<string | null>(null);
+  const [confirmDialog, setConfirmDialog] = useState<{
+    isOpen: boolean;
+    bookingId: string | null;
+  }>({
+    isOpen: false,
+    bookingId: null,
+  });
+
+  const { showToast } = useToast();
 
   useEffect(() => {
     const token = sessionStorage.getItem('customer_session_token');
@@ -71,7 +82,7 @@ export function CustomerPortal() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({ email: email }),
       });
@@ -87,6 +98,7 @@ export function CustomerPortal() {
       }
 
       setStep('verify');
+      showToast('Verification code sent to your email', 'success');
     } catch (err: any) {
       setError(err.message || 'Failed to send verification code');
     } finally {
@@ -111,7 +123,7 @@ export function CustomerPortal() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           email: email,
@@ -126,12 +138,13 @@ export function CustomerPortal() {
       }
 
       setSessionToken(data.sessionToken);
-      const expiresAt = Date.now() + (10 * 60 * 1000);
+      const expiresAt = Date.now() + 10 * 60 * 1000;
       sessionStorage.setItem('customer_session_token', data.sessionToken);
       sessionStorage.setItem('customer_email', data.email);
       sessionStorage.setItem('customer_session_expires', expiresAt.toString());
       setStep('bookings');
       await loadBookings(data.sessionToken, data.email);
+      showToast('Successfully verified!', 'success');
     } catch (err: any) {
       setError(err.message || 'Failed to verify code');
     } finally {
@@ -150,7 +163,7 @@ export function CustomerPortal() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
         },
         body: JSON.stringify({
           sessionToken: token,
@@ -167,6 +180,7 @@ export function CustomerPortal() {
       setBookings(data.bookings || []);
     } catch (err: any) {
       setError('Error loading bookings. Please try again.');
+      showToast('Failed to load bookings', 'error');
     } finally {
       setLoading(false);
     }
@@ -175,6 +189,7 @@ export function CustomerPortal() {
   const logout = () => {
     sessionStorage.removeItem('customer_session_token');
     sessionStorage.removeItem('customer_email');
+    sessionStorage.removeItem('customer_session_expires');
     setSessionToken(null);
     setEmail('');
     setBookings([]);
@@ -182,6 +197,50 @@ export function CustomerPortal() {
     setSearched(false);
     setVerificationCode('');
     setDevCode(null);
+    showToast('Logged out successfully', 'info');
+  };
+
+  const handleRefund = async () => {
+    if (!confirmDialog.bookingId) return;
+
+    setRefundingBookingId(confirmDialog.bookingId);
+    setError('');
+    setRefundSuccess(null);
+
+    try {
+      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-refund`;
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          'X-Session-Token': sessionToken || '',
+        },
+        body: JSON.stringify({ bookingId: confirmDialog.bookingId, sessionToken }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to process refund');
+      }
+
+      showToast(
+        `Refund processed successfully! $${data.refundAmount.toFixed(2)} will be returned to your card within 5-10 business days.`,
+        'success'
+      );
+
+      const updatedBookings = bookings.map((b) =>
+        b.id === confirmDialog.bookingId
+          ? { ...b, status: 'cancelled', payment_status: 'refunded', refund_amount: data.refundAmount }
+          : b
+      );
+      setBookings(updatedBookings);
+    } catch (err: any) {
+      showToast(err.message || 'Failed to process refund. Please contact us directly.', 'error');
+    } finally {
+      setRefundingBookingId(null);
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -226,50 +285,8 @@ export function CustomerPortal() {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'long',
       day: 'numeric',
-      year: 'numeric'
+      year: 'numeric',
     });
-  };
-
-  const handleRefund = async (bookingId: string) => {
-    if (!confirm('Are you sure you want to cancel this booking? Refund amount depends on timing:\n\n• More than 24 hours: 100% refund (minus $50 deposit)\n• 12-24 hours: 50% refund (minus $50 deposit)\n• Less than 12 hours: NO REFUND\n\nThe $50 deposit is non-refundable upon cancellation.')) {
-      return;
-    }
-
-    setRefundingBookingId(bookingId);
-    setError('');
-    setRefundSuccess(null);
-
-    try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-refund`;
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'X-Session-Token': sessionToken || '',
-        },
-        body: JSON.stringify({ bookingId, sessionToken }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to process refund');
-      }
-
-      setRefundSuccess(`Refund processed successfully! $${data.refundAmount.toFixed(2)} will be returned to your card within 5-10 business days.`);
-
-      const updatedBookings = bookings.map(b =>
-        b.id === bookingId
-          ? { ...b, status: 'cancelled', payment_status: 'refunded', refund_amount: data.refundAmount }
-          : b
-      );
-      setBookings(updatedBookings);
-    } catch (err: any) {
-      setError(err.message || 'Failed to process refund. Please contact us directly.');
-    } finally {
-      setRefundingBookingId(null);
-    }
   };
 
   return (
@@ -280,9 +297,7 @@ export function CustomerPortal() {
             <Shield className="h-10 w-10 text-green-600 mr-3" />
             <h2 className="text-4xl font-bold text-slate-800">Customer Portal</h2>
           </div>
-          <p className="text-xl text-gray-600">
-            Secure access to your bookings via email verification
-          </p>
+          <p className="text-xl text-gray-600">Secure access to your bookings via email verification</p>
         </div>
 
         {step === 'email' && (
@@ -293,7 +308,8 @@ export function CustomerPortal() {
                   Email Address
                 </label>
                 <p className="text-sm text-gray-600 mb-3">
-                  Enter the email address you used when making your booking. We'll send you a verification code.
+                  Enter the email address you used when making your booking. We'll send you a verification
+                  code.
                 </p>
                 <input
                   type="email"
@@ -340,9 +356,7 @@ export function CustomerPortal() {
                 <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
                   Verification Code
                 </label>
-                <p className="text-sm text-gray-600 mb-3">
-                  Enter the 6-digit code we sent to {email}
-                </p>
+                <p className="text-sm text-gray-600 mb-3">Enter the 6-digit code we sent to {email}</p>
                 {devCode && (
                   <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg mb-3">
                     <strong>Development Mode:</strong> Your code is <strong>{devCode}</strong>
@@ -426,7 +440,8 @@ export function CustomerPortal() {
             <AlertCircle className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-yellow-800 mb-2">No Bookings Found</h3>
             <p className="text-yellow-700">
-              We couldn't find any bookings with the provided email address. Please check your email and try again.
+              We couldn't find any bookings with the provided email address. Please check your email and try
+              again.
             </p>
           </div>
         )}
@@ -444,7 +459,11 @@ export function CustomerPortal() {
                       </h4>
                       <p className="text-gray-600">Booking ID: {booking.id.slice(0, 8)}</p>
                     </div>
-                    <div className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold ${getStatusColor(booking.status)}`}>
+                    <div
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold ${getStatusColor(
+                        booking.status
+                      )}`}
+                    >
                       {getStatusIcon(booking.status)}
                       <span className="capitalize">{booking.status}</span>
                     </div>
@@ -466,7 +485,9 @@ export function CustomerPortal() {
                       <DollarSign className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
                       <div>
                         <p className="text-sm font-medium text-gray-700">Total Price</p>
-                        <p className="text-gray-900 font-semibold">${Number(booking.total_price).toFixed(2)}</p>
+                        <p className="text-gray-900 font-semibold">
+                          ${Number(booking.total_price).toFixed(2)}
+                        </p>
                       </div>
                     </div>
 
@@ -490,16 +511,15 @@ export function CustomerPortal() {
                   </div>
 
                   <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-600">
-                      Booked on {formatDate(booking.created_at)}
-                    </p>
+                    <p className="text-sm text-gray-600">Booked on {formatDate(booking.created_at)}</p>
                   </div>
                 </div>
 
                 {booking.status === 'confirmed' && (
                   <div className="bg-green-50 px-6 py-4 border-t border-green-100">
                     <p className="text-green-800 font-medium">
-                      Your booking is confirmed! We'll contact you at {booking.customer_phone} with delivery details.
+                      Your booking is confirmed! We'll contact you at {booking.customer_phone} with delivery
+                      details.
                     </p>
                   </div>
                 )}
@@ -507,7 +527,8 @@ export function CustomerPortal() {
                 {booking.status === 'pending' && (
                   <div className="bg-yellow-50 px-6 py-4 border-t border-yellow-100">
                     <p className="text-yellow-800 font-medium">
-                      Your booking is pending confirmation. We'll contact you shortly at {booking.customer_phone}.
+                      Your booking is pending confirmation. We'll contact you shortly at{' '}
+                      {booking.customer_phone}.
                     </p>
                   </div>
                 )}
@@ -520,30 +541,31 @@ export function CustomerPortal() {
                   </div>
                 )}
 
-                {(booking.status === 'confirmed' || booking.status === 'pending') && booking.payment_status === 'paid' && (
-                  <div className="bg-white px-6 py-4 border-t border-gray-200">
-                    <button
-                      onClick={() => handleRefund(booking.id)}
-                      disabled={refundingBookingId === booking.id}
-                      className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                    >
-                      {refundingBookingId === booking.id ? (
-                        <>
-                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          Processing...
-                        </>
-                      ) : (
-                        <>
-                          <XCircle className="h-5 w-5" />
-                          Cancel Booking & Request Refund
-                        </>
-                      )}
-                    </button>
-                    <p className="text-xs text-gray-600 mt-2 text-center">
-                      Refund amount varies by timing. See rental agreement for details.
-                    </p>
-                  </div>
-                )}
+                {(booking.status === 'confirmed' || booking.status === 'pending') &&
+                  booking.payment_status === 'paid' && (
+                    <div className="bg-white px-6 py-4 border-t border-gray-200">
+                      <button
+                        onClick={() => setConfirmDialog({ isOpen: true, bookingId: booking.id })}
+                        disabled={refundingBookingId === booking.id}
+                        className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                      >
+                        {refundingBookingId === booking.id ? (
+                          <>
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="h-5 w-5" />
+                            Cancel Booking & Request Refund
+                          </>
+                        )}
+                      </button>
+                      <p className="text-xs text-gray-600 mt-2 text-center">
+                        Refund amount varies by timing. See rental agreement for details.
+                      </p>
+                    </div>
+                  )}
               </div>
             ))}
           </div>
@@ -570,6 +592,34 @@ export function CustomerPortal() {
           </div>
         </div>
       </div>
+
+      <ConfirmDialog
+        isOpen={confirmDialog.isOpen}
+        onClose={() => setConfirmDialog({ isOpen: false, bookingId: null })}
+        onConfirm={() => {
+          handleRefund();
+          setConfirmDialog({ isOpen: false, bookingId: null });
+        }}
+        title="Cancel Booking & Request Refund"
+        message={
+          <div className="space-y-3">
+            <p>Are you sure you want to cancel this booking?</p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm">
+              <p className="font-semibold text-yellow-900 mb-2">Refund Policy:</p>
+              <ul className="space-y-1 text-yellow-800">
+                <li>• More than 24 hours: 100% refund (minus $50 deposit)</li>
+                <li>• 12-24 hours: 50% refund (minus $50 deposit)</li>
+                <li>• Less than 12 hours: NO REFUND</li>
+              </ul>
+              <p className="mt-2 text-yellow-900 font-semibold">
+                The $50 deposit is non-refundable upon cancellation.
+              </p>
+            </div>
+          </div>
+        }
+        confirmText="Cancel & Refund"
+        confirmButtonClass="bg-red-600 hover:bg-red-700"
+      />
     </section>
   );
 }

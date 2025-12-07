@@ -10,6 +10,7 @@ import { AdCampaignPage } from './pages/AdCampaignPage';
 import { PricingPage } from './pages/PricingPage';
 import { AvailabilityPage } from './pages/AvailabilityPage';
 import { SpecificationsPage } from './pages/SpecificationsPage';
+import { ToastProvider } from './components/Toast';
 
 function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
   return (
@@ -33,20 +34,22 @@ function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetError
 function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/ad" element={<AdCampaignPage />} />
-          <Route path="/success" element={<PaymentSuccessPage />} />
-          <Route path="/" element={<Layout><HomePage /></Layout>} />
-          <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
-          <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
-          <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
-          <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
-          <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
-          <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/ad" element={<AdCampaignPage />} />
+            <Route path="/success" element={<PaymentSuccessPage />} />
+            <Route path="/" element={<Layout><HomePage /></Layout>} />
+            <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
+            <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
+            <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
+            <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
+            <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
+            <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </ToastProvider>
     </ErrorBoundary>
   );
 }

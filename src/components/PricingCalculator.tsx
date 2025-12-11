@@ -6,13 +6,13 @@ type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
 const TRAILER_PRICING = {
   'Southland 6x12 10k': {
     daily: 120,
-    weekly: 825,
-    monthly: 3250,
+    weekly: 750,
+    monthly: 3000,
   },
   'Southland 7x14 14k': {
     daily: 130,
-    weekly: 900,
-    monthly: 3550,
+    weekly: 825,
+    monthly: 3350,
   },
 };
 

@@ -9,7 +9,7 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: 'What are your trailer rental rates?',
-    answer: 'We offer competitive daily, weekly, and monthly rates. Southland 6x12 10k starts at $120/day, $825/week, or $3,250/month. Southland 7x14 14k starts at $130/day, $900/week, or $3,550/month. Delivery fees vary by location.'
+    answer: 'We offer competitive daily, weekly, and monthly rates. Southland 6x12 10k starts at $120/day, $750/week, or $3,000/month. Southland 7x14 14k starts at $130/day, $825/week, or $3,350/month. Delivery fees vary by location.'
   },
   {
     question: 'What is the weight capacity of your trailers?',

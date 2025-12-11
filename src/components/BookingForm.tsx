@@ -11,13 +11,13 @@ type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
 const TRAILER_PRICING = {
   'Southland 6x12 10k': {
     daily: 120,
-    weekly: 825,
-    monthly: 3250,
+    weekly: 750,
+    monthly: 3000,
   },
   'Southland 7x14 14k': {
     daily: 130,
-    weekly: 900,
-    monthly: 3550,
+    weekly: 825,
+    monthly: 3350,
   },
 };
 
@@ -420,8 +420,8 @@ export function BookingForm() {
               onChange={(e) => setTrailerType(e.target.value as TrailerType)}
               className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
             >
-              <option value="Southland 6x12 10k">Southland 6x12 10k - $120/day • $825/week • $3,250/month</option>
-              <option value="Southland 7x14 14k">Southland 7x14 14k - $130/day • $900/week • $3,550/month</option>
+              <option value="Southland 6x12 10k">Southland 6x12 10k - $120/day • $750/week • $3,000/month</option>
+              <option value="Southland 7x14 14k">Southland 7x14 14k - $130/day • $825/week • $3,350/month</option>
             </select>
           </div>
         )}

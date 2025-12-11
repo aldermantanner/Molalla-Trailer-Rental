@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import { Calendar, Phone, Mail, MapPin, Clock, CheckCircle, DollarSign, MessageSquare } from 'lucide-react';
+import { Calendar, Phone, Mail, MapPin, Clock, CheckCircle, DollarSign } from 'lucide-react';
 import { Booking } from '../lib/supabase';
-import { SMSTemplates } from './SMSTemplates';
 
 interface BookingCardProps {
   booking: Booking;
@@ -22,7 +20,6 @@ export function BookingCard({
   onRefundDeposit,
   refundingDepositId,
 }: BookingCardProps) {
-  const [showSmsTemplates, setShowSmsTemplates] = useState(false);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -91,21 +88,7 @@ export function BookingCard({
             >
               {booking.customer_phone}
             </a>
-            <button
-              onClick={() => setShowSmsTemplates(!showSmsTemplates)}
-              className="ml-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-xs font-semibold flex items-center gap-1"
-              title="Send Text Message"
-            >
-              <MessageSquare className="h-3 w-3" />
-              Text
-            </button>
           </div>
-
-          <SMSTemplates
-            booking={booking}
-            isOpen={showSmsTemplates}
-            onClose={() => setShowSmsTemplates(false)}
-          />
 
           <div className="flex items-center gap-2 text-gray-700">
             <Mail className="h-4 w-4 text-gray-500" />

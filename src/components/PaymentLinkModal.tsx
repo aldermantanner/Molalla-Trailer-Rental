@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DollarSign, Copy, Check, X } from 'lucide-react';
+import { Copy, Check, X } from 'lucide-react';
 import { Booking } from '../lib/supabase';
 
 interface PaymentLinkModalProps {

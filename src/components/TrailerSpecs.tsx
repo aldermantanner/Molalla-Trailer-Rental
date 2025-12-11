@@ -25,8 +25,8 @@ const trailerData: TrailerSpecsData[] = [
     image: '/image copy copy copy copy copy copy.png',
     price: {
       daily: '$120',
-      weekly: '$825',
-      monthly: '$3,250'
+      weekly: '$750',
+      monthly: '$3,000'
     },
     specs: [
       {
@@ -85,8 +85,8 @@ const trailerData: TrailerSpecsData[] = [
     image: '/image copy copy copy copy copy copy copy.png',
     price: {
       daily: '$130',
-      weekly: '$900',
-      monthly: '$3,550'
+      weekly: '$825',
+      monthly: '$3,350'
     },
     specs: [
       {

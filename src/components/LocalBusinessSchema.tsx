@@ -40,8 +40,16 @@ export function LocalBusinessSchema() {
         "closes": "23:59"
       },
       "sameAs": [
-        "https://rentmolallatrailers.com"
+        "https://rentmolallatrailers.com",
+        "https://www.facebook.com/molallatrailerrental"
       ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+15035006121",
+        "contactType": "customer service",
+        "areaServed": "US",
+        "availableLanguage": "English"
+      },
       "areaServed": [
         {
           "@type": "City",

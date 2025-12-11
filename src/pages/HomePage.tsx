@@ -5,6 +5,11 @@ import { FAQ } from '../components/FAQ';
 import { ServiceArea } from '../components/ServiceArea';
 import { SocialProof } from '../components/SocialProof';
 import { LocalBusinessSchema } from '../components/LocalBusinessSchema';
+import { FAQSchema } from '../components/FAQSchema';
+import { ServiceSchema } from '../components/ServiceSchema';
+import { ReviewSchema } from '../components/ReviewSchema';
+import { BreadcrumbSchema } from '../components/BreadcrumbSchema';
+import { LocalSEOContent } from '../components/LocalSEOContent';
 import { ExitIntentPopup } from '../components/ExitIntentPopup';
 import { ChatWidget } from '../components/ChatWidget';
 
@@ -12,6 +17,10 @@ export function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <LocalBusinessSchema />
+      <FAQSchema />
+      <ServiceSchema />
+      <ReviewSchema />
+      <BreadcrumbSchema />
 
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-slate-700 via-slate-600 to-slate-800 py-20 px-4 sm:px-6 lg:px-8">
@@ -288,6 +297,8 @@ export function HomePage() {
       </div>
 
       <ServiceArea />
+
+      <LocalSEOContent />
 
       <div id="faq">
         <FAQ />

@@ -579,8 +579,8 @@ export function CustomerPortal() {
           <div className="space-y-2 text-blue-900">
             <p>
               <strong>Phone:</strong>{' '}
-              <a href="tel:503-500-6121" className="underline hover:text-blue-700">
-                503-500-6121
+              <a href="tel:971-459-0077" className="underline hover:text-blue-700">
+                971-459-0077
               </a>
             </p>
             <p>

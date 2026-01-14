@@ -204,10 +204,10 @@ export function PricingCalculator() {
                     Book Now
                   </a>
                   <a
-                    href="tel:503-500-6121"
+                    href="tel:971-459-0077"
                     className="flex-1 bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-center"
                   >
-                    Call: 503-500-6121
+                    Call: 971-459-0077
                   </a>
                 </div>
               </div>

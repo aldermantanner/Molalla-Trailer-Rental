@@ -27,11 +27,11 @@ export function ContextualCTA({ message, variant = 'general', onBookClick }: Con
           </button>
           <span className="text-white font-semibold hidden sm:block">or</span>
           <a
-            href="tel:503-500-6121"
+            href="tel:971-459-0077"
             className="bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-white/30 transition-all shadow-lg flex items-center justify-center gap-2 min-w-[200px]"
           >
             <Phone className="h-5 w-5" />
-            503-500-6121
+            971-459-0077
           </a>
         </div>
       </div>

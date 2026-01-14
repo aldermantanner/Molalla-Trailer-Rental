@@ -104,7 +104,7 @@ export function AdminLogin({ onLoginSuccess }: AdminLoginProps) {
             <p className="text-sm text-gray-600">
               Need help accessing your account?
               <br />
-              Contact: <a href="tel:503-500-6121" className="text-green-600 hover:underline">503-500-6121</a>
+              Contact: <a href="tel:971-459-0077" className="text-green-600 hover:underline">971-459-0077</a>
             </p>
           </div>
         </div>

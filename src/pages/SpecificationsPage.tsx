@@ -24,11 +24,11 @@ export function SpecificationsPage() {
               </p>
             </div>
             <a
-              href="tel:503-500-6121"
+              href="tel:971-459-0077"
               className="hidden md:flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
             >
               <Phone className="h-5 w-5" />
-              Call: 503-500-6121
+              Call: 971-459-0077
             </a>
           </div>
         </div>

@@ -38,7 +38,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'How far in advance should I book?',
-    answer: 'We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 503-500-6121 to check current availability.'
+    answer: 'We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 971-459-0077 to check current availability.'
   },
   {
     question: 'What areas do you serve?',
@@ -62,7 +62,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'Can I extend my rental period?',
-    answer: 'Absolutely! Just give us a call at 503-500-6121 before your rental period ends, and we\'ll be happy to extend it based on availability. Extended rentals may qualify for weekly or monthly rates.'
+    answer: 'Absolutely! Just give us a call at 971-459-0077 before your rental period ends, and we\'ll be happy to extend it based on availability. Extended rentals may qualify for weekly or monthly rates.'
   }
 ];
 
@@ -132,10 +132,10 @@ export function FAQ() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:503-500-6121"
+              href="tel:971-459-0077"
               className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
             >
-              Call: 503-500-6121
+              Call: 971-459-0077
             </a>
             <a
               href="mailto:Molallatrailerrental@outlook.com"

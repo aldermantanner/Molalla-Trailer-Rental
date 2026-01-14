@@ -64,10 +64,10 @@ export function Gallery() {
             Ready to start your project? Our professional trailers are available for daily, weekly, or monthly rentals.
           </p>
           <a
-            href="tel:503-500-6121"
+            href="tel:971-459-0077"
             className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
           >
-            Call Now: 503-500-6121
+            Call Now: 971-459-0077
           </a>
         </div>
       </div>

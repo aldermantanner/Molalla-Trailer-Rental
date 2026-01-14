@@ -10,7 +10,7 @@ export function ServiceSchema() {
       "provider": {
         "@type": "LocalBusiness",
         "name": "Molalla Trailer Rentals",
-        "telephone": "+15035006121",
+        "telephone": "+19714590077",
         "email": "Molallatrailerrental@outlook.com",
         "address": {
           "@type": "PostalAddress",

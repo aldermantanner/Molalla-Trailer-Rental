@@ -368,7 +368,7 @@ export function BookingForm() {
     } catch (error) {
       console.error('Error creating checkout session:', error);
       const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      setErrorMessage(`Payment processing error: ${errorMsg}. Please contact us directly at 503-500-6121.`);
+      setErrorMessage(`Payment processing error: ${errorMsg}. Please contact us directly at 971-459-0077.`);
       setSubmitStatus('error');
       setIsSubmitting(false);
     }
@@ -492,7 +492,7 @@ export function BookingForm() {
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Need Help with Pricing?</h3>
                   <p className="text-sm text-gray-700 mb-3">
-                    Text photos of your junk to <a href="sms:503-500-6121" className="text-blue-600 font-semibold hover:underline">503-500-6121</a> for a fast, accurate quote. Or fill out the form below for an estimate.
+                    Text photos of your junk to <a href="sms:971-459-0077" className="text-blue-600 font-semibold hover:underline">971-459-0077</a> for a fast, accurate quote. Or fill out the form below for an estimate.
                   </p>
                   <Link
                     to="/junk-removal-pricing"
@@ -678,7 +678,7 @@ export function BookingForm() {
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">Get the Most Accurate Quote</h3>
                   <p className="text-sm text-gray-700">
-                    Text photos to <a href="sms:503-500-6121" className="text-blue-600 font-semibold hover:underline">503-500-6121</a> for the fastest, most accurate pricing.
+                    Text photos to <a href="sms:971-459-0077" className="text-blue-600 font-semibold hover:underline">971-459-0077</a> for the fastest, most accurate pricing.
                   </p>
                 </div>
               </div>
@@ -719,7 +719,7 @@ export function BookingForm() {
               value={formData.customer_phone}
               onChange={handleInputChange}
               className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
-              placeholder="503-500-6121"
+              placeholder="971-459-0077"
             />
           </div>
         </div>

@@ -77,10 +77,10 @@ export function ServiceArea() {
                 We may still be able to serve your area! Delivery fees vary by distance. Contact us to confirm availability for your location.
               </p>
               <a
-                href="tel:503-500-6121"
+                href="tel:971-459-0077"
                 className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
               >
-                Call: 503-500-6121
+                Call: 971-459-0077
               </a>
             </div>
           </div>
@@ -149,7 +149,7 @@ export function ServiceArea() {
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <div className="flex gap-2">
                     <a
-                      href="tel:503-500-6121"
+                      href="tel:971-459-0077"
                       className="flex-1 bg-green-600 text-white px-4 py-2.5 rounded-lg hover:bg-green-700 transition-colors font-semibold text-center text-sm"
                     >
                       Call Now

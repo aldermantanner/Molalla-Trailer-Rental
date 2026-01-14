@@ -59,7 +59,7 @@ export function FAQSchema() {
           "name": "How far in advance should I book?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 503-500-6121 to check current availability."
+            "text": "We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 971-459-0077 to check current availability."
           }
         },
         {

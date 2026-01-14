@@ -64,11 +64,11 @@ export function ChatWidget() {
                   </p>
                   <div className="space-y-2">
                     <a
-                      href="tel:503-500-6121"
+                      href="tel:971-459-0077"
                       className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold text-sm"
                     >
                       <Phone className="h-4 w-4" />
-                      503-500-6121
+                      971-459-0077
                     </a>
                     <a
                       href="mailto:Molallatrailerrental@outlook.com"

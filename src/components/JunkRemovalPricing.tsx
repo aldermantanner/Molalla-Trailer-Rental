@@ -174,10 +174,10 @@ export function JunkRemovalPricing() {
             Send us a few photos of what you want removed and we'll give you a quick, accurate estimate.
           </p>
           <a
-            href="sms:503-500-6121"
+            href="sms:971-459-0077"
             className="inline-block mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
-            Text Us: 503-500-6121
+            Text Us: 971-459-0077
           </a>
         </div>
       </div>
@@ -489,14 +489,14 @@ export function JunkRemovalPricing() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="tel:503-500-6121"
+            href="tel:971-459-0077"
             className="inline-flex items-center justify-center gap-2 bg-white text-slate-800 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-lg"
           >
             <Phone className="h-5 w-5" />
-            Call: 503-500-6121
+            Call: 971-459-0077
           </a>
           <a
-            href="sms:503-500-6121"
+            href="sms:971-459-0077"
             className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
           >
             📱 Text for Fast Quote

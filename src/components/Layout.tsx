@@ -45,9 +45,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
-              <a href="tel:503-500-6121" className="text-white hover:text-green-400 transition-colors font-semibold flex items-center gap-2">
+              <a href="tel:971-459-0077" className="text-white hover:text-green-400 transition-colors font-semibold flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                <span className="whitespace-nowrap">503-500-6121</span>
+                <span className="whitespace-nowrap">971-459-0077</span>
               </a>
 
               <Link
@@ -142,9 +142,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   >
                     Book Now
                   </Link>
-                  <a href="tel:503-500-6121" className="bg-slate-700 text-white px-6 py-4 rounded-lg hover:bg-slate-600 transition-colors font-bold text-center text-lg shadow-lg flex items-center justify-center gap-2">
+                  <a href="tel:971-459-0077" className="bg-slate-700 text-white px-6 py-4 rounded-lg hover:bg-slate-600 transition-colors font-bold text-center text-lg shadow-lg flex items-center justify-center gap-2">
                     <Phone className="h-5 w-5" />
-                    503-500-6121
+                    971-459-0077
                   </a>
                 </div>
               </div>
@@ -167,7 +167,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Phone className="h-6 w-6 mt-1 flex-shrink-0 text-green-400" />
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Call or Text</h3>
-                  <a href="tel:503-500-6121" className="hover:text-green-400 transition-colors text-xl font-semibold">503-500-6121</a>
+                  <a href="tel:971-459-0077" className="hover:text-green-400 transition-colors text-xl font-semibold">971-459-0077</a>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -187,7 +187,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="mt-12 pt-8 border-t border-slate-600">
               <p className="text-lg font-semibold mb-4">Clackamas County & Surrounding Areas</p>
-              <p className="text-2xl font-bold text-green-400 mb-2">Call or Text: 503-500-6121</p>
+              <p className="text-2xl font-bold text-green-400 mb-2">Call or Text: 971-459-0077</p>
               <p className="opacity-90">Dump trailer rentals starting at $120/day with delivery available</p>
             </div>
           </div>

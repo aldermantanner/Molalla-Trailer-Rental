@@ -270,10 +270,10 @@ export function TrailerSpecs() {
             Not sure which trailer is right for your project? Give us a call and we'll help you select the perfect option.
           </p>
           <a
-            href="tel:503-500-6121"
+            href="tel:971-459-0077"
             className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
           >
-            Call: 503-500-6121
+            Call: 971-459-0077
           </a>
         </div>
       </div>

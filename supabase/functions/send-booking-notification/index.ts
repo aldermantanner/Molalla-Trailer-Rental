@@ -32,6 +32,9 @@ Deno.serve(async (req: Request) => {
 
     const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Molallatrailerrental@outlook.com";
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    const twilioAccountSid = Deno.env.get("TWILIO_ACCOUNT_SID");
+    const twilioAuthToken = Deno.env.get("TWILIO_AUTH_TOKEN");
+    const twilioPhoneNumber = Deno.env.get("TWILIO_PHONE_NUMBER");
 
     if (!resendApiKey) {
       console.error("RESEND_API_KEY not configured");
@@ -82,6 +85,38 @@ Deno.serve(async (req: Request) => {
       const error = await emailResponse.text();
       console.error("Email sending failed:", error);
       throw new Error(`Failed to send email: ${error}`);
+    }
+
+    // Send SMS notification via Twilio
+    if (twilioAccountSid && twilioAuthToken && twilioPhoneNumber) {
+      try {
+        const smsMessage = `New Booking!\nCustomer: ${booking.customer_name}\nPhone: ${booking.customer_phone}\nService: ${booking.service_type === 'rental' ? 'Trailer Rental' : 'Junk Removal'}\nDate: ${new Date(booking.start_date).toLocaleDateString()}\nBooking ID: ${booking.booking_id}`;
+
+        const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${twilioAccountSid}/Messages.json`;
+        const twilioAuth = btoa(`${twilioAccountSid}:${twilioAuthToken}`);
+
+        const smsResponse = await fetch(twilioUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": `Basic ${twilioAuth}`,
+          },
+          body: new URLSearchParams({
+            To: booking.customer_phone,
+            From: twilioPhoneNumber,
+            Body: smsMessage,
+          }).toString(),
+        });
+
+        if (!smsResponse.ok) {
+          const smsError = await smsResponse.text();
+          console.error("SMS sending failed:", smsError);
+        } else {
+          console.log("SMS notification sent successfully");
+        }
+      } catch (smsError) {
+        console.error("Error sending SMS:", smsError);
+      }
     }
 
     return new Response(

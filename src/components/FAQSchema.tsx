@@ -35,7 +35,7 @@ export function FAQSchema() {
           "name": "What can I haul in your dump trailers?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Our trailers are perfect for construction debris, yard waste, dirt, gravel, mulch, furniture, appliances, and general junk removal."
+            "text": "Our trailers are perfect for construction debris, yard waste, furniture, appliances, and general junk removal."
           }
         },
         {

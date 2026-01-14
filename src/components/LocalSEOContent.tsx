@@ -103,10 +103,10 @@ export function LocalSEOContent() {
                 <ul className="space-y-1 text-gray-700 text-sm">
                   <li>• Construction and demolition debris removal</li>
                   <li>• Yard waste, brush, and landscaping cleanup</li>
-                  <li>• Dirt, gravel, and aggregate hauling</li>
                   <li>• Home renovation and remodeling projects</li>
                   <li>• Roofing material disposal</li>
                   <li>• Estate cleanouts and moving</li>
+                  <li>• General hauling and cleanup</li>
                 </ul>
               </div>
 

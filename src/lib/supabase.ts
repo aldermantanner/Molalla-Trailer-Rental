@@ -22,7 +22,7 @@ export type Booking = {
   zip_code?: string | null;
   emergency_contact_name?: string | null;
   emergency_contact_phone?: string | null;
-  service_type: 'rental' | 'junk_removal' | 'material_delivery';
+  service_type: 'rental' | 'junk_removal';
   start_date: string;
   end_date: string | null;
   delivery_address: string;

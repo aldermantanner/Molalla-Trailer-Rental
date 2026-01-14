@@ -174,8 +174,7 @@ export function BookingCard({
             <div>
               <p className="text-xs font-semibold text-gray-600 mb-2">Payment Actions:</p>
               <div className="flex gap-2 flex-wrap">
-                {(booking.service_type === 'junk_removal' ||
-                  booking.service_type === 'material_delivery') && (
+                {booking.service_type === 'junk_removal' && (
                   <button
                     onClick={() => onOpenPaymentModal(booking)}
                     className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors text-sm font-semibold flex items-center gap-2"

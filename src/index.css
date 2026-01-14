@@ -2,17 +2,49 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  img {
+    content-visibility: auto;
+  }
+}
+
 @keyframes slide-in {
   from {
-    transform: translateX(100%);
+    transform: translateX(100%) translateZ(0);
     opacity: 0;
   }
   to {
-    transform: translateX(0);
+    transform: translateX(0) translateZ(0);
     opacity: 1;
   }
 }
 
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
+  will-change: transform, opacity;
+}
+
+@layer utilities {
+  .gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
 }

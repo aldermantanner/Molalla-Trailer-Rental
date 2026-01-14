@@ -1,29 +1,24 @@
 export function Gallery() {
   const galleryImages = [
     {
-      src: '/trailer-dumping.jpg.jpg',
+      src: '/trailer-dumping.jpg',
       alt: 'Hydraulic dump trailer in action, unloading debris',
       category: 'Dumping'
     },
     {
-      src: '/trailer-excavator.jpg.jpg',
+      src: '/trailer-excavator.jpg',
       alt: 'Heavy equipment loading trailer at construction site',
       category: 'Construction'
     },
     {
-      src: '/trailer-junk-removal.jpg.jpg',
+      src: '/trailer-junk-removal.jpg',
       alt: 'Junk removal and debris hauling service',
       category: 'Junk Removal'
     },
     {
-      src: '/trailer-soil.jpg.jpg',
-      alt: 'Soil and material delivery for landscaping projects',
-      category: 'Material Delivery'
-    },
-    {
-      src: '/trailer-dirt-load.jpg.jpg',
-      alt: 'Trailer loaded with dirt for residential project',
-      category: 'Dirt Hauling'
+      src: '/trailer-dirt-load.jpg',
+      alt: 'Trailer loaded for residential project',
+      category: 'Hauling'
     },
     {
       src: '/image copy copy copy copy copy copy.png',
@@ -39,7 +34,7 @@ export function Gallery() {
           Our Work in Action
         </h2>
         <p className="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
-          See our professional dump trailers serving Molalla and surrounding areas. From junk removal to material delivery, we handle projects of all sizes.
+          See our professional dump trailers serving Molalla and surrounding areas. From junk removal to construction projects, we handle jobs of all sizes.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {galleryImages.map((image, index) => (

@@ -73,7 +73,7 @@ export function LocalBusinessSchema() {
         }
       ],
       "additionalType": "https://en.wikipedia.org/wiki/Veteran-owned_business",
-      "description": "Veteran-owned dump trailer rental and junk removal service serving Molalla and surrounding areas. Professional dump trailers, material delivery, and complete junk removal services.",
+      "description": "Veteran-owned dump trailer rental and junk removal service serving Molalla and surrounding areas. Professional dump trailers and complete junk removal services.",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Trailer Rental Services",
@@ -98,14 +98,6 @@ export function LocalBusinessSchema() {
               "@type": "Service",
               "name": "Junk Removal Service",
               "description": "Full-service junk removal for residential and commercial properties"
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Material Delivery",
-              "description": "Dirt, gravel, and mulch delivery for landscaping and construction"
             }
           }
         ]

@@ -24,7 +24,7 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
     zip_code: '',
     emergency_contact_name: '',
     emergency_contact_phone: '',
-    service_type: 'rental' as 'rental' | 'junk_removal' | 'material_delivery',
+    service_type: 'rental' as 'rental' | 'junk_removal',
     trailer_type: 'Southland 6x12 10k' as 'Southland 6x12 10k' | 'Southland 7x14 14k',
     start_date: '',
     end_date: '',
@@ -388,7 +388,6 @@ export function AdminDirectBooking({ onClose, onSuccess }: AdminDirectBookingPro
                 >
                   <option value="rental">Trailer Rental</option>
                   <option value="junk_removal">Junk Removal</option>
-                  <option value="material_delivery">Material Delivery</option>
                 </select>
               </div>
               {formData.service_type === 'rental' && (

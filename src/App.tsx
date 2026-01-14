@@ -1,16 +1,30 @@
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
-import { BookingPage } from './pages/BookingPage';
-import { AdminPage } from './pages/AdminPage';
-import { CustomerPortalPage } from './pages/CustomerPortalPage';
-import { PaymentSuccessPage } from './pages/PaymentSuccessPage';
-import { AdCampaignPage } from './pages/AdCampaignPage';
-import { PricingPage } from './pages/PricingPage';
-import { AvailabilityPage } from './pages/AvailabilityPage';
-import { SpecificationsPage } from './pages/SpecificationsPage';
 import { ToastProvider } from './components/Toast';
+
+const BookingPage = lazy(() => import('./pages/BookingPage').then(m => ({ default: m.BookingPage })));
+const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
+const CustomerPortalPage = lazy(() => import('./pages/CustomerPortalPage').then(m => ({ default: m.CustomerPortalPage })));
+const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage').then(m => ({ default: m.PaymentSuccessPage })));
+const AdCampaignPage = lazy(() => import('./pages/AdCampaignPage').then(m => ({ default: m.AdCampaignPage })));
+const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
+const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage').then(m => ({ default: m.AvailabilityPage })));
+const SpecificationsPage = lazy(() => import('./pages/SpecificationsPage').then(m => ({ default: m.SpecificationsPage })));
+const JunkRemovalPricingPage = lazy(() => import('./pages/JunkRemovalPricingPage').then(m => ({ default: m.JunkRemovalPricingPage })));
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+        <p className="mt-4 text-gray-600">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
   return (
@@ -36,18 +50,21 @@ function App() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ToastProvider>
         <BrowserRouter>
-          <Routes>
-            <Route path="/ad" element={<AdCampaignPage />} />
-            <Route path="/success" element={<PaymentSuccessPage />} />
-            <Route path="/" element={<Layout><HomePage /></Layout>} />
-            <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
-            <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
-            <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
-            <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
-            <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
-            <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
+          <Suspense fallback={<LoadingFallback />}>
+            <Routes>
+              <Route path="/ad" element={<AdCampaignPage />} />
+              <Route path="/success" element={<PaymentSuccessPage />} />
+              <Route path="/" element={<Layout><HomePage /></Layout>} />
+              <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
+              <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
+              <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
+              <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
+              <Route path="/junk-removal-pricing" element={<Layout><JunkRemovalPricingPage /></Layout>} />
+              <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
+              <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
         </BrowserRouter>
       </ToastProvider>
     </ErrorBoundary>

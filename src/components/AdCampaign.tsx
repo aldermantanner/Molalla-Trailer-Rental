@@ -6,7 +6,7 @@ interface AdCampaignProps {
 }
 
 export function AdCampaign({ onBookNow }: AdCampaignProps) {
-  const [selectedService, setSelectedService] = useState<'rental' | 'junk' | 'delivery' | null>(null);
+  const [selectedService, setSelectedService] = useState<'rental' | 'junk' | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100">
@@ -79,7 +79,7 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
             <h2 className="text-4xl font-extrabold mb-2">Choose Your Service</h2>
             <p className="text-xl opacity-90">Select what you need and get an instant quote</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-0 divide-x divide-gray-200">
+          <div className="grid md:grid-cols-2 gap-0 divide-x divide-gray-200">
             <button
               onClick={() => setSelectedService('rental')}
               className={`p-10 text-left hover:bg-gray-50 transition-all ${
@@ -150,44 +150,6 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
                     className="w-full mt-4 bg-green-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                   >
                     Request Quote
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
-                </div>
-              )}
-            </button>
-
-            <button
-              onClick={() => setSelectedService('delivery')}
-              className={`p-10 text-left hover:bg-gray-50 transition-all ${
-                selectedService === 'delivery' ? 'bg-green-50 border-4 border-green-600' : ''
-              }`}
-            >
-              <Truck className="h-12 w-12 text-green-600 mb-4" />
-              <h3 className="text-2xl font-bold text-slate-900 mb-3">Material Delivery</h3>
-              <p className="text-gray-600 mb-4 text-lg">
-                Dirt, gravel, and mulch delivered to your location
-              </p>
-              <div className="text-3xl font-extrabold text-green-600 mb-2">From $100</div>
-              <p className="text-gray-500">Per 7 yards delivered</p>
-              {selectedService === 'delivery' && (
-                <div className="mt-6 space-y-3">
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Fill dirt: $100/7 yards</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Gravel: $350-$550/7 yards</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-green-600" />
-                    <span className="text-gray-700">Mulch: $280-$445/7 yards</span>
-                  </div>
-                  <button
-                    onClick={onBookNow}
-                    className="w-full mt-4 bg-green-600 text-white px-6 py-4 rounded-lg font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
-                  >
-                    Order Delivery
                     <ArrowRight className="h-5 w-5" />
                   </button>
                 </div>

@@ -154,9 +154,9 @@ export function HomePage() {
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl font-bold text-center text-slate-800 mb-4">Our Services</h2>
           <p className="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
-            From dump trailer rentals to complete junk removal and material delivery, we provide the solutions you need for your projects in Molalla and surrounding areas.
+            From dump trailer rentals to complete junk removal, we provide the solutions you need for your projects in Molalla and surrounding areas.
           </p>
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
               <img
                 src="https://www.MyTrailer.Rentals/Portal/Images/000483/Trailers/1503/074c04195a9189533abdee75a5afdda9.jpg"
@@ -223,40 +223,23 @@ export function HomePage() {
                 </ul>
                 <div className="text-green-600 font-bold text-2xl">Call for Quote</div>
                 <p className="text-gray-600 mt-2">503-500-6121</p>
-              </div>
-            </div>
-            <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <img
-                src="/image copy copy copy copy copy.png"
-                alt="Material delivery service"
-                className="w-full h-72 object-cover"
-                loading="lazy"
-              />
-              <div className="p-8">
-                <h3 className="text-3xl font-semibold text-slate-800 mb-4">Dirt, Gravel & Mulch Delivery</h3>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Professional delivery of rock, fill dirt, and premium mulch for your landscaping and construction projects.
-                </p>
-                <ul className="space-y-3 mb-6">
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-600 mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-gray-700">7 yards of rock: <strong>$350-$550</strong></span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-600 mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-gray-700">7 yards of fill dirt: <strong>$100</strong></span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-600 mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-gray-700">7 yards of mulch: <strong>$280-$445</strong></span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-green-600 mt-1 mr-3 flex-shrink-0" />
-                    <span className="text-gray-700">Delivery included</span>
-                  </li>
-                </ul>
-                <div className="text-green-600 font-bold text-2xl">Starting at $100</div>
-                <p className="text-gray-600 mt-2">Per 7 yards delivered</p>
+                <div className="mt-4 pt-4 border-t border-gray-200">
+                  <Link
+                    to="/junk-removal-pricing"
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="inline-flex items-center gap-2 text-slate-800 font-semibold hover:text-green-600 transition-colors group"
+                  >
+                    <span className="text-base">View Detailed Pricing Guide</span>
+                    <svg
+                      className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -286,6 +269,15 @@ export function HomePage() {
               <Phone className="h-5 w-5" />
               Call: 503-500-6121
             </a>
+          </div>
+          <div className="mt-4">
+            <Link
+              to="/junk-removal-pricing"
+              onClick={() => window.scrollTo(0, 0)}
+              className="inline-block text-white hover:text-green-200 transition-colors underline font-semibold"
+            >
+              View Junk Removal Pricing
+            </Link>
           </div>
         </div>
       </section>

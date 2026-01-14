@@ -58,8 +58,6 @@ export function Testimonials() {
         return 'Trailer Rental';
       case 'junk_removal':
         return 'Junk Removal';
-      case 'material_delivery':
-        return 'Material Delivery';
       default:
         return 'Customer';
     }

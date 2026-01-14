@@ -83,6 +83,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     >
                       Trailer Specifications
                     </Link>
+                    <Link
+                      to="/junk-removal-pricing"
+                      onClick={() => { setResourcesOpen(false); window.scrollTo(0, 0); }}
+                      className="block px-4 py-3 text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors font-medium"
+                    >
+                      Junk Removal Pricing
+                    </Link>
                     <a
                       href="/#faq"
                       onClick={() => setResourcesOpen(false)}

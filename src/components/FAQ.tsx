@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface FAQItem {
   question: string;
   answer: string;
+  answerLink?: {
+    text: string;
+    url: string;
+  };
 }
 
 const faqs: FAQItem[] = [
@@ -13,7 +18,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'What is the weight capacity of your trailers?',
-    answer: 'Our Southland 6x12 trailer has an 8,745 lb capacity, and our Southland 7x14 trailer has a 12,308 lb capacity. Both are perfect for construction debris, yard waste, dirt, gravel, and general hauling needs.'
+    answer: 'Our Southland 6x12 trailer has an 8,745 lb capacity, and our Southland 7x14 trailer has a 12,308 lb capacity. Both are perfect for construction debris, yard waste, and general hauling needs.'
   },
   {
     question: 'Do you deliver trailers?',
@@ -21,7 +26,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'What can I haul in your dump trailers?',
-    answer: 'Our trailers are perfect for construction debris, yard waste, dirt, gravel, mulch, furniture, appliances, and general junk removal. Please contact us if you have questions about specific materials.'
+    answer: 'Our trailers are perfect for construction debris, yard waste, furniture, appliances, and general junk removal. Please contact us if you have questions about specific materials.'
   },
   {
     question: 'How do I operate the dump feature?',
@@ -41,7 +46,11 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'Do you offer junk removal services?',
-    answer: 'Yes! We provide full-service junk removal where we handle all the loading and hauling for you. This is perfect for estate cleanouts, foreclosure cleanup, or any situation where you need us to do the heavy lifting.'
+    answer: 'Yes! We provide full-service junk removal where we handle all the loading and hauling for you. This is perfect for estate cleanouts, foreclosure cleanup, or any situation where you need us to do the heavy lifting.',
+    answerLink: {
+      text: 'View our detailed junk removal pricing',
+      url: '/junk-removal-pricing'
+    }
   },
   {
     question: 'What payment methods do you accept?',
@@ -94,7 +103,21 @@ export function FAQ() {
               </button>
               {openIndex === index && (
                 <div className="px-6 pb-5 pt-2">
-                  <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
+                  <p className="text-gray-700 leading-relaxed">
+                    {faq.answer}
+                    {faq.answerLink && (
+                      <>
+                        {' '}
+                        <Link
+                          to={faq.answerLink.url}
+                          onClick={() => window.scrollTo(0, 0)}
+                          className="text-green-600 font-semibold hover:text-green-700 underline"
+                        >
+                          {faq.answerLink.text}
+                        </Link>
+                      </>
+                    )}
+                  </p>
                 </div>
               )}
             </div>

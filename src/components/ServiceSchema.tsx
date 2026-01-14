@@ -125,15 +125,6 @@ export function ServiceSchema() {
               "description": "Full-service junk removal for residential and commercial properties. We load and haul everything for you.",
               "serviceType": "Junk Removal"
             }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Material Delivery Service",
-              "description": "Professional delivery of dirt, gravel, rock, and mulch for landscaping and construction projects.",
-              "serviceType": "Material Delivery"
-            }
           }
         ]
       },

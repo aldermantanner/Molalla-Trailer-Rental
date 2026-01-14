@@ -10,23 +10,35 @@ export function ExitIntentPopup({ onBookClick }: ExitIntentPopupProps) {
   const [hasShown, setHasShown] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+
     const checkExitIntent = (e: MouseEvent) => {
-      if (hasShown) return;
+      if (hasShown || !isMounted) return;
 
       if (e.clientY <= 0) {
-        setIsVisible(true);
-        setHasShown(true);
-        localStorage.setItem('exitPopupShown', Date.now().toString());
+        if (isMounted) {
+          setIsVisible(true);
+          setHasShown(true);
+          try {
+            localStorage.setItem('exitPopupShown', Date.now().toString());
+          } catch (error) {
+            console.warn('localStorage not available:', error);
+          }
+        }
       }
     };
 
     const checkLocalStorage = () => {
-      const lastShown = localStorage.getItem('exitPopupShown');
-      if (lastShown) {
-        const daysSinceShown = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60 * 24);
-        if (daysSinceShown < 7) {
-          setHasShown(true);
+      try {
+        const lastShown = localStorage.getItem('exitPopupShown');
+        if (lastShown && isMounted) {
+          const daysSinceShown = (Date.now() - parseInt(lastShown)) / (1000 * 60 * 60 * 24);
+          if (daysSinceShown < 7) {
+            setHasShown(true);
+          }
         }
+      } catch (error) {
+        console.warn('localStorage not available:', error);
       }
     };
 
@@ -34,6 +46,7 @@ export function ExitIntentPopup({ onBookClick }: ExitIntentPopupProps) {
     document.addEventListener('mouseleave', checkExitIntent);
 
     return () => {
+      isMounted = false;
       document.removeEventListener('mouseleave', checkExitIntent);
     };
   }, [hasShown]);

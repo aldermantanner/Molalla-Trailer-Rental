@@ -38,7 +38,7 @@ Deno.serve(async (req: Request) => {
       throw new Error("Invalid phone number format. Must be 10 digits.");
     }
 
-    if (!bookingData.service_type || !['rental', 'junk_removal', 'material_delivery'].includes(bookingData.service_type)) {
+    if (!bookingData.service_type || !['rental', 'junk_removal'].includes(bookingData.service_type)) {
       throw new Error("Invalid service type");
     }
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle, Shield, Camera, Info } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import RentalAgreement from './RentalAgreement';
+import JunkRemovalAgreement from './JunkRemovalAgreement';
 import { FileUpload } from './FileUpload';
 import { PaymentTrust } from './PaymentTrust';
 import { Link } from 'react-router-dom';
@@ -41,6 +42,7 @@ export function BookingForm() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [showAgreement, setShowAgreement] = useState(false);
+  const [showJunkAgreement, setShowJunkAgreement] = useState(false);
   const [pendingBookingId, setPendingBookingId] = useState<string | null>(null);
   const [driversLicenseFile, setDriversLicenseFile] = useState<File | null>(null);
   const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
@@ -262,18 +264,22 @@ export function BookingForm() {
       }
 
       if (serviceType === 'junk_removal') {
-        setSubmitStatus('success');
-        setPendingBookingId(null);
-        setFormData({
-          customer_name: '',
-          customer_email: '',
-          customer_phone: '',
-          start_date: '',
-          end_date: '',
-          delivery_address: '',
-          delivery_required: false,
-          notes: '',
-        });
+        if (junkServiceLevel === 'you_fill') {
+          setShowJunkAgreement(true);
+        } else {
+          setSubmitStatus('success');
+          setPendingBookingId(null);
+          setFormData({
+            customer_name: '',
+            customer_email: '',
+            customer_phone: '',
+            start_date: '',
+            end_date: '',
+            delivery_address: '',
+            delivery_required: false,
+            notes: '',
+          });
+        }
       } else if (serviceType === 'rental' && !formData.delivery_required) {
         setShowAgreement(true);
       } else {
@@ -317,6 +323,50 @@ export function BookingForm() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleJunkAgreementComplete = async (agreementData: any) => {
+    if (!pendingBookingId) return;
+
+    setIsSubmitting(true);
+    try {
+      const { error: updateError } = await supabase
+        .from('bookings')
+        .update({
+          junk_agreement_signature: agreementData.customer_signature,
+          junk_agreement_date: agreementData.agreed_date,
+          agreement_completed: true,
+        })
+        .eq('id', pendingBookingId);
+
+      if (updateError) {
+        throw new Error('Failed to save junk removal agreement');
+      }
+
+      setSubmitStatus('success');
+      setShowJunkAgreement(false);
+      setPendingBookingId(null);
+      setFormData({
+        customer_name: '',
+        customer_email: '',
+        customer_phone: '',
+        start_date: '',
+        end_date: '',
+        delivery_address: '',
+        delivery_required: false,
+        notes: '',
+      });
+    } catch (error) {
+      console.error('Error completing junk removal agreement:', error);
+      setErrorMessage('Failed to save agreement. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleJunkAgreementCancel = () => {
+    setShowJunkAgreement(false);
+    setPendingBookingId(null);
   };
 
   const handleStripeCheckout = async (bookingId: string, agreementData?: any) => {
@@ -405,6 +455,22 @@ export function BookingForm() {
         }}
         onComplete={handleAgreementComplete}
         onCancel={handleAgreementCancel}
+      />
+    );
+  }
+
+  if (showJunkAgreement && pendingBookingId) {
+    return (
+      <JunkRemovalAgreement
+        bookingData={{
+          customer_name: formData.customer_name,
+          customer_email: formData.customer_email,
+          customer_phone: formData.customer_phone,
+          start_date: formData.start_date,
+          delivery_address: formData.delivery_address,
+        }}
+        onComplete={handleJunkAgreementComplete}
+        onCancel={handleJunkAgreementCancel}
       />
     );
   }

@@ -330,7 +330,41 @@ export function JunkRemovalPricing() {
         <h3 className="text-2xl md:text-3xl font-bold text-slate-800 mb-8 text-center">
           Popular Packages
         </h3>
-        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {/* You Fill, We Dump */}
+          <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-xl overflow-hidden text-white">
+            <div className="p-8">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-3xl">💰</span>
+                <h4 className="text-2xl font-bold">You Fill, We Dump</h4>
+              </div>
+              <p className="text-blue-50 mb-6">Most Affordable</p>
+              <ul className="space-y-3 mb-6">
+                <li className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  <span>Trailer drop-off & pickup</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  <span>You load at your own pace</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  <span>Hauling & disposal included</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  <span>Rental agreement required</span>
+                </li>
+              </ul>
+              <div className="bg-white bg-opacity-20 rounded-lg p-4">
+                <p className="text-sm">Starting at</p>
+                <p className="text-4xl font-bold">$250</p>
+                <p className="text-xs mt-1">+ volume charges</p>
+              </div>
+            </div>
+          </div>
+
           {/* Cleanout Special */}
           <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-xl overflow-hidden text-white">
             <div className="p-8">
@@ -368,7 +402,7 @@ export function JunkRemovalPricing() {
           <div className="bg-gradient-to-br from-slate-700 to-slate-600 rounded-xl shadow-xl overflow-hidden text-white">
             <div className="p-8">
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-3xl">⭐</span>
+                <span className="text-3xl">⚡</span>
                 <h4 className="text-2xl font-bold">Landlord / Move-Out</h4>
               </div>
               <p className="text-slate-200 mb-6">Fast Turnaround</p>
@@ -385,58 +419,16 @@ export function JunkRemovalPricing() {
                   <Check className="h-5 w-5" />
                   <span>Ideal for rentals & evictions</span>
                 </li>
+                <li className="flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  <span>Priority scheduling</span>
+                </li>
               </ul>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <p className="text-lg font-semibold">Call for unit-based pricing</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* You Fill, We Dump Package */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8 mb-16">
-        <h3 className="text-2xl font-bold text-slate-800 mb-4 text-center">
-          You Fill, We Dump Package
-        </h3>
-        <p className="text-center text-gray-600 mb-6">
-          Perfect if you want to save money and don't mind loading yourself.
-        </p>
-
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-6">
-          <div className="bg-white rounded-lg p-6">
-            <div className="text-3xl mb-2">1️⃣</div>
-            <h4 className="font-semibold text-slate-800 mb-2">We Drop Off</h4>
-            <p className="text-sm text-gray-600">We bring the trailer to your location</p>
-          </div>
-          <div className="bg-white rounded-lg p-6">
-            <div className="text-3xl mb-2">2️⃣</div>
-            <h4 className="font-semibold text-slate-800 mb-2">You Fill It</h4>
-            <p className="text-sm text-gray-600">Load at your own pace</p>
-          </div>
-          <div className="bg-white rounded-lg p-6">
-            <div className="text-3xl mb-2">3️⃣</div>
-            <h4 className="font-semibold text-slate-800 mb-2">We Handle Dumping</h4>
-            <p className="text-sm text-gray-600">We pick up and dispose of everything</p>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-lg p-6 max-w-2xl mx-auto">
-          <h4 className="font-semibold text-slate-800 mb-3">Includes:</h4>
-          <ul className="space-y-2 mb-4">
-            <li className="flex items-center gap-2 text-gray-700">
-              <Check className="h-5 w-5 text-green-600" />
-              <span>Trailer drop-off & pickup</span>
-            </li>
-            <li className="flex items-center gap-2 text-gray-700">
-              <Check className="h-5 w-5 text-green-600" />
-              <span>Hauling & disposal of standard household junk</span>
-            </li>
-          </ul>
-          <p className="text-2xl font-bold text-green-600 mb-2">Starting at $250 + volume</p>
-          <p className="text-sm text-gray-600 italic">
-            Heavy or restricted materials require a custom quote.
-          </p>
         </div>
       </div>
 

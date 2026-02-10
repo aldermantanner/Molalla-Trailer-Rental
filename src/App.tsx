@@ -14,6 +14,8 @@ const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ defaul
 const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage').then(m => ({ default: m.AvailabilityPage })));
 const SpecificationsPage = lazy(() => import('./pages/SpecificationsPage').then(m => ({ default: m.SpecificationsPage })));
 const JunkRemovalPricingPage = lazy(() => import('./pages/JunkRemovalPricingPage').then(m => ({ default: m.JunkRemovalPricingPage })));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
+const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage').then(m => ({ default: m.TermsAndConditionsPage })));
 
 function LoadingFallback() {
   return (
@@ -62,6 +64,8 @@ function App() {
               <Route path="/junk-removal-pricing" element={<Layout><JunkRemovalPricingPage /></Layout>} />
               <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
               <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
+              <Route path="/privacypolicy" element={<Layout><PrivacyPolicyPage /></Layout>} />
+              <Route path="/termsandconditions" element={<Layout><TermsAndConditionsPage /></Layout>} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>

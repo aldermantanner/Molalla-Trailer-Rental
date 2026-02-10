@@ -234,6 +234,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </a>
           </div>
 
+          <div className="flex items-center justify-center gap-4 mb-4 text-sm">
+            <Link
+              to="/privacypolicy"
+              onClick={() => window.scrollTo(0, 0)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <span className="text-gray-600">|</span>
+            <Link
+              to="/termsandconditions"
+              onClick={() => window.scrollTo(0, 0)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              Terms & Conditions
+            </Link>
+          </div>
           <p>&copy; 2025 Molalla Trailer Rentals. All rights reserved.</p>
         </div>
       </footer>

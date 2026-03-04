@@ -434,6 +434,30 @@ export function BookingForm() {
       const qboInvoice = hasJunkPhotos ? null : await createQuickBooksInvoice(bookingId, bookingData);
       if (qboInvoice && qboInvoice.ok) {
         setInvoiceData(qboInvoice);
+
+        try {
+          const emailUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-status-notification`;
+          await fetch(emailUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              customerEmail: formData.customer_email,
+              customerName: formData.customer_name,
+              bookingId: bookingId,
+              status: 'pending',
+              serviceType: serviceType,
+              startDate: formData.start_date,
+              endDate: formData.end_date,
+              totalPrice: totalPrice,
+              paymentUrl: qboInvoice.links.payNowUrl,
+            }),
+          });
+        } catch (emailError) {
+          console.error('Error sending customer notification:', emailError);
+        }
       }
 
       if (serviceType === 'junk_removal') {

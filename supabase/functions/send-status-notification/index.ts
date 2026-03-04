@@ -12,14 +12,27 @@ interface NotificationRequest {
   customerPhone?: string;
   bookingId: string;
   status: string;
+  serviceType?: string;
   startDate: string;
   endDate?: string;
   totalPrice?: number;
   paymentUrl?: string;
+  rejectionReason?: string;
 }
 
-const getStatusMessage = (status: string, paymentUrl?: string): { subject: string; body: string } => {
+const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: string, rejectionReason?: string): { subject: string; body: string } => {
   switch (status) {
+    case 'pending':
+      if (paymentUrl) {
+        return {
+          subject: '🎉 Booking Confirmed - Payment Instructions Inside',
+          body: `Thank you for your ${serviceType === 'rental' ? 'trailer rental' : 'junk removal'} booking!\n\nYour booking has been received and your invoice is ready.\n\n💳 PAYMENT INSTRUCTIONS:\nPay securely online using the link below. We accept credit cards and bank transfers through QuickBooks.\n\n${paymentUrl ? 'Click the payment link at the bottom of this email to pay now.' : ''}\n\nWhat's Next:\n- Pay your invoice online (secure QuickBooks payment)\n- We'll contact you to coordinate ${serviceType === 'rental' ? 'pickup/delivery' : 'service'} details\n- Bring your driver's license ${serviceType === 'rental' ? 'when picking up' : 'on service day'}\n\nQuestions? Call us at 503-874-3705`
+        };
+      }
+      return {
+        subject: '📋 Booking Received - Molalla Trailer Rentals',
+        body: `Thank you for your booking! We've received your request and will contact you shortly to confirm details and arrange payment.\n\nQuestions? Call us at 503-874-3705`
+      };
     case 'confirmed':
       return {
         subject: '✅ Booking Confirmed - Molalla Trailer Rentals',
@@ -38,7 +51,7 @@ const getStatusMessage = (status: string, paymentUrl?: string): { subject: strin
     case 'cancelled':
       return {
         subject: '❌ Booking Cancelled',
-        body: `Your booking has been cancelled.\n\nIf this was unexpected or you have questions, please contact us:\n📞 503-874-3705\n📧 Reply to this email\n\nWe're here to help!`
+        body: `Your booking has been cancelled.${rejectionReason ? `\n\nReason: ${rejectionReason}` : ''}\n\nIf this was unexpected or you have questions, please contact us:\n📞 503-874-3705\n📧 Reply to this email\n\nWe're here to help!`
       };
     default:
       return {
@@ -63,17 +76,19 @@ Deno.serve(async (req: Request) => {
       customerPhone,
       bookingId,
       status,
+      serviceType,
       startDate,
       endDate,
       totalPrice,
       paymentUrl,
+      rejectionReason,
     }: NotificationRequest = await req.json();
 
     if (!customerEmail || !customerName || !status) {
       throw new Error('Missing required fields');
     }
 
-    const { subject, body } = getStatusMessage(status, paymentUrl);
+    const { subject, body } = getStatusMessage(status, serviceType, paymentUrl, rejectionReason);
 
     const emailBody = `
 Hello ${customerName},

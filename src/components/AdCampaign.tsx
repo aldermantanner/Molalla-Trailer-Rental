@@ -32,11 +32,11 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
               Book Now - Get 10% Off
             </button>
             <a
-              href="tel:971-459-0077"
+              href="tel:503-874-3705"
               className="bg-slate-800 text-white px-10 py-5 rounded-xl text-xl font-bold hover:bg-slate-700 transition-all transform hover:scale-105 shadow-2xl flex items-center justify-center gap-3"
             >
               <Phone className="h-6 w-6" />
-              Call: 971-459-0077
+              Call: 503-874-3705
             </a>
           </div>
           <p className="text-gray-600 text-lg">
@@ -130,7 +130,7 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
                 We load it, we haul it, we dispose of it. You relax.
               </p>
               <div className="text-3xl font-extrabold text-green-600 mb-2">Call for Quote</div>
-              <p className="text-gray-500">971-459-0077</p>
+              <p className="text-gray-500">503-874-3705</p>
               {selectedService === 'junk' && (
                 <div className="mt-6 space-y-3">
                   <div className="flex items-center gap-2">
@@ -194,11 +194,11 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
               Book Now & Save 10%
             </button>
             <a
-              href="tel:971-459-0077"
+              href="tel:503-874-3705"
               className="bg-white text-slate-800 border-4 border-slate-800 px-12 py-6 rounded-xl text-2xl font-bold hover:bg-slate-50 transition-all transform hover:scale-105 shadow-2xl flex items-center justify-center gap-3"
             >
               <Phone className="h-7 w-7" />
-              Call: 971-459-0077
+              Call: 503-874-3705
             </a>
           </div>
           <p className="mt-6 text-gray-600 text-lg">

@@ -1,7 +1,7 @@
 import { Search, X } from 'lucide-react';
 import { Booking } from '../lib/supabase';
 
-type FilterType = 'all' | 'pending' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
+type FilterType = 'all' | 'pending' | 'awaiting_approval' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
 
 interface BookingFiltersProps {
   filter: FilterType;
@@ -24,31 +24,31 @@ export function BookingFilters({
 
   return (
     <div>
-      <div className="mb-4">
+      <div className="mb-3 sm:mb-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search by name, email, phone, booking ID, or license number..."
+            placeholder="Search by name, email, phone..."
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg"
+            className="w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
           />
           {searchQuery && (
             <button
               onClick={() => onSearchChange('')}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </button>
           )}
         </div>
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 sm:gap-2 flex-wrap">
         <button
           onClick={() => onFilterChange('all')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'all'
               ? 'bg-slate-800 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -58,63 +58,80 @@ export function BookingFilters({
         </button>
         <button
           onClick={() => onFilterChange('pending')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'pending'
               ? 'bg-yellow-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          Pending ({getCount('pending')})
+          <span className="hidden sm:inline">Pending</span>
+          <span className="sm:hidden">Pend</span> ({getCount('pending')})
+        </button>
+        <button
+          onClick={() => onFilterChange('awaiting_approval')}
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
+            filter === 'awaiting_approval'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+          }`}
+        >
+          <span className="hidden sm:inline">Awaiting Approval</span>
+          <span className="sm:hidden">Review</span> ({getCount('awaiting_approval')})
         </button>
         <button
           onClick={() => onFilterChange('confirmed')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'confirmed'
               ? 'bg-green-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          Confirmed ({getCount('confirmed')})
+          <span className="hidden sm:inline">Confirmed</span>
+          <span className="sm:hidden">Conf</span> ({getCount('confirmed')})
         </button>
         <button
           onClick={() => onFilterChange('active')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'active'
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          Active Rentals ({getCount('active')})
+          <span className="hidden sm:inline">Active Rentals</span>
+          <span className="sm:hidden">Active</span> ({getCount('active')})
         </button>
         <button
           onClick={() => onFilterChange('overdue')}
-          className={`px-4 py-2 rounded-lg font-bold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-bold transition-colors text-xs sm:text-sm ${
             filter === 'overdue'
               ? 'bg-red-600 text-white animate-pulse'
               : 'bg-red-100 text-red-800 hover:bg-red-200 border-2 border-red-400'
           }`}
         >
-          OVERDUE ({getCount('overdue')})
+          <span className="hidden sm:inline">OVERDUE</span>
+          <span className="sm:hidden">LATE</span> ({getCount('overdue')})
         </button>
         <button
           onClick={() => onFilterChange('completed')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'completed'
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          Completed ({getCount('completed')})
+          <span className="hidden sm:inline">Completed</span>
+          <span className="sm:hidden">Done</span> ({getCount('completed')})
         </button>
         <button
           onClick={() => onFilterChange('cancelled')}
-          className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+          className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold transition-colors text-xs sm:text-sm ${
             filter === 'cancelled'
               ? 'bg-gray-600 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          Cancelled ({getCount('cancelled')})
+          <span className="hidden sm:inline">Cancelled</span>
+          <span className="sm:hidden">Cancel</span> ({getCount('cancelled')})
         </button>
       </div>
     </div>

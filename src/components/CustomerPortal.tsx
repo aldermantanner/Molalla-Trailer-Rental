@@ -17,8 +17,6 @@ interface Booking {
   created_at: string;
   trailer_type: string;
   payment_status: string;
-  stripe_payment_intent: string;
-  refund_amount: number;
 }
 
 export function CustomerPortal() {
@@ -208,36 +206,19 @@ export function CustomerPortal() {
     setRefundSuccess(null);
 
     try {
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/process-refund`;
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          'X-Session-Token': sessionToken || '',
-        },
-        body: JSON.stringify({ bookingId: confirmDialog.bookingId, sessionToken }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to process refund');
-      }
-
       showToast(
-        `Refund processed successfully! $${data.refundAmount.toFixed(2)} will be returned to your card within 5-10 business days.`,
+        'Your cancellation request has been received. We will contact you shortly to process your cancellation and any applicable refunds.',
         'success'
       );
 
       const updatedBookings = bookings.map((b) =>
         b.id === confirmDialog.bookingId
-          ? { ...b, status: 'cancelled', payment_status: 'refunded', refund_amount: data.refundAmount }
+          ? { ...b, status: 'cancelled' }
           : b
       );
       setBookings(updatedBookings);
     } catch (err: any) {
-      showToast(err.message || 'Failed to process refund. Please contact us directly.', 'error');
+      showToast(err.message || 'Failed to process cancellation. Please contact us directly at 503-874-3705.', 'error');
     } finally {
       setRefundingBookingId(null);
     }
@@ -290,24 +271,24 @@ export function CustomerPortal() {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+    <section className="py-8 sm:py-12 lg:py-20 px-3 sm:px-6 lg:px-8 bg-gray-50 min-h-screen">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center mb-4">
-            <Shield className="h-10 w-10 text-green-600 mr-3" />
-            <h2 className="text-4xl font-bold text-slate-800">Customer Portal</h2>
+        <div className="text-center mb-6 sm:mb-8 lg:mb-12">
+          <div className="flex items-center justify-center mb-3 sm:mb-4">
+            <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-green-600 mr-2 sm:mr-3" />
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-800">Customer Portal</h2>
           </div>
-          <p className="text-xl text-gray-600">Secure access to your bookings via email verification</p>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-600 px-4">Secure access to your bookings via email verification</p>
         </div>
 
         {step === 'email' && (
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-            <form onSubmit={requestVerificationCode} className="space-y-6">
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <form onSubmit={requestVerificationCode} className="space-y-4 sm:space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
                 </label>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-xs sm:text-sm text-gray-600 mb-3">
                   Enter the email address you used when making your booking. We'll send you a verification
                   code.
                 </p>
@@ -316,14 +297,14 @@ export function CustomerPortal() {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base"
                   placeholder="your@email.com"
                   required
                 />
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base">
                   {error}
                 </div>
               )}
@@ -331,17 +312,17 @@ export function CustomerPortal() {
               <button
                 type="submit"
                 disabled={sendingCode}
-                className="w-full bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-green-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 {sendingCode ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                    Sending Code...
+                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
+                    <span>Sending Code...</span>
                   </>
                 ) : (
                   <>
-                    <Shield className="h-5 w-5" />
-                    Send Verification Code
+                    <Shield className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span>Send Verification Code</span>
                   </>
                 )}
               </button>
@@ -350,15 +331,15 @@ export function CustomerPortal() {
         )}
 
         {step === 'verify' && (
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
-            <form onSubmit={verifyCode} className="space-y-6">
+          <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <form onSubmit={verifyCode} className="space-y-4 sm:space-y-6">
               <div>
                 <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-2">
                   Verification Code
                 </label>
-                <p className="text-sm text-gray-600 mb-3">Enter the 6-digit code we sent to {email}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-3">Enter the 6-digit code we sent to {email}</p>
                 {devCode && (
-                  <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg mb-3">
+                  <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg mb-3 text-xs sm:text-sm">
                     <strong>Development Mode:</strong> Your code is <strong>{devCode}</strong>
                   </div>
                 )}
@@ -367,7 +348,7 @@ export function CustomerPortal() {
                   id="code"
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-center text-2xl tracking-widest"
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-center text-xl sm:text-2xl tracking-widest"
                   placeholder="000000"
                   maxLength={6}
                   required
@@ -375,12 +356,12 @@ export function CustomerPortal() {
               </div>
 
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg text-sm sm:text-base">
                   {error}
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={() => {
@@ -389,23 +370,23 @@ export function CustomerPortal() {
                     setError('');
                     setDevCode(null);
                   }}
-                  className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                  className="w-full sm:flex-1 bg-gray-200 text-gray-800 py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors text-sm sm:text-base"
                 >
                   Back
                 </button>
                 <button
                   type="submit"
                   disabled={loading || verificationCode.length !== 6}
-                  className="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  className="w-full sm:flex-1 bg-green-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   {loading ? (
                     <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                      Verifying...
+                      <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
+                      <span>Verifying...</span>
                     </>
                   ) : (
                     <>
-                      <CheckCircle className="h-5 w-5" />
+                      <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                       Verify & View Bookings
                     </>
                   )}
@@ -416,13 +397,13 @@ export function CustomerPortal() {
         )}
 
         {step === 'bookings' && (
-          <div className="mb-6 flex justify-between items-center">
-            <div className="text-sm text-gray-600">
+          <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+            <div className="text-xs sm:text-sm text-gray-600 break-all">
               Viewing bookings for <strong>{email}</strong>
             </div>
             <button
               onClick={logout}
-              className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+              className="w-full sm:w-auto px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-semibold text-sm sm:text-base"
             >
               Logout
             </button>
@@ -430,16 +411,16 @@ export function CustomerPortal() {
         )}
 
         {refundSuccess && (
-          <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
+          <div className="bg-green-50 border border-green-200 text-green-700 px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
             {refundSuccess}
           </div>
         )}
 
         {step === 'bookings' && searched && bookings.length === 0 && !loading && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-8 text-center">
-            <AlertCircle className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-yellow-800 mb-2">No Bookings Found</h3>
-            <p className="text-yellow-700">
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 sm:p-8 text-center">
+            <AlertCircle className="h-10 w-10 sm:h-12 sm:w-12 text-yellow-600 mx-auto mb-4" />
+            <h3 className="text-lg sm:text-xl font-semibold text-yellow-800 mb-2">No Bookings Found</h3>
+            <p className="text-sm sm:text-base text-yellow-700">
               We couldn't find any bookings with the provided email address. Please check your email and try
               again.
             </p>
@@ -447,20 +428,20 @@ export function CustomerPortal() {
         )}
 
         {bookings.length > 0 && (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-slate-800">Your Bookings</h3>
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-800">Your Bookings</h3>
             {bookings.map((booking) => (
               <div key={booking.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h4 className="text-xl font-semibold text-slate-800 mb-1">
+                <div className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-slate-800 mb-1 break-words">
                         {booking.service_type === 'rental' ? 'Dump Trailer Rental' : 'Junk Removal Service'}
                       </h4>
-                      <p className="text-gray-600">Booking ID: {booking.id.slice(0, 8)}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 break-all">Booking ID: {booking.id.slice(0, 8)}</p>
                     </div>
                     <div
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold ${getStatusColor(
+                      className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-semibold text-xs sm:text-sm whitespace-nowrap self-start ${getStatusColor(
                         booking.status
                       )}`}
                     >
@@ -469,55 +450,55 @@ export function CustomerPortal() {
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div className="flex items-start gap-3">
-                      <Calendar className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">Rental Period</p>
-                        <p className="text-gray-900">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Rental Period</p>
+                        <p className="text-sm sm:text-base text-gray-900 break-words">
                           {formatDate(booking.start_date)}
                           {booking.end_date && ` - ${formatDate(booking.end_date)}`}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3">
-                      <DollarSign className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-gray-700">Total Price</p>
-                        <p className="text-gray-900 font-semibold">
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Total Price</p>
+                        <p className="text-sm sm:text-base text-gray-900 font-semibold">
                           ${Number(booking.total_price).toFixed(2)}
                         </p>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-3">
-                      <MapPin className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                      <div>
-                        <p className="text-sm font-medium text-gray-700">Location</p>
-                        <p className="text-gray-900">{booking.delivery_address}</p>
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <MapPin className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
+                      <div className="min-w-0">
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Location</p>
+                        <p className="text-sm sm:text-base text-gray-900 break-words">{booking.delivery_address}</p>
                       </div>
                     </div>
 
                     {booking.trailer_type && (
-                      <div className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Trailer Type</p>
-                          <p className="text-gray-900">{booking.trailer_type}</p>
+                      <div className="flex items-start gap-2 sm:gap-3">
+                        <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
+                        <div className="min-w-0">
+                          <p className="text-xs sm:text-sm font-medium text-gray-700">Trailer Type</p>
+                          <p className="text-sm sm:text-base text-gray-900 break-words">{booking.trailer_type}</p>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm text-gray-600">Booked on {formatDate(booking.created_at)}</p>
+                  <div className="pt-3 sm:pt-4 border-t border-gray-200">
+                    <p className="text-xs sm:text-sm text-gray-600">Booked on {formatDate(booking.created_at)}</p>
                   </div>
                 </div>
 
                 {booking.status === 'confirmed' && (
-                  <div className="bg-green-50 px-6 py-4 border-t border-green-100">
-                    <p className="text-green-800 font-medium">
+                  <div className="bg-green-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-green-100">
+                    <p className="text-sm sm:text-base text-green-800 font-medium">
                       Your booking is confirmed! We'll contact you at {booking.customer_phone} with delivery
                       details.
                     </p>
@@ -525,39 +506,32 @@ export function CustomerPortal() {
                 )}
 
                 {booking.status === 'pending' && (
-                  <div className="bg-yellow-50 px-6 py-4 border-t border-yellow-100">
-                    <p className="text-yellow-800 font-medium">
+                  <div className="bg-yellow-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-yellow-100">
+                    <p className="text-sm sm:text-base text-yellow-800 font-medium">
                       Your booking is pending confirmation. We'll contact you shortly at{' '}
                       {booking.customer_phone}.
                     </p>
                   </div>
                 )}
 
-                {booking.status === 'cancelled' && booking.refund_amount && (
-                  <div className="bg-gray-50 px-6 py-4 border-t border-gray-100">
-                    <p className="text-gray-800 font-medium">
-                      Cancelled - ${booking.refund_amount.toFixed(2)} refunded to your card
-                    </p>
-                  </div>
-                )}
 
                 {(booking.status === 'confirmed' || booking.status === 'pending') &&
                   booking.payment_status === 'paid' && (
-                    <div className="bg-white px-6 py-4 border-t border-gray-200">
+                    <div className="bg-white px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
                       <button
                         onClick={() => setConfirmDialog({ isOpen: true, bookingId: booking.id })}
                         disabled={refundingBookingId === booking.id}
-                        className="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full bg-red-600 text-white py-2.5 sm:py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm sm:text-base"
                       >
                         {refundingBookingId === booking.id ? (
                           <>
-                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                            Processing...
+                            <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-white"></div>
+                            <span>Processing...</span>
                           </>
                         ) : (
                           <>
-                            <XCircle className="h-5 w-5" />
-                            Cancel Booking & Request Refund
+                            <XCircle className="h-4 w-4 sm:h-5 sm:w-5" />
+                            <span>Cancel Booking & Request Refund</span>
                           </>
                         )}
                       </button>
@@ -579,8 +553,8 @@ export function CustomerPortal() {
           <div className="space-y-2 text-blue-900">
             <p>
               <strong>Phone:</strong>{' '}
-              <a href="tel:971-459-0077" className="underline hover:text-blue-700">
-                971-459-0077
+              <a href="tel:503-874-3705" className="underline hover:text-blue-700">
+                503-874-3705
               </a>
             </p>
             <p>

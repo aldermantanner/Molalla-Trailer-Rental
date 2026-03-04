@@ -38,16 +38,38 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="hidden lg:flex items-center gap-6 flex-1 justify-center">
-              <a href="/#services" className="text-gray-200 hover:text-green-400 transition-colors font-medium">Services</a>
-              <a href="/#reviews" className="text-gray-200 hover:text-green-400 transition-colors font-medium">Reviews</a>
+              <a
+                href="/#services"
+                onClick={(e) => {
+                  if (location.pathname !== '/') return;
+                  e.preventDefault();
+                  const el = document.getElementById('services');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="text-gray-200 hover:text-green-400 transition-colors font-medium"
+              >
+                Services
+              </a>
+              <a
+                href="/#reviews"
+                onClick={(e) => {
+                  if (location.pathname !== '/') return;
+                  e.preventDefault();
+                  const el = document.getElementById('reviews');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="text-gray-200 hover:text-green-400 transition-colors font-medium"
+              >
+                Reviews
+              </a>
               <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className="text-gray-200 hover:text-green-400 transition-colors font-medium">Pricing</Link>
               <Link to="/mybookings" onClick={() => window.scrollTo(0, 0)} className="text-gray-200 hover:text-green-400 transition-colors font-medium">My Bookings</Link>
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
-              <a href="tel:971-459-0077" className="text-white hover:text-green-400 transition-colors font-semibold flex items-center gap-2">
+              <a href="tel:503-874-3705" className="text-white hover:text-green-400 transition-colors font-semibold flex items-center gap-2">
                 <Phone className="h-5 w-5" />
-                <span className="whitespace-nowrap">971-459-0077</span>
+                <span className="whitespace-nowrap">503-874-3705</span>
               </a>
 
               <Link
@@ -83,23 +105,28 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     >
                       Trailer Specifications
                     </Link>
-                    <Link
-                      to="/junk-removal-pricing"
-                      onClick={() => { setResourcesOpen(false); window.scrollTo(0, 0); }}
-                      className="block px-4 py-3 text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors font-medium"
-                    >
-                      Junk Removal Pricing
-                    </Link>
                     <a
                       href="/#faq"
-                      onClick={() => setResourcesOpen(false)}
+                      onClick={(e) => {
+                        setResourcesOpen(false);
+                        if (location.pathname !== '/') return;
+                        e.preventDefault();
+                        const el = document.getElementById('faq');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
                       className="block px-4 py-3 text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors font-medium"
                     >
                       FAQ
                     </a>
                     <a
                       href="/#contact"
-                      onClick={() => setResourcesOpen(false)}
+                      onClick={(e) => {
+                        setResourcesOpen(false);
+                        if (location.pathname !== '/') return;
+                        e.preventDefault();
+                        const el = document.getElementById('contact');
+                        el?.scrollIntoView({ behavior: 'smooth' });
+                      }}
                       className="block px-4 py-3 text-slate-700 hover:bg-green-50 hover:text-green-600 transition-colors font-medium"
                     >
                       Contact
@@ -129,8 +156,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Lock className="h-4 w-4" />
                   Admin Portal
                 </Link>
-                <a href="/#services" onClick={() => setMobileMenuOpen(false)} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">Services</a>
-                <a href="/#reviews" onClick={() => setMobileMenuOpen(false)} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">Reviews</a>
+                <a
+                  href="/#services"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (location.pathname !== '/') return;
+                    e.preventDefault();
+                    const el = document.getElementById('services');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg"
+                >
+                  Services
+                </a>
+                <a
+                  href="/#reviews"
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+                    if (location.pathname !== '/') return;
+                    e.preventDefault();
+                    const el = document.getElementById('reviews');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg"
+                >
+                  Reviews
+                </a>
                 <Link to="/pricing" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">Pricing</Link>
                 <Link to="/mybookings" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">My Bookings</Link>
 
@@ -142,9 +193,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   >
                     Book Now
                   </Link>
-                  <a href="tel:971-459-0077" className="bg-slate-700 text-white px-6 py-4 rounded-lg hover:bg-slate-600 transition-colors font-bold text-center text-lg shadow-lg flex items-center justify-center gap-2">
+                  <a href="tel:503-874-3705" className="bg-slate-700 text-white px-6 py-4 rounded-lg hover:bg-slate-600 transition-colors font-bold text-center text-lg shadow-lg flex items-center justify-center gap-2">
                     <Phone className="h-5 w-5" />
-                    971-459-0077
+                    503-874-3705
                   </a>
                 </div>
               </div>
@@ -167,7 +218,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Phone className="h-6 w-6 mt-1 flex-shrink-0 text-green-400" />
                 <div>
                   <h3 className="font-semibold text-lg mb-2">Call or Text</h3>
-                  <a href="tel:971-459-0077" className="hover:text-green-400 transition-colors text-xl font-semibold">971-459-0077</a>
+                  <a href="tel:503-874-3705" className="hover:text-green-400 transition-colors text-xl font-semibold">503-874-3705</a>
                 </div>
               </div>
               <div className="flex items-start space-x-4">
@@ -187,7 +238,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="mt-12 pt-8 border-t border-slate-600">
               <p className="text-lg font-semibold mb-4">Clackamas County & Surrounding Areas</p>
-              <p className="text-2xl font-bold text-green-400 mb-2">Call or Text: 971-459-0077</p>
+              <p className="text-2xl font-bold text-green-400 mb-2">Call or Text: 503-874-3705</p>
               <p className="opacity-90">Dump trailer rentals starting at $120/day with delivery available</p>
             </div>
           </div>

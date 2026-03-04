@@ -1,9 +1,19 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { ToastProvider } from './components/Toast';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 const BookingPage = lazy(() => import('./pages/BookingPage').then(m => ({ default: m.BookingPage })));
 const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m.AdminPage })));
@@ -13,7 +23,6 @@ const AdCampaignPage = lazy(() => import('./pages/AdCampaignPage').then(m => ({ 
 const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
 const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage').then(m => ({ default: m.AvailabilityPage })));
 const SpecificationsPage = lazy(() => import('./pages/SpecificationsPage').then(m => ({ default: m.SpecificationsPage })));
-const JunkRemovalPricingPage = lazy(() => import('./pages/JunkRemovalPricingPage').then(m => ({ default: m.JunkRemovalPricingPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage').then(m => ({ default: m.TermsAndConditionsPage })));
 
@@ -52,6 +61,7 @@ function App() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ToastProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/ad" element={<AdCampaignPage />} />
@@ -61,7 +71,7 @@ function App() {
               <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
               <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
               <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
-              <Route path="/junk-removal-pricing" element={<Layout><JunkRemovalPricingPage /></Layout>} />
+              <Route path="/junk-removal-pricing" element={<Navigate to="/pricing" replace />} />
               <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
               <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
               <Route path="/privacypolicy" element={<Layout><PrivacyPolicyPage /></Layout>} />

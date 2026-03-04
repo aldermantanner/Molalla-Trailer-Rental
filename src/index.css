@@ -14,6 +14,15 @@
 
   body {
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  * {
+    min-width: 0;
+  }
+
+  input, textarea, select {
+    font-size: 16px;
   }
 
   img {
@@ -35,6 +44,21 @@
 .animate-slide-in {
   animation: slide-in 0.3s ease-out;
   will-change: transform, opacity;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
 }
 
 @layer utilities {

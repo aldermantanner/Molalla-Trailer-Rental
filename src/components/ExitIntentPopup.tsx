@@ -108,11 +108,11 @@ export function ExitIntentPopup({ onBookClick }: ExitIntentPopupProps) {
           </button>
 
           <a
-            href="tel:971-459-0077"
+            href="tel:503-874-3705"
             className="w-full bg-slate-700 text-white px-8 py-4 rounded-lg text-lg font-bold hover:bg-slate-600 transition-all shadow-lg flex items-center justify-center gap-2"
           >
             <Phone className="h-5 w-5" />
-            Call: 971-459-0077
+            Call: 503-874-3705
           </a>
 
           <button

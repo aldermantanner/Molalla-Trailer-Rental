@@ -8,7 +8,7 @@ import { PaymentLinkModal } from './PaymentLinkModal';
 import { ConfirmDialog } from './ConfirmDialog';
 import { useToast } from './Toast';
 
-type FilterType = 'all' | 'pending' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
+type FilterType = 'all' | 'pending' | 'awaiting_approval' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
 
 export function AdminBookings() {
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -103,6 +103,7 @@ export function AdminBookings() {
                 startDate: booking.start_date,
                 endDate: booking.end_date,
                 totalPrice: booking.total_price,
+                paymentUrl: booking.qbo_payment_url,
               }),
             });
           } catch (notifError) {
@@ -227,6 +228,99 @@ export function AdminBookings() {
     });
   };
 
+  const approveBooking = async (bookingId: string) => {
+    const booking = bookings.find((b) => b.id === bookingId);
+    if (!booking) return;
+
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Approve Junk Removal Booking',
+      message: `Approve booking for ${booking.customer_name}? A QuickBooks invoice will be created and emailed to the customer.`,
+      confirmText: 'Approve & Create Invoice',
+      confirmButtonClass: 'bg-green-600 hover:bg-green-700',
+      onConfirm: async () => {
+        try {
+          const { error: updateError } = await supabase
+            .from('bookings')
+            .update({ status: 'pending' })
+            .eq('id', bookingId);
+
+          if (updateError) throw updateError;
+
+          const qboUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/qbo-create-invoice`;
+          const response = await fetch(qboUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({ bookingId }),
+          });
+
+          if (response.ok) {
+            showToast('Booking approved and invoice created!', 'success');
+          } else {
+            showToast('Booking approved but invoice creation failed', 'error');
+          }
+
+          await fetchBookings();
+        } catch (error) {
+          console.error('Error approving booking:', error);
+          showToast('Failed to approve booking', 'error');
+        }
+      },
+    });
+  };
+
+  const rejectBooking = async (bookingId: string, notes: string) => {
+    const booking = bookings.find((b) => b.id === bookingId);
+    if (!booking) return;
+
+    setConfirmDialog({
+      isOpen: true,
+      title: 'Reject Junk Removal Booking',
+      message: `Reject booking for ${booking.customer_name}? The customer will be notified via email.`,
+      confirmText: 'Reject Booking',
+      confirmButtonClass: 'bg-red-600 hover:bg-red-700',
+      onConfirm: async () => {
+        try {
+          const { error } = await supabase
+            .from('bookings')
+            .update({
+              status: 'cancelled',
+              approval_notes: notes,
+            })
+            .eq('id', bookingId);
+
+          if (error) throw error;
+
+          const emailUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-status-notification`;
+          await fetch(emailUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({
+              customerEmail: booking.customer_email,
+              customerName: booking.customer_name,
+              bookingId: booking.id,
+              status: 'cancelled',
+              startDate: booking.start_date,
+              rejectionReason: notes,
+            }),
+          });
+
+          showToast('Booking rejected and customer notified', 'success');
+          await fetchBookings();
+        } catch (error) {
+          console.error('Error rejecting booking:', error);
+          showToast('Failed to reject booking', 'error');
+        }
+      },
+    });
+  };
+
   const filteredBookings = bookings
     .filter((b) => filter === 'all' || b.status === filter)
     .filter((b) => {
@@ -251,16 +345,16 @@ export function AdminBookings() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-3xl font-bold text-slate-800">Manage Bookings</h2>
+    <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-8">
+      <div className="mb-6 sm:mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4 mb-4">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-800">Manage Bookings</h2>
           <button
             onClick={() => setShowDirectBooking(true)}
-            className="bg-green-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-lg flex items-center gap-2"
+            className="bg-green-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-bold hover:bg-green-700 transition-colors shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base w-full sm:w-auto"
           >
-            <Plus className="h-5 w-5" />
-            Create Direct Booking
+            <Plus className="h-4 w-4 sm:h-5 sm:w-5" />
+            <span className="whitespace-nowrap">Create Direct Booking</span>
           </button>
         </div>
 
@@ -289,6 +383,8 @@ export function AdminBookings() {
               onMarkAsPaidCard={markAsPaidCard}
               onRefundDeposit={refundDeposit}
               refundingDepositId={refundingDepositId}
+              onApprove={approveBooking}
+              onReject={rejectBooking}
             />
           ))}
         </div>

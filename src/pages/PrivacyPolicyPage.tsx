@@ -65,7 +65,7 @@ export function PrivacyPolicyPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Payment and billing information (processed securely through Stripe)</span>
+                <span>Payment and billing information</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -113,7 +113,7 @@ export function PrivacyPolicyPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Process payments securely through our third-party payment processor (Stripe)</span>
+                <span>Process payments securely</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -140,7 +140,7 @@ export function PrivacyPolicyPage() {
             <ul className="space-y-3 text-gray-600">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span><strong className="text-slate-700">Service Providers:</strong> We share information with trusted third-party service providers who assist in operating our business, such as payment processors (Stripe), email services, and hosting providers (Supabase).</span>
+                <span><strong className="text-slate-700">Service Providers:</strong> We share information with trusted third-party service providers who assist in operating our business, such as payment processors, email services, and hosting providers.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -171,7 +171,7 @@ export function PrivacyPolicyPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>PCI-compliant payment processing through Stripe (we never store your credit card details)</span>
+                <span>Secure payment processing (we never store your credit card details)</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -274,7 +274,7 @@ export function PrivacyPolicyPage() {
               <div>
                 <p className="text-gray-600 mb-1">
                   <strong className="text-slate-700">Phone:</strong>{' '}
-                  <a href="tel:971-459-0077" className="text-green-600 hover:text-green-700 transition-colors">971-459-0077</a>
+                  <a href="tel:503-874-3705" className="text-green-600 hover:text-green-700 transition-colors">503-874-3705</a>
                 </p>
                 <p className="text-gray-600">
                   <strong className="text-slate-700">Email:</strong>{' '}

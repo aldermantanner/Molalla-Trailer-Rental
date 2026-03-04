@@ -134,10 +134,10 @@ export function LocalSEOContent() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:971-459-0077"
+                href="tel:503-874-3705"
                 className="inline-block bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
               >
-                Call: 971-459-0077
+                Call: 503-874-3705
               </a>
               <a
                 href="/booking"

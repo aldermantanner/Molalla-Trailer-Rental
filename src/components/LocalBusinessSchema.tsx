@@ -9,7 +9,7 @@ export function LocalBusinessSchema() {
       "image": "https://rentmolallatrailers.com/logo Offical.JPG",
       "@id": "https://rentmolallatrailers.com",
       "url": "https://rentmolallatrailers.com",
-      "telephone": "+19714590077",
+      "telephone": "+15038743705",
       "email": "Molallatrailerrental@outlook.com",
       "priceRange": "$$",
       "address": {
@@ -45,7 +45,7 @@ export function LocalBusinessSchema() {
       ],
       "contactPoint": {
         "@type": "ContactPoint",
-        "telephone": "+19714590077",
+        "telephone": "+15038743705",
         "contactType": "customer service",
         "areaServed": "US",
         "availableLanguage": "English"

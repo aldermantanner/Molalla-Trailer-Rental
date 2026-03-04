@@ -33,11 +33,11 @@ export function JunkRemovalPricingPage() {
                 </p>
               </div>
               <a
-                href="tel:971-459-0077"
+                href="tel:503-874-3705"
                 className="hidden md:flex items-center gap-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
               >
                 <Phone className="h-5 w-5" />
-                Call: 971-459-0077
+                Call: 503-874-3705
               </a>
             </div>
           </div>
@@ -55,10 +55,10 @@ export function JunkRemovalPricingPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:971-459-0077"
+                href="tel:503-874-3705"
                 className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
               >
-                Call for Quote: 971-459-0077
+                Call for Quote: 503-874-3705
               </a>
               <Link
                 to="/booking"

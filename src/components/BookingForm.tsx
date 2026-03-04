@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle, Shield, Camera, Info } from 'lucide-react';
+import { Calendar, Truck, MapPin, Phone, Mail, User, MessageSquare, CheckCircle, Shield, Camera, Info, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import RentalAgreement from './RentalAgreement';
 import JunkRemovalAgreement from './JunkRemovalAgreement';
 import { FileUpload } from './FileUpload';
 import { PaymentTrust } from './PaymentTrust';
 import { Link } from 'react-router-dom';
+import InvoiceDisplay from './InvoiceDisplay';
+import type { QBOInvoiceResponse } from '../types/quickbooks';
 
 type ServiceType = 'rental' | 'junk_removal';
 type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
@@ -47,6 +49,8 @@ export function BookingForm() {
   const [driversLicenseFile, setDriversLicenseFile] = useState<File | null>(null);
   const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
   const [uploadingFiles, setUploadingFiles] = useState(false);
+  const [invoiceData, setInvoiceData] = useState<QBOInvoiceResponse | null>(null);
+  const [awaitingApproval, setAwaitingApproval] = useState(false);
 
   const [junkServiceLevel, setJunkServiceLevel] = useState<JunkServiceLevel>('full_service');
   const [junkVolume, setJunkVolume] = useState<JunkVolume>('3-4');
@@ -159,6 +163,144 @@ export function BookingForm() {
     return publicUrl;
   };
 
+  const uploadJunkPhotos = async (bookingId: string): Promise<string[]> => {
+    const photoUrls: string[] = [];
+
+    for (let i = 0; i < junkPhotos.length; i++) {
+      const file = junkPhotos[i];
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${bookingId}_photo_${i + 1}_${Date.now()}.${fileExt}`;
+      const filePath = `${bookingId}/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('junk-removal-photos')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (uploadError) {
+        console.error('Error uploading junk photo:', uploadError);
+        continue;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('junk-removal-photos')
+        .getPublicUrl(filePath);
+
+      photoUrls.push(publicUrl);
+    }
+
+    return photoUrls;
+  };
+
+  const createQuickBooksInvoice = async (bookingId: string, bookingData: any) => {
+    try {
+      const addressParts = formData.delivery_address.split(',').map(s => s.trim());
+      const city = addressParts.length >= 2 ? addressParts[addressParts.length - 2].trim() : 'Molalla';
+      const stateZip = addressParts.length >= 1 ? addressParts[addressParts.length - 1].trim() : 'OR 97038';
+      const stateParts = stateZip.split(' ');
+      const state = stateParts[0] || 'OR';
+      const postalCode = stateParts[1] || '97038';
+      const street = addressParts.length >= 3 ? addressParts.slice(0, -2).join(', ') : formData.delivery_address;
+
+      const deliveryFee = calculateDeliveryFee();
+      const deposit = calculateDeposit();
+
+      let qboServiceType: 'trailer_rental' | 'junk_removal' | 'both';
+      let junkDescription = '';
+
+      if (serviceType === 'rental') {
+        qboServiceType = 'trailer_rental';
+      } else if (serviceType === 'junk_removal') {
+        qboServiceType = 'junk_removal';
+        const estimate = calculateJunkRemovalEstimate();
+        const serviceLevelNames = {
+          you_fill: 'You Fill, We Dump',
+          full_service: 'Full-Service Junk Removal',
+          cleanout_special: 'Cleanout Special'
+        };
+        junkDescription = `Service Level: ${serviceLevelNames[junkServiceLevel]}, Volume: ${junkVolume} yards`;
+        if (junkMaterialType) junkDescription += `, Material: ${junkMaterialType}`;
+      } else {
+        qboServiceType = 'both';
+      }
+
+      const qboPayload = {
+        customer_name: formData.customer_name,
+        customer_email: formData.customer_email,
+        customer_phone: formData.customer_phone,
+        customer_address: {
+          line1: street,
+          city: city,
+          state: state,
+          postal_code: postalCode,
+          country: 'USA'
+        },
+        service_type: qboServiceType,
+        trailer_model: serviceType === 'rental' ? trailerType : null,
+        start_date: formData.start_date,
+        end_date: serviceType === 'rental' ? formData.end_date : null,
+        junk_description: junkDescription || null,
+        total_price: bookingData.total_price,
+        booking_id: bookingId,
+        extras: {
+          deposit_fee: deposit > 0 ? deposit : null,
+          travel_fuel_surcharge: deliveryFee > 0 ? deliveryFee : null,
+          tax_amount: null
+        }
+      };
+
+      const qboApiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/qbo-create-invoice`;
+      const qboResponse = await fetch(qboApiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify(qboPayload),
+      });
+
+      if (!qboResponse.ok) {
+        const errorData = await qboResponse.json();
+        console.error('QBO Invoice creation failed:', errorData);
+        throw new Error(errorData.error?.message || 'Failed to create QuickBooks invoice');
+      }
+
+      const qboData = await qboResponse.json();
+
+      if (qboData.ok) {
+        const { error: updateError } = await supabase
+          .from('bookings')
+          .update({
+            qbo_customer_id: qboData.customer.id,
+            qbo_invoice_id: qboData.invoice.id,
+            qbo_invoice_number: qboData.invoice.docNumber,
+            qbo_invoice_total: qboData.invoice.totalAmt,
+            qbo_invoice_balance: qboData.invoice.balance,
+            qbo_invoice_status: qboData.invoice.status,
+            qbo_invoice_date: qboData.invoice.txnDate,
+            qbo_invoice_due_date: qboData.invoice.dueDate,
+            qbo_invoice_pdf_base64: qboData.links.pdf.base64,
+            qbo_payment_url: qboData.links.payNowUrl,
+            qbo_synced_at: new Date().toISOString()
+          })
+          .eq('id', bookingId);
+
+        if (updateError) {
+          console.error('Error updating booking with QBO data:', updateError);
+        }
+
+        return qboData;
+      } else {
+        throw new Error('QuickBooks invoice creation failed');
+      }
+    } catch (error) {
+      console.error('QuickBooks integration error:', error);
+      return null;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -201,6 +343,9 @@ export function BookingForm() {
         if (formData.notes) bookingNotes += `\nAdditional Notes:\n${formData.notes}`;
       }
 
+      const hasJunkPhotos = serviceType === 'junk_removal' && junkPhotos.length > 0;
+      const bookingStatus = hasJunkPhotos ? 'awaiting_approval' : 'pending';
+
       const bookingData = {
         customer_name: formData.customer_name,
         customer_email: formData.customer_email,
@@ -212,7 +357,7 @@ export function BookingForm() {
         delivery_address: formData.delivery_address,
         delivery_required: formData.delivery_required,
         notes: bookingNotes,
-        status: 'pending',
+        status: bookingStatus,
         total_price: totalPrice,
         delivery_fee: deliveryFee,
         deposit_amount: deposit,
@@ -263,11 +408,59 @@ export function BookingForm() {
         }
       }
 
+      if (serviceType === 'junk_removal' && junkPhotos.length > 0) {
+        try {
+          setUploadingFiles(true);
+          const photoUrls = await uploadJunkPhotos(bookingId);
+
+          const { error: updateError } = await supabase
+            .from('bookings')
+            .update({
+              junk_photo_urls: photoUrls
+            })
+            .eq('id', bookingId);
+
+          if (updateError) {
+            console.error('Error updating booking with photo URLs:', updateError);
+          }
+        } catch (uploadError) {
+          console.error('Error uploading junk photos:', uploadError);
+          setErrorMessage('Warning: Booking created but photos failed to upload.');
+        } finally {
+          setUploadingFiles(false);
+        }
+      }
+
+      const qboInvoice = hasJunkPhotos ? null : await createQuickBooksInvoice(bookingId, bookingData);
+      if (qboInvoice && qboInvoice.ok) {
+        setInvoiceData(qboInvoice);
+      }
+
       if (serviceType === 'junk_removal') {
-        if (junkServiceLevel === 'you_fill') {
+        if (hasJunkPhotos) {
+          setAwaitingApproval(true);
+          setSubmitStatus('success');
+          setPendingBookingId(null);
+          setFormData({
+            customer_name: '',
+            customer_email: '',
+            customer_phone: '',
+            start_date: '',
+            end_date: '',
+            delivery_address: '',
+            delivery_required: false,
+            notes: '',
+          });
+          setJunkPhotos([]);
+          setJunkMaterialType('');
+        } else if (junkServiceLevel === 'you_fill') {
           setShowJunkAgreement(true);
         } else {
-          setSubmitStatus('success');
+          if (qboInvoice && qboInvoice.ok) {
+            setSubmitStatus('success');
+          } else {
+            setSubmitStatus('success');
+          }
           setPendingBookingId(null);
           setFormData({
             customer_name: '',
@@ -283,7 +476,22 @@ export function BookingForm() {
       } else if (serviceType === 'rental' && !formData.delivery_required) {
         setShowAgreement(true);
       } else {
-        await handleStripeCheckout(bookingId);
+        if (qboInvoice && qboInvoice.ok) {
+          setSubmitStatus('success');
+        } else {
+          setSubmitStatus('success');
+        }
+        setPendingBookingId(null);
+        setFormData({
+          customer_name: '',
+          customer_email: '',
+          customer_phone: '',
+          start_date: '',
+          end_date: '',
+          delivery_address: '',
+          delivery_required: false,
+          notes: '',
+        });
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
@@ -299,24 +507,34 @@ export function BookingForm() {
 
     setIsSubmitting(true);
     try {
-      const totalPrice = calculateTotalPrice();
-      if (totalPrice > 0) {
-        await handleStripeCheckout(pendingBookingId, agreementData);
-      } else {
-        setSubmitStatus('success');
-        setShowAgreement(false);
-        setPendingBookingId(null);
-        setFormData({
-          customer_name: '',
-          customer_email: '',
-          customer_phone: '',
-          start_date: '',
-          end_date: '',
-          delivery_address: '',
-          delivery_required: false,
-          notes: '',
-        });
+      const { error: updateError } = await supabase
+        .from('bookings')
+        .update({
+          ...agreementData,
+          agreement_completed: true,
+          rental_order_signature_date: new Date().toISOString(),
+          terms_signature_date: new Date().toISOString(),
+          trailer_details_signature_date: new Date().toISOString(),
+        })
+        .eq('id', pendingBookingId);
+
+      if (updateError) {
+        throw new Error('Failed to save agreement');
       }
+
+      setSubmitStatus('success');
+      setShowAgreement(false);
+      setPendingBookingId(null);
+      setFormData({
+        customer_name: '',
+        customer_email: '',
+        customer_phone: '',
+        start_date: '',
+        end_date: '',
+        delivery_address: '',
+        delivery_required: false,
+        notes: '',
+      });
     } catch (error) {
       console.error('Error completing agreement:', error);
       setErrorMessage('Failed to save agreement. Please try again.');
@@ -369,60 +587,6 @@ export function BookingForm() {
     setPendingBookingId(null);
   };
 
-  const handleStripeCheckout = async (bookingId: string, agreementData?: any) => {
-    try {
-      if (agreementData) {
-        const { error: updateError } = await supabase
-          .from('bookings')
-          .update({
-            ...agreementData,
-            agreement_completed: true,
-            rental_order_signature_date: new Date().toISOString(),
-            terms_signature_date: new Date().toISOString(),
-            trailer_details_signature_date: new Date().toISOString(),
-          })
-          .eq('id', bookingId);
-
-        if (updateError) {
-          throw new Error('Failed to save agreement');
-        }
-      }
-
-      const origin = window.location.origin;
-      const apiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout-session`;
-
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          bookingId,
-          successUrl: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-          cancelUrl: `${origin}/?canceled=true`,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create checkout session');
-      }
-
-      const { url } = await response.json();
-      if (!url) {
-        throw new Error('No checkout URL returned');
-      }
-
-      window.location.href = url;
-    } catch (error) {
-      console.error('Error creating checkout session:', error);
-      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      setErrorMessage(`Payment processing error: ${errorMsg}. Please contact us directly at 971-459-0077.`);
-      setSubmitStatus('error');
-      setIsSubmitting(false);
-    }
-  };
 
   const handleAgreementCancel = async () => {
     if (pendingBookingId) {
@@ -476,19 +640,45 @@ export function BookingForm() {
   }
 
   if (submitStatus === 'success') {
+    if (invoiceData) {
+      return (
+        <div className="space-y-6">
+          <InvoiceDisplay invoiceData={invoiceData} />
+          <div className="text-center">
+            <button
+              onClick={() => {
+                setSubmitStatus('idle');
+                setInvoiceData(null);
+              }}
+              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+            >
+              Make Another Booking
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-green-50 border-2 border-green-200 rounded-lg p-8 text-center max-w-2xl mx-auto">
         <div className="inline-block p-4 bg-green-100 rounded-full mb-4">
           <CheckCircle className="h-12 w-12 text-green-600" />
         </div>
-        <h3 className="text-2xl font-bold text-green-900 mb-2">Booking Complete!</h3>
+        <h3 className="text-2xl font-bold text-green-900 mb-2">
+          {awaitingApproval ? 'Request Submitted for Review!' : 'Booking Request Received!'}
+        </h3>
         <p className="text-green-800 mb-6">
-          {serviceType === 'rental'
-            ? "Thank you for completing your rental agreement. We'll contact you shortly at the phone number you provided to confirm your trailer rental."
+          {awaitingApproval
+            ? "Thank you for submitting your junk removal request with photos! We'll review your photos, send you a detailed quote via email and QuickBooks invoice, and provide payment instructions within 24 hours."
+            : serviceType === 'rental'
+            ? "Thank you for your rental request. We'll contact you shortly at the phone number you provided to confirm your booking and arrange payment."
             : "Thank you for your quote request! We'll review your request and contact you within 24 hours with a detailed quote and payment instructions."}
         </p>
         <button
-          onClick={() => setSubmitStatus('idle')}
+          onClick={() => {
+            setSubmitStatus('idle');
+            setAwaitingApproval(false);
+          }}
           className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
         >
           Make Another Booking
@@ -558,7 +748,7 @@ export function BookingForm() {
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-2">Need Help with Pricing?</h3>
                   <p className="text-sm text-gray-700 mb-3">
-                    Text photos of your junk to <a href="sms:971-459-0077" className="text-blue-600 font-semibold hover:underline">971-459-0077</a> for a fast, accurate quote. Or fill out the form below for an estimate.
+                    Text photos of your junk to <a href="sms:503-874-3705" className="text-blue-600 font-semibold hover:underline">503-874-3705</a> for a fast, accurate quote. Or fill out the form below for an estimate.
                   </p>
                   <Link
                     to="/junk-removal-pricing"
@@ -670,7 +860,7 @@ export function BookingForm() {
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="font-semibold text-sm">7-9 yards</div>
+                    <div className="font-semibold text-sm">7-15 yards</div>
                     <div className="text-xs text-gray-600">Full load</div>
                   </button>
                 </div>
@@ -692,6 +882,62 @@ export function BookingForm() {
               <p className="text-xs text-gray-500 mt-1">
                 Note: Concrete, dirt, roofing, and hazardous materials require a custom quote
               </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Photos (Optional)
+              </label>
+              <p className="text-sm text-gray-600 mb-3">
+                Upload photos to help us provide an accurate quote. Your booking will be reviewed and you'll receive an invoice with payment instructions.
+              </p>
+              <div className="space-y-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      const newFiles = Array.from(e.target.files).slice(0, 5);
+                      setJunkPhotos(prev => [...prev, ...newFiles].slice(0, 5));
+                    }
+                  }}
+                  className="hidden"
+                  id="junk-photos-upload"
+                />
+                <label
+                  htmlFor="junk-photos-upload"
+                  className="flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-green-500 hover:bg-green-50 transition-all"
+                >
+                  <Camera className="h-5 w-5 text-gray-600" />
+                  <span className="text-sm font-medium text-gray-700">
+                    {junkPhotos.length > 0 ? `${junkPhotos.length} photo(s) selected` : 'Click to upload photos'}
+                  </span>
+                </label>
+                {junkPhotos.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                    {junkPhotos.map((file, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={URL.createObjectURL(file)}
+                          alt={`Junk photo ${index + 1}`}
+                          className="w-full h-24 object-cover rounded-lg border-2 border-gray-200"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setJunkPhotos(prev => prev.filter((_, i) => i !== index))}
+                          className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <p className="text-xs text-gray-500">
+                  Upload up to 5 photos (JPEG, PNG). Max 10MB per photo.
+                </p>
+              </div>
             </div>
 
             <div>
@@ -744,7 +990,7 @@ export function BookingForm() {
                 <div>
                   <h3 className="font-semibold text-gray-900 mb-1">Get the Most Accurate Quote</h3>
                   <p className="text-sm text-gray-700">
-                    Text photos to <a href="sms:971-459-0077" className="text-blue-600 font-semibold hover:underline">971-459-0077</a> for the fastest, most accurate pricing.
+                    Text photos to <a href="sms:503-874-3705" className="text-blue-600 font-semibold hover:underline">503-874-3705</a> for the fastest, most accurate pricing.
                   </p>
                 </div>
               </div>
@@ -785,7 +1031,7 @@ export function BookingForm() {
               value={formData.customer_phone}
               onChange={handleInputChange}
               className="w-full px-4 py-4 text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all"
-              placeholder="971-459-0077"
+              placeholder="503-874-3705"
             />
           </div>
         </div>

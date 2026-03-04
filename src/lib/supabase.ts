@@ -28,7 +28,7 @@ export type Booking = {
   delivery_address: string;
   delivery_required: boolean;
   notes: string;
-  status: 'pending' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
+  status: 'pending' | 'awaiting_approval' | 'confirmed' | 'active' | 'overdue' | 'completed' | 'cancelled';
   total_price: number;
   payment_status?: 'pending' | 'deposit_paid' | 'paid' | 'refunded';
   deposit_amount?: number;
@@ -37,6 +37,19 @@ export type Booking = {
   created_by_admin?: boolean;
   license_uploaded?: boolean;
   insurance_uploaded?: boolean;
+  junk_photo_urls?: string[] | null;
+  approval_notes?: string | null;
+  qbo_customer_id?: string | null;
+  qbo_invoice_id?: string | null;
+  qbo_invoice_number?: string | null;
+  qbo_invoice_total?: number | null;
+  qbo_invoice_balance?: number | null;
+  qbo_invoice_status?: string | null;
+  qbo_invoice_date?: string | null;
+  qbo_invoice_due_date?: string | null;
+  qbo_invoice_pdf_base64?: string | null;
+  qbo_payment_url?: string | null;
+  qbo_synced_at?: string | null;
   created_at: string;
   updated_at: string;
 };

@@ -118,7 +118,7 @@ export function TermsAndConditionsPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Payments are processed securely through Stripe. We do not store credit card information on our servers.</span>
+                <span>Payments are processed securely. We do not store credit card information on our servers.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -369,7 +369,7 @@ export function TermsAndConditionsPage() {
               <div>
                 <p className="text-gray-600 mb-1">
                   <strong className="text-slate-700">Phone:</strong>{' '}
-                  <a href="tel:971-459-0077" className="text-green-600 hover:text-green-700 transition-colors">971-459-0077</a>
+                  <a href="tel:503-874-3705" className="text-green-600 hover:text-green-700 transition-colors">503-874-3705</a>
                 </p>
                 <p className="text-gray-600">
                   <strong className="text-slate-700">Email:</strong>{' '}

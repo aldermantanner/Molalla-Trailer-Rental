@@ -13,7 +13,7 @@ export function JunkRemovalPricing() {
           and <strong>material type</strong> (local disposal fees) so you only pay for what you use.
         </p>
         <p className="text-lg text-slate-700 font-semibold mt-4">
-          Minimum junk removal service: $150
+          Minimum junk removal service: $175
         </p>
       </div>
 
@@ -141,7 +141,7 @@ export function JunkRemovalPricing() {
                 <ul className="space-y-2">
                   <li className="flex items-start gap-2 text-sm text-gray-600">
                     <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
-                    Full trailer (9 yards)
+                    Full trailer (15 yards)
                   </li>
                   <li className="flex items-start gap-2 text-sm text-gray-600">
                     <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
@@ -174,10 +174,10 @@ export function JunkRemovalPricing() {
             Send us a few photos of what you want removed and we'll give you a quick, accurate estimate.
           </p>
           <a
-            href="sms:971-459-0077"
+            href="sms:503-874-3705"
             className="inline-block mt-4 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
           >
-            Text Us: 971-459-0077
+            Text Us: 503-874-3705
           </a>
         </div>
       </div>
@@ -188,7 +188,7 @@ export function JunkRemovalPricing() {
           Volume-Based Pricing (Trailer Space)
         </h3>
         <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
-          Our largest trailer holds <strong>up to 9 cubic yards</strong>. Most jobs fall into one of these ranges:
+          Our largest trailer holds <strong>up to 15 cubic yards</strong>. Most jobs fall into one of these ranges:
         </p>
 
         <div className="overflow-x-auto">
@@ -204,22 +204,22 @@ export function JunkRemovalPricing() {
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">1–2 yards (¼ load)</td>
                 <td className="px-6 py-4 text-gray-600">Small piles, few items</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$150–$225</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$175–$250</td>
               </tr>
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">3–4 yards (⅓–½ load)</td>
                 <td className="px-6 py-4 text-gray-600">Room cleanout, furniture</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$275–$375</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$300–$400</td>
               </tr>
               <tr className="hover:bg-gray-50">
-                <td className="px-6 py-4 font-semibold text-slate-800">5–6 yards (½–¾ load)</td>
+                <td className="px-6 py-4 font-semibold text-slate-800">5–7 yards (½–¾ load)</td>
                 <td className="px-6 py-4 text-gray-600">Remodel debris, bulky junk</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$425–$550</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$475–$600</td>
               </tr>
               <tr className="hover:bg-gray-50 bg-green-50">
-                <td className="px-6 py-4 font-semibold text-slate-800">7–9 yards (Full load)</td>
+                <td className="px-6 py-4 font-semibold text-slate-800">8–15 yards (Full load)</td>
                 <td className="px-6 py-4 text-gray-600">Large cleanouts, move-outs</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$625–$750</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$700–$850</td>
               </tr>
             </tbody>
           </table>
@@ -291,7 +291,7 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">No-Lift Guarantee</h4>
             </div>
-            <p className="text-2xl font-bold text-blue-600 mb-2">+$75</p>
+            <p className="text-2xl font-bold text-blue-600 mb-2">+$85</p>
             <p className="text-gray-600">
               You don't lift a thing — we load everything.
             </p>
@@ -304,7 +304,7 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">Priority Pickup</h4>
             </div>
-            <p className="text-2xl font-bold text-purple-600 mb-2">+$99</p>
+            <p className="text-2xl font-bold text-purple-600 mb-2">+$120</p>
             <p className="text-gray-600">
               First available slot or same-day service when available.
             </p>
@@ -317,9 +317,9 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">Dump Fee Protection</h4>
             </div>
-            <p className="text-2xl font-bold text-green-600 mb-2">+$125</p>
+            <p className="text-2xl font-bold text-green-600 mb-2">+$150</p>
             <p className="text-gray-600">
-              Covers disposal costs up to 2 tons of household garbage. Perfect if you're unsure about weight.
+              Covers disposal costs up to 2.5 tons of household garbage. Perfect if you're unsure about weight.
             </p>
           </div>
         </div>
@@ -359,7 +359,7 @@ export function JunkRemovalPricing() {
               </ul>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <p className="text-sm">Starting at</p>
-                <p className="text-4xl font-bold">$250</p>
+                <p className="text-4xl font-bold">$275</p>
                 <p className="text-xs mt-1">+ volume charges</p>
               </div>
             </div>
@@ -376,7 +376,7 @@ export function JunkRemovalPricing() {
               <ul className="space-y-3 mb-6">
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5" />
-                  <span>Full trailer (up to 9 yards)</span>
+                  <span>Full trailer (up to 15 yards)</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <Check className="h-5 w-5" />
@@ -393,7 +393,7 @@ export function JunkRemovalPricing() {
               </ul>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <p className="text-sm">Starting at</p>
-                <p className="text-4xl font-bold">$799</p>
+                <p className="text-4xl font-bold">$849</p>
               </div>
             </div>
           </div>
@@ -481,14 +481,14 @@ export function JunkRemovalPricing() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="tel:971-459-0077"
+            href="tel:503-874-3705"
             className="inline-flex items-center justify-center gap-2 bg-white text-slate-800 px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors font-semibold text-lg"
           >
             <Phone className="h-5 w-5" />
-            Call: 971-459-0077
+            Call: 503-874-3705
           </a>
           <a
-            href="sms:971-459-0077"
+            href="sms:503-874-3705"
             className="inline-flex items-center justify-center gap-2 bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
           >
             📱 Text for Fast Quote

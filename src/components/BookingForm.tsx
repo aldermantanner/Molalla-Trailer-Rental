@@ -6,8 +6,6 @@ import JunkRemovalAgreement from './JunkRemovalAgreement';
 import { FileUpload } from './FileUpload';
 import { PaymentTrust } from './PaymentTrust';
 import { Link } from 'react-router-dom';
-import InvoiceDisplay from './InvoiceDisplay';
-import type { QBOInvoiceResponse } from '../types/quickbooks';
 
 type ServiceType = 'rental' | 'junk_removal';
 type TrailerType = 'Southland 6x12 10k' | 'Southland 7x14 14k';
@@ -49,7 +47,6 @@ export function BookingForm() {
   const [driversLicenseFile, setDriversLicenseFile] = useState<File | null>(null);
   const [insuranceFile, setInsuranceFile] = useState<File | null>(null);
   const [uploadingFiles, setUploadingFiles] = useState(false);
-  const [invoiceData, setInvoiceData] = useState<QBOInvoiceResponse | null>(null);
   const [awaitingApproval, setAwaitingApproval] = useState(false);
 
   const [junkServiceLevel, setJunkServiceLevel] = useState<JunkServiceLevel>('full_service');
@@ -194,112 +191,6 @@ export function BookingForm() {
     return photoUrls;
   };
 
-  const createQuickBooksInvoice = async (bookingId: string, bookingData: any) => {
-    try {
-      const addressParts = formData.delivery_address.split(',').map(s => s.trim());
-      const city = addressParts.length >= 2 ? addressParts[addressParts.length - 2].trim() : 'Molalla';
-      const stateZip = addressParts.length >= 1 ? addressParts[addressParts.length - 1].trim() : 'OR 97038';
-      const stateParts = stateZip.split(' ');
-      const state = stateParts[0] || 'OR';
-      const postalCode = stateParts[1] || '97038';
-      const street = addressParts.length >= 3 ? addressParts.slice(0, -2).join(', ') : formData.delivery_address;
-
-      const deliveryFee = calculateDeliveryFee();
-      const deposit = calculateDeposit();
-
-      let qboServiceType: 'trailer_rental' | 'junk_removal' | 'both';
-      let junkDescription = '';
-
-      if (serviceType === 'rental') {
-        qboServiceType = 'trailer_rental';
-      } else if (serviceType === 'junk_removal') {
-        qboServiceType = 'junk_removal';
-        const estimate = calculateJunkRemovalEstimate();
-        const serviceLevelNames = {
-          you_fill: 'You Fill, We Dump',
-          full_service: 'Full-Service Junk Removal',
-          cleanout_special: 'Cleanout Special'
-        };
-        junkDescription = `Service Level: ${serviceLevelNames[junkServiceLevel]}, Volume: ${junkVolume} yards`;
-        if (junkMaterialType) junkDescription += `, Material: ${junkMaterialType}`;
-      } else {
-        qboServiceType = 'both';
-      }
-
-      const qboPayload = {
-        customer_name: formData.customer_name,
-        customer_email: formData.customer_email,
-        customer_phone: formData.customer_phone,
-        customer_address: {
-          line1: street,
-          city: city,
-          state: state,
-          postal_code: postalCode,
-          country: 'USA'
-        },
-        service_type: qboServiceType,
-        trailer_model: serviceType === 'rental' ? trailerType : null,
-        start_date: formData.start_date,
-        end_date: serviceType === 'rental' ? formData.end_date : null,
-        junk_description: junkDescription || null,
-        total_price: bookingData.total_price,
-        booking_id: bookingId,
-        extras: {
-          deposit_fee: deposit > 0 ? deposit : null,
-          travel_fuel_surcharge: deliveryFee > 0 ? deliveryFee : null,
-          tax_amount: null
-        }
-      };
-
-      const qboApiUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/qbo-create-invoice`;
-      const qboResponse = await fetch(qboApiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify(qboPayload),
-      });
-
-      if (!qboResponse.ok) {
-        const errorData = await qboResponse.json();
-        console.error('QBO Invoice creation failed:', errorData);
-        throw new Error(errorData.error?.message || 'Failed to create QuickBooks invoice');
-      }
-
-      const qboData = await qboResponse.json();
-
-      if (qboData.ok) {
-        const { error: updateError } = await supabase
-          .from('bookings')
-          .update({
-            qbo_customer_id: qboData.customer.id,
-            qbo_invoice_id: qboData.invoice.id,
-            qbo_invoice_number: qboData.invoice.docNumber,
-            qbo_invoice_total: qboData.invoice.totalAmt,
-            qbo_invoice_balance: qboData.invoice.balance,
-            qbo_invoice_status: qboData.invoice.status,
-            qbo_invoice_date: qboData.invoice.txnDate,
-            qbo_invoice_due_date: qboData.invoice.dueDate,
-            qbo_invoice_pdf_base64: qboData.links.pdf.base64,
-            qbo_payment_url: qboData.links.payNowUrl,
-            qbo_synced_at: new Date().toISOString()
-          })
-          .eq('id', bookingId);
-
-        if (updateError) {
-          console.error('Error updating booking with QBO data:', updateError);
-        }
-
-        return qboData;
-      } else {
-        throw new Error('QuickBooks invoice creation failed');
-      }
-    } catch (error) {
-      console.error('QuickBooks integration error:', error);
-      return null;
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -431,35 +322,6 @@ export function BookingForm() {
         }
       }
 
-      const qboInvoice = hasJunkPhotos ? null : await createQuickBooksInvoice(bookingId, bookingData);
-      if (qboInvoice && qboInvoice.ok) {
-        setInvoiceData(qboInvoice);
-
-        try {
-          const emailUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-status-notification`;
-          await fetch(emailUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({
-              customerEmail: formData.customer_email,
-              customerName: formData.customer_name,
-              bookingId: bookingId,
-              status: 'pending',
-              serviceType: serviceType,
-              startDate: formData.start_date,
-              endDate: formData.end_date,
-              totalPrice: totalPrice,
-              paymentUrl: qboInvoice.links.payNowUrl,
-            }),
-          });
-        } catch (emailError) {
-          console.error('Error sending customer notification:', emailError);
-        }
-      }
-
       if (serviceType === 'junk_removal') {
         if (hasJunkPhotos) {
           setAwaitingApproval(true);
@@ -480,11 +342,7 @@ export function BookingForm() {
         } else if (junkServiceLevel === 'you_fill') {
           setShowJunkAgreement(true);
         } else {
-          if (qboInvoice && qboInvoice.ok) {
-            setSubmitStatus('success');
-          } else {
-            setSubmitStatus('success');
-          }
+          setSubmitStatus('success');
           setPendingBookingId(null);
           setFormData({
             customer_name: '',
@@ -500,11 +358,7 @@ export function BookingForm() {
       } else if (serviceType === 'rental' && !formData.delivery_required) {
         setShowAgreement(true);
       } else {
-        if (qboInvoice && qboInvoice.ok) {
-          setSubmitStatus('success');
-        } else {
-          setSubmitStatus('success');
-        }
+        setSubmitStatus('success');
         setPendingBookingId(null);
         setFormData({
           customer_name: '',
@@ -664,48 +518,37 @@ export function BookingForm() {
   }
 
   if (submitStatus === 'success') {
-    if (invoiceData) {
-      return (
-        <div className="space-y-6">
-          <InvoiceDisplay invoiceData={invoiceData} />
-          <div className="text-center">
-            <button
-              onClick={() => {
-                setSubmitStatus('idle');
-                setInvoiceData(null);
-              }}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
-            >
-              Make Another Booking
-            </button>
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="bg-green-50 border-2 border-green-200 rounded-lg p-8 text-center max-w-2xl mx-auto">
         <div className="inline-block p-4 bg-green-100 rounded-full mb-4">
           <CheckCircle className="h-12 w-12 text-green-600" />
         </div>
         <h3 className="text-2xl font-bold text-green-900 mb-2">
-          {awaitingApproval ? 'Request Submitted for Review!' : 'Booking Request Received!'}
+          {awaitingApproval ? 'Request Submitted for Review!' : 'Almost Done!'}
         </h3>
         <p className="text-green-800 mb-6">
           {awaitingApproval
             ? "Thank you for submitting your junk removal request with photos! We'll review your photos, send you a detailed quote via email and QuickBooks invoice, and provide payment instructions within 24 hours."
-            : serviceType === 'rental'
-            ? "Thank you for your rental request. We'll contact you shortly at the phone number you provided to confirm your booking and arrange payment."
-            : "Thank you for your quote request! We'll review your request and contact you within 24 hours with a detailed quote and payment instructions."}
+            : "Thank you for your interest! Click below to complete your booking on our secure scheduling system."}
         </p>
+        {!awaitingApproval && (
+          <a
+            href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg mb-4"
+          >
+            Complete Booking on Jobber
+          </a>
+        )}
         <button
           onClick={() => {
             setSubmitStatus('idle');
             setAwaitingApproval(false);
           }}
-          className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors font-semibold"
+          className="block w-full bg-white text-green-600 border-2 border-green-600 px-6 py-3 rounded-lg hover:bg-green-50 transition-colors font-semibold mt-4"
         >
-          Make Another Booking
+          {awaitingApproval ? 'Submit Another Request' : 'Start Over'}
         </button>
       </div>
     );

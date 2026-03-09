@@ -45,12 +45,14 @@ export function SpecificationsPage() {
             Choose your trailer and book online in just a few minutes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              to="/booking"
+            <a
+              href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
             >
               Book Your Trailer Now
-            </Link>
+            </a>
             <Link
               to="/pricing"
               className="inline-block bg-slate-700 text-white px-8 py-4 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-lg"

@@ -60,12 +60,14 @@ export function JunkRemovalPricingPage() {
               >
                 Call for Quote: 503-874-3705
               </a>
-              <Link
-                to="/booking"
+              <a
+                href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-block bg-slate-700 text-white px-8 py-4 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-lg"
               >
                 Book a Trailer
-              </Link>
+              </a>
             </div>
           </div>
         </div>

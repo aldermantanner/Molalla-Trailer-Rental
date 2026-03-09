@@ -42,14 +42,15 @@ export function HomePage() {
                 <span>New customers save $10 with code FIRST10</span>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/booking"
-                  onClick={() => window.scrollTo(0, 0)}
+                <a
+                  href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors text-center shadow-lg flex items-center justify-center gap-2"
                 >
                   <Calendar className="h-5 w-5" />
                   Book Online Now
-                </Link>
+                </a>
                 <a href="tel:503-874-3705" className="bg-white text-slate-800 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors text-center shadow-lg flex items-center justify-center gap-2">
                   <Phone className="h-5 w-5" />
                   Call: 503-874-3705
@@ -254,14 +255,15 @@ export function HomePage() {
             Book online in minutes or call us directly. We'll confirm your reservation and delivery details.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              to="/booking"
-              onClick={() => window.scrollTo(0, 0)}
+            <a
+              href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-green-600 px-6 py-3 rounded-lg text-base font-bold hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"
             >
               <Calendar className="h-5 w-5" />
               Book Online Now
-            </Link>
+            </a>
             <a
               href="tel:503-874-3705"
               className="bg-slate-800 text-white px-6 py-3 rounded-lg text-base font-bold hover:bg-slate-700 transition-colors shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"

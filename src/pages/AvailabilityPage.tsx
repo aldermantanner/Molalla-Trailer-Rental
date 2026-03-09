@@ -44,12 +44,14 @@ export function AvailabilityPage() {
           <p className="text-gray-600 mb-6">
             Book now to secure your trailer for the dates you need.
           </p>
-          <Link
-            to="/booking"
+          <a
+            href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"
           >
             Book Your Trailer Now
-          </Link>
+          </a>
         </div>
       </div>
     </div>

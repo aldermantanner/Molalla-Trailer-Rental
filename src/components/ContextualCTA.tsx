@@ -6,7 +6,7 @@ interface ContextualCTAProps {
   onBookClick: () => void;
 }
 
-export function ContextualCTA({ message, variant = 'general', onBookClick }: ContextualCTAProps) {
+export function ContextualCTA({ message, variant = 'general' }: ContextualCTAProps) {
   const bgColors = {
     services: 'bg-gradient-to-r from-green-600 to-green-700',
     pricing: 'bg-gradient-to-r from-slate-700 to-slate-800',
@@ -18,13 +18,15 @@ export function ContextualCTA({ message, variant = 'general', onBookClick }: Con
       <div className="max-w-4xl mx-auto text-center text-white">
         <h3 className="text-2xl md:text-3xl font-bold mb-4">{message}</h3>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button
-            onClick={onBookClick}
+          <a
+            href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-white text-green-600 px-8 py-4 rounded-lg text-lg font-bold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2 min-w-[200px]"
           >
             <Calendar className="h-5 w-5" />
             Book Online Now
-          </button>
+          </a>
           <span className="text-white font-semibold hidden sm:block">or</span>
           <a
             href="tel:503-874-3705"

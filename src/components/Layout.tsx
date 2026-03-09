@@ -72,13 +72,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <span className="whitespace-nowrap">503-874-3705</span>
               </a>
 
-              <Link
-                to="/booking"
-                onClick={() => window.scrollTo(0, 0)}
+              <a
+                href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-all font-bold shadow-lg hover:shadow-xl whitespace-nowrap"
               >
                 Book Now
-              </Link>
+              </a>
 
               <div className="relative">
                 <button
@@ -186,13 +187,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Link to="/mybookings" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">My Bookings</Link>
 
                 <div className="flex flex-col gap-3 pt-6 border-t border-slate-700 mt-4">
-                  <Link
-                    to="/booking"
-                    onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }}
+                  <a
+                    href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
                     className="bg-green-600 text-white px-6 py-4 rounded-lg hover:bg-green-700 transition-colors font-bold text-center text-lg shadow-lg"
                   >
                     Book Now
-                  </Link>
+                  </a>
                   <a href="tel:503-874-3705" className="bg-slate-700 text-white px-6 py-4 rounded-lg hover:bg-slate-600 transition-colors font-bold text-center text-lg shadow-lg flex items-center justify-center gap-2">
                     <Phone className="h-5 w-5" />
                     503-874-3705

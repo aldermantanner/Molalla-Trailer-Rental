@@ -103,7 +103,6 @@ export function AdminBookings() {
                 startDate: booking.start_date,
                 endDate: booking.end_date,
                 totalPrice: booking.total_price,
-                paymentUrl: booking.qbo_payment_url,
               }),
             });
           } catch (notifError) {
@@ -235,8 +234,8 @@ export function AdminBookings() {
     setConfirmDialog({
       isOpen: true,
       title: 'Approve Junk Removal Booking',
-      message: `Approve booking for ${booking.customer_name}? A QuickBooks invoice will be created and emailed to the customer.`,
-      confirmText: 'Approve & Create Invoice',
+      message: `Approve booking for ${booking.customer_name}? The customer will be notified via email.`,
+      confirmText: 'Approve Booking',
       confirmButtonClass: 'bg-green-600 hover:bg-green-700',
       onConfirm: async () => {
         try {
@@ -247,22 +246,7 @@ export function AdminBookings() {
 
           if (updateError) throw updateError;
 
-          const qboUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/qbo-create-invoice`;
-          const response = await fetch(qboUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-            },
-            body: JSON.stringify({ bookingId }),
-          });
-
-          if (response.ok) {
-            showToast('Booking approved and invoice created!', 'success');
-          } else {
-            showToast('Booking approved but invoice creation failed', 'error');
-          }
-
+          showToast('Booking approved successfully!', 'success');
           await fetchBookings();
         } catch (error) {
           console.error('Error approving booking:', error);

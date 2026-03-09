@@ -25,49 +25,12 @@ export function BookingCard({
   onApprove,
   onReject,
 }: BookingCardProps) {
-  const [sendingPaymentLink, setSendingPaymentLink] = useState(false);
   const [rejectionNotes, setRejectionNotes] = useState('');
   const [showRejectionDialog, setShowRejectionDialog] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState<number | null>(null);
 
   const junkPhotoUrls = booking.junk_photo_urls as string[] | null;
 
-  const sendPaymentLinkEmail = async () => {
-    if (!booking.qbo_payment_url) return;
-
-    setSendingPaymentLink(true);
-    try {
-      const emailUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-status-notification`;
-      const response = await fetch(emailUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-        },
-        body: JSON.stringify({
-          customerEmail: booking.customer_email,
-          customerName: booking.customer_name,
-          bookingId: booking.id,
-          status: 'confirmed',
-          startDate: booking.start_date,
-          endDate: booking.end_date,
-          totalPrice: booking.total_price,
-          paymentUrl: booking.qbo_payment_url,
-        }),
-      });
-
-      if (response.ok) {
-        alert('Payment link sent to customer!');
-      } else {
-        alert('Failed to send payment link email');
-      }
-    } catch (error) {
-      console.error('Error sending payment link:', error);
-      alert('Failed to send payment link email');
-    } finally {
-      setSendingPaymentLink(false);
-    }
-  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -331,84 +294,6 @@ export function BookingCard({
           )}
         </div>
 
-        {booking.qbo_invoice_id && (
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4 mb-3">
-            <div className="flex items-center gap-2 mb-2">
-              <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600" />
-              <h4 className="font-semibold text-sm sm:text-base text-gray-900">QuickBooks Invoice</h4>
-            </div>
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 text-xs sm:text-sm mb-3">
-              <div>
-                <span className="text-gray-600">Invoice #:</span>
-                <span className="ml-1 sm:ml-2 font-semibold break-all">{booking.qbo_invoice_number || booking.qbo_invoice_id}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Status:</span>
-                <span className="ml-1 sm:ml-2 font-semibold">{booking.qbo_invoice_status || 'N/A'}</span>
-              </div>
-              <div>
-                <span className="text-gray-600">Total:</span>
-                <span className="ml-1 sm:ml-2 font-semibold text-green-600">
-                  ${booking.qbo_invoice_total?.toFixed(2) || '0.00'}
-                </span>
-              </div>
-              <div>
-                <span className="text-gray-600">Balance:</span>
-                <span className="ml-1 sm:ml-2 font-semibold text-orange-600">
-                  ${booking.qbo_invoice_balance?.toFixed(2) || '0.00'}
-                </span>
-              </div>
-            </div>
-            <div className="flex gap-2 flex-wrap">
-              {booking.qbo_invoice_pdf_base64 && (
-                <button
-                  onClick={() => {
-                    const byteCharacters = atob(booking.qbo_invoice_pdf_base64!);
-                    const byteNumbers = new Array(byteCharacters.length);
-                    for (let i = 0; i < byteCharacters.length; i++) {
-                      byteNumbers[i] = byteCharacters.charCodeAt(i);
-                    }
-                    const byteArray = new Uint8Array(byteNumbers);
-                    const blob = new Blob([byteArray], { type: 'application/pdf' });
-                    const url = window.URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = `invoice-${booking.qbo_invoice_number || booking.id}.pdf`;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    window.URL.revokeObjectURL(url);
-                  }}
-                  className="flex-1 sm:flex-initial px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
-                >
-                  <Download className="h-3 w-3 sm:h-4 sm:w-4" />
-                  Download PDF
-                </button>
-              )}
-              {booking.qbo_payment_url && (
-                <>
-                  <a
-                    href={booking.qbo_payment_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 sm:flex-initial px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
-                  >
-                    <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" />
-                    Pay Invoice Online
-                  </a>
-                  <button
-                    onClick={sendPaymentLinkEmail}
-                    disabled={sendingPaymentLink}
-                    className="flex-1 sm:flex-initial px-3 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
-                  >
-                    <Send className="h-3 w-3 sm:h-4 sm:w-4" />
-                    {sendingPaymentLink ? 'Sending...' : 'Email Payment Link'}
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
 
         <div className="space-y-3">
           <div>

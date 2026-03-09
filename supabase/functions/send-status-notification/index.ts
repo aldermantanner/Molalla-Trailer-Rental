@@ -23,20 +23,14 @@ interface NotificationRequest {
 const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: string, rejectionReason?: string): { subject: string; body: string } => {
   switch (status) {
     case 'pending':
-      if (paymentUrl) {
-        return {
-          subject: '🎉 Booking Confirmed - Payment Instructions Inside',
-          body: `Thank you for your ${serviceType === 'rental' ? 'trailer rental' : 'junk removal'} booking!\n\nYour booking has been received and your invoice is ready.\n\n💳 PAYMENT INSTRUCTIONS:\nPay securely online using the link below. We accept credit cards and bank transfers through QuickBooks.\n\n${paymentUrl ? 'Click the payment link at the bottom of this email to pay now.' : ''}\n\nWhat's Next:\n- Pay your invoice online (secure QuickBooks payment)\n- We'll contact you to coordinate ${serviceType === 'rental' ? 'pickup/delivery' : 'service'} details\n- Bring your driver's license ${serviceType === 'rental' ? 'when picking up' : 'on service day'}\n\nQuestions? Call us at 503-874-3705`
-        };
-      }
       return {
         subject: '📋 Booking Received - Molalla Trailer Rentals',
-        body: `Thank you for your booking! We've received your request and will contact you shortly to confirm details and arrange payment.\n\nQuestions? Call us at 503-874-3705`
+        body: `Thank you for your ${serviceType === 'rental' ? 'trailer rental' : 'junk removal'} booking!\n\nYour booking has been received and we'll contact you shortly to confirm details and arrange payment.\n\nWhat's Next:\n- We'll contact you to coordinate ${serviceType === 'rental' ? 'pickup/delivery' : 'service'} details\n- Bring your driver's license ${serviceType === 'rental' ? 'when picking up' : 'on service day'}\n- Payment arrangements will be discussed when we contact you\n\nQuestions? Call us at 503-874-3705`
       };
     case 'confirmed':
       return {
         subject: '✅ Booking Confirmed - Molalla Trailer Rentals',
-        body: `Great news! Your booking has been confirmed.\n\nWhat's Next:\n- We'll contact you to coordinate pickup/delivery\n- Please bring your driver's license when picking up${paymentUrl ? '\n- Pay your invoice securely online (link below)' : '\n- Payment will be processed at pickup'}\n\nQuestions? Call us at 503-874-3705`
+        body: `Great news! Your booking has been confirmed.\n\nWhat's Next:\n- We'll contact you to coordinate pickup/delivery\n- Please bring your driver's license when picking up\n- Payment will be processed at pickup\n\nQuestions? Call us at 503-874-3705`
       };
     case 'active':
       return {

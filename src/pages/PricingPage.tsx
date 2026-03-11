@@ -36,9 +36,13 @@ export function PricingPage() {
                 <h1 className="text-4xl font-bold text-white mb-2">
                   Pricing
                 </h1>
-                <p className="text-gray-200 text-lg">
+                <p className="text-gray-200 text-lg mb-3">
                   Choose the service that fits your needs
                 </p>
+                <div className="bg-red-600 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 font-semibold text-sm shadow-lg">
+                  <span>🇺🇸</span>
+                  <span>10% OFF for Veterans, First Responders & Police</span>
+                </div>
               </div>
               <a
                 href="tel:503-874-3705"
@@ -97,7 +101,7 @@ export function PricingPage() {
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <a
-                      href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                      href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"

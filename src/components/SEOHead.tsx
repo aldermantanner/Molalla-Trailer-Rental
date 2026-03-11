@@ -13,7 +13,7 @@ export function SEOHead({
   title = 'Molalla Trailer Rentals | Dump Trailer Rental & Junk Removal | Clackamas County OR',
   description = 'Veteran-owned dump trailer rentals starting at $120/day. Serving Molalla, Canby, Oregon City & Clackamas County. Same-day delivery available. Book online or call 503-874-3705.',
   keywords = 'trailer rental Molalla, dump trailer rental Oregon, junk removal Molalla, dump trailer Canby, trailer rental Clackamas County, veteran owned trailer rental, dump trailer near me',
-  ogImage = 'https://rentmolallatrailers.com/logo Offical.JPG',
+  ogImage = 'https://rentmolallatrailers.com/IMG_1426.PNG',
   canonical,
 }: SEOHeadProps) {
   const location = useLocation();

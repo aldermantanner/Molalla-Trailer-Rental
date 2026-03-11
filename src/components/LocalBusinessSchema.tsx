@@ -6,7 +6,7 @@ export function LocalBusinessSchema() {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Molalla Trailer Rentals",
-      "image": "https://rentmolallatrailers.com/logo Offical.JPG",
+      "image": "https://rentmolallatrailers.com/IMG_1426.PNG",
       "@id": "https://rentmolallatrailers.com",
       "url": "https://rentmolallatrailers.com",
       "telephone": "+15038743705",

@@ -186,10 +186,17 @@ export function PricingCalculator() {
                   </div>
                 </div>
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-                  <p className="text-sm text-yellow-800">
-                    <strong>Note:</strong> This is an estimate only. Delivery fees are not included and vary by location. A refundable security deposit is required.
-                  </p>
+                <div className="space-y-3 mb-4">
+                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                    <p className="text-sm text-yellow-800">
+                      <strong>Note:</strong> This is an estimate only. Delivery fees are not included and vary by location. A refundable security deposit is required.
+                    </p>
+                  </div>
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <p className="text-sm text-red-800 font-semibold">
+                      🇺🇸 <strong>Special Discount:</strong> Veterans, First Responders & Police receive 10% OFF - Mention when booking!
+                    </p>
+                  </div>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">

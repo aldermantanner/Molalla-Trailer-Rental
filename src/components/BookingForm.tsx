@@ -533,7 +533,7 @@ export function BookingForm() {
         </p>
         {!awaitingApproval && (
           <a
-            href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+            href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg mb-4"
@@ -556,6 +556,13 @@ export function BookingForm() {
 
   return (
     <div className="bg-white rounded-lg shadow-xl p-8 max-w-3xl mx-auto">
+      <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-4 rounded-lg mb-6 text-center shadow-lg">
+        <div className="flex items-center justify-center gap-2 mb-1">
+          <span className="text-2xl">🇺🇸</span>
+          <span className="font-bold text-lg">Special Discount Available</span>
+        </div>
+        <p className="text-sm">Veterans, First Responders & Police receive 10% OFF - Mention when booking</p>
+      </div>
       <form onSubmit={handleSubmit} autoComplete="off" className="space-y-6">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">Service Type</label>

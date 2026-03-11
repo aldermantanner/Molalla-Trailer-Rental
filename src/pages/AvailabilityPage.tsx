@@ -45,7 +45,7 @@ export function AvailabilityPage() {
             Book now to secure your trailer for the dates you need.
           </p>
           <a
-            href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+            href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-green-600 text-white px-8 py-4 rounded-lg hover:bg-green-700 transition-colors font-semibold text-lg"

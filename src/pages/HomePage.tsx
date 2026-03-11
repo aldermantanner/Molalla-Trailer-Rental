@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Star, CheckCircle, Shield, Truck, Calendar, Phone } from 'lucide-react';
+import { Star, CheckCircle, Shield, Truck, Calendar, Phone, Facebook } from 'lucide-react';
 import { Testimonials } from '../components/Testimonials';
 import { FAQ } from '../components/FAQ';
 import { ServiceArea } from '../components/ServiceArea';
@@ -37,13 +37,19 @@ export function HomePage() {
               <p className="text-xl text-gray-200 mb-6">
                 Professional dump trailer rentals and complete junk removal services serving Molalla and surrounding areas. Whether you're clearing out a property or hauling debris, we've got you covered.
               </p>
-              <div className="bg-yellow-400 text-slate-900 px-4 py-3 rounded-lg mb-6 inline-flex items-center gap-2 font-bold shadow-lg">
-                <span className="text-2xl">🎉</span>
-                <span>New customers save $10 with code FIRST10</span>
+              <div className="space-y-3 mb-6">
+                <div className="bg-yellow-400 text-slate-900 px-4 py-3 rounded-lg inline-flex items-center gap-2 font-bold shadow-lg">
+                  <span className="text-2xl">🎉</span>
+                  <span>New customers save $10 with code FIRST10</span>
+                </div>
+                <div className="bg-red-600 text-white px-4 py-3 rounded-lg inline-flex items-center gap-2 font-bold shadow-lg">
+                  <span className="text-2xl">🇺🇸</span>
+                  <span>10% OFF for Veterans, First Responders & Police</span>
+                </div>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
-                  href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                  href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-green-700 transition-colors text-center shadow-lg flex items-center justify-center gap-2"
@@ -57,13 +63,38 @@ export function HomePage() {
                 </a>
               </div>
             </div>
-            <div className="relative flex items-center justify-center">
+            <div className="relative flex flex-col items-center justify-center space-y-6">
               <img
                 src="/image copy copy copy copy.png"
                 alt="Dump trailer in action"
                 className="rounded-lg shadow-2xl w-auto max-w-full h-auto max-h-96 object-contain"
                 loading="eager"
               />
+
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://www.facebook.com/molallatrailerrental"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  aria-label="Visit our Facebook page"
+                >
+                  <Facebook className="h-5 w-5 text-white group-hover:scale-110 transition-transform" />
+                  <span className="text-white font-medium">Facebook</span>
+                </a>
+                <a
+                  href="https://www.tiktok.com/@molallatrailerrental"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 hover:bg-white/20 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  aria-label="Visit our TikTok page"
+                >
+                  <svg className="h-5 w-5 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                  </svg>
+                  <span className="text-white font-medium">TikTok</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -256,7 +287,7 @@ export function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+              href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-white text-green-600 px-6 py-3 rounded-lg text-base font-bold hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center gap-2 whitespace-nowrap"

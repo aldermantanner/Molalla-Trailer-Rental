@@ -32,7 +32,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 }}
                 className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               >
-                <img src="/logo Offical.JPG" alt="Molalla Trailer Rentals" className="h-12 w-12 rounded-full object-cover" />
+                <img
+                  src="/IMG_1426.PNG"
+                  alt="Molalla Trailer Rentals"
+                  className="h-12 w-auto object-contain mix-blend-screen"
+                  style={{
+                    filter: 'brightness(1.2)'
+                  }}
+                />
                 <span className="text-xl font-bold text-white whitespace-nowrap">Molalla Trailer Rentals</span>
               </a>
             </div>
@@ -63,7 +70,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 Reviews
               </a>
               <Link to="/pricing" onClick={() => window.scrollTo(0, 0)} className="text-gray-200 hover:text-green-400 transition-colors font-medium">Pricing</Link>
-              <Link to="/mybookings" onClick={() => window.scrollTo(0, 0)} className="text-gray-200 hover:text-green-400 transition-colors font-medium">My Bookings</Link>
+              <a
+                href="https://clienthub.getjobber.com/client_hubs/935796ca-8da1-401b-a3dd-604659dcbf70/login/new?source=share_login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-200 hover:text-green-400 transition-colors font-medium"
+              >
+                My Bookings
+              </a>
             </div>
 
             <div className="hidden lg:flex items-center gap-4">
@@ -73,7 +87,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </a>
 
               <a
-                href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-all font-bold shadow-lg hover:shadow-xl whitespace-nowrap"
@@ -184,11 +198,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   Reviews
                 </a>
                 <Link to="/pricing" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">Pricing</Link>
-                <Link to="/mybookings" onClick={() => { setMobileMenuOpen(false); window.scrollTo(0, 0); }} className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg">My Bookings</Link>
+                <a
+                  href="https://clienthub.getjobber.com/client_hubs/935796ca-8da1-401b-a3dd-604659dcbf70/login/new?source=share_login"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-gray-200 hover:text-green-400 transition-colors py-2 text-lg"
+                >
+                  My Bookings
+                </a>
 
                 <div className="flex flex-col gap-3 pt-6 border-t border-slate-700 mt-4">
                   <a
-                    href="https://clienthub.getjobber.com/booking/dc323018-2250-48de-8343-b2a45ce798a2"
+                    href="https://clienthub.getjobber.com/hubs/935796ca-8da1-401b-a3dd-604659dcbf70/public/requests/2258657/new"
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
@@ -258,7 +280,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
             }}
             className="flex items-center justify-center space-x-2 mb-4 hover:opacity-80 transition-opacity cursor-pointer"
           >
-            <img src="/logo Offical.JPG" alt="Molalla Trailer Rentals" className="h-8 w-8 rounded-full object-cover" />
+            <img
+              src="/IMG_1426.PNG"
+              alt="Molalla Trailer Rentals"
+              className="h-10 w-auto object-contain mix-blend-screen"
+              style={{
+                filter: 'brightness(1.2)'
+              }}
+            />
             <span className="text-xl font-bold text-white">Molalla Trailer Rentals</span>
           </a>
           <p className="mb-4">Veteran Owned & Operated</p>

@@ -13,7 +13,7 @@ export function JunkRemovalPricing() {
           and <strong>material type</strong> (local disposal fees) so you only pay for what you use.
         </p>
         <p className="text-lg text-slate-700 font-semibold mt-4">
-          Minimum junk removal service: $175
+          Minimum junk removal service: $150
         </p>
       </div>
 
@@ -204,22 +204,22 @@ export function JunkRemovalPricing() {
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">1–2 yards (¼ load)</td>
                 <td className="px-6 py-4 text-gray-600">Small piles, few items</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$175–$250</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$150–$200</td>
               </tr>
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">3–4 yards (⅓–½ load)</td>
                 <td className="px-6 py-4 text-gray-600">Room cleanout, furniture</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$300–$400</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$250–$350</td>
               </tr>
               <tr className="hover:bg-gray-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">5–7 yards (½–¾ load)</td>
                 <td className="px-6 py-4 text-gray-600">Remodel debris, bulky junk</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$475–$600</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$425–$550</td>
               </tr>
               <tr className="hover:bg-gray-50 bg-green-50">
                 <td className="px-6 py-4 font-semibold text-slate-800">8–15 yards (Full load)</td>
                 <td className="px-6 py-4 text-gray-600">Large cleanouts, move-outs</td>
-                <td className="px-6 py-4 text-green-600 font-bold">$700–$850</td>
+                <td className="px-6 py-4 text-green-600 font-bold">$650–$800</td>
               </tr>
             </tbody>
           </table>
@@ -291,7 +291,7 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">No-Lift Guarantee</h4>
             </div>
-            <p className="text-2xl font-bold text-blue-600 mb-2">+$85</p>
+            <p className="text-2xl font-bold text-blue-600 mb-2">+$60</p>
             <p className="text-gray-600">
               You don't lift a thing — we load everything.
             </p>
@@ -304,7 +304,7 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">Priority Pickup</h4>
             </div>
-            <p className="text-2xl font-bold text-purple-600 mb-2">+$120</p>
+            <p className="text-2xl font-bold text-purple-600 mb-2">+$95</p>
             <p className="text-gray-600">
               First available slot or same-day service when available.
             </p>
@@ -317,7 +317,7 @@ export function JunkRemovalPricing() {
               </div>
               <h4 className="text-xl font-bold text-slate-800">Dump Fee Protection</h4>
             </div>
-            <p className="text-2xl font-bold text-green-600 mb-2">+$150</p>
+            <p className="text-2xl font-bold text-green-600 mb-2">+$125</p>
             <p className="text-gray-600">
               Covers disposal costs up to 2.5 tons of household garbage. Perfect if you're unsure about weight.
             </p>
@@ -359,7 +359,7 @@ export function JunkRemovalPricing() {
               </ul>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <p className="text-sm">Starting at</p>
-                <p className="text-4xl font-bold">$275</p>
+                <p className="text-4xl font-bold">$175</p>
                 <p className="text-xs mt-1">+ volume charges</p>
               </div>
             </div>
@@ -393,7 +393,7 @@ export function JunkRemovalPricing() {
               </ul>
               <div className="bg-white bg-opacity-20 rounded-lg p-4">
                 <p className="text-sm">Starting at</p>
-                <p className="text-4xl font-bold">$849</p>
+                <p className="text-4xl font-bold">$749</p>
               </div>
             </div>
           </div>

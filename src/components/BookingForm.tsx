@@ -271,6 +271,15 @@ export function BookingForm() {
 
       const { bookingId } = await response.json();
 
+      if (typeof window !== 'undefined' && (window as any).gtag) {
+        (window as any).gtag('event', 'conversion', {
+          'send_to': 'AW-17076418361/YOUR_CONVERSION_LABEL',
+          'value': totalPrice,
+          'currency': 'USD',
+          'transaction_id': bookingId
+        });
+      }
+
       setPendingBookingId(bookingId);
 
       if (serviceType === 'rental' && driversLicenseFile && insuranceFile) {

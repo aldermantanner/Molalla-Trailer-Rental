@@ -5,16 +5,15 @@ export function ServiceSchema() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "Service",
-      "@id": "https://rentmolallatrailers.com/#service",
-      "serviceType": "Dump Trailer Rental and Junk Removal",
+      "@id": "https://bareacrehauling.com/#service",
+      "serviceType": "Junk Removal",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Molalla Trailer Rentals",
+        "name": "Bare Acre Hauling",
         "telephone": "+15038743705",
-        "email": "Molallatrailerrental@outlook.com",
+        "email": "BareAcreHauling@outlook.com",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "33250 S Wilhoit Rd",
           "addressLocality": "Molalla",
           "addressRegion": "OR",
           "postalCode": "97038",
@@ -22,97 +21,37 @@ export function ServiceSchema() {
         }
       },
       "areaServed": [
-        {
-          "@type": "City",
-          "name": "Molalla",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        },
-        {
-          "@type": "City",
-          "name": "Canby",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        },
-        {
-          "@type": "City",
-          "name": "Oregon City",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        },
-        {
-          "@type": "City",
-          "name": "Woodburn",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        },
-        {
-          "@type": "City",
-          "name": "Silverton",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        },
-        {
-          "@type": "City",
-          "name": "Estacada",
-          "containedInPlace": {
-            "@type": "State",
-            "name": "Oregon"
-          }
-        }
+        { "@type": "City", "name": "Molalla", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Canby", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Oregon City", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Woodburn", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Silverton", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Estacada", "containedInPlace": { "@type": "State", "name": "Oregon" } }
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Trailer Rental and Junk Removal Services",
+        "name": "Junk Removal Services",
         "itemListElement": [
           {
             "@type": "Offer",
             "itemOffered": {
-              "@type": "Product",
-              "name": "Southland 6x12 10k Dump Trailer Rental",
-              "description": "6' x 12' dump trailer with 8,745 lb capacity. Perfect for residential projects, yard cleanup, and light construction debris.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Southland"
-              },
-              "model": "SL612-10K",
-              "offers": {
-                "@type": "AggregateOffer",
-                "lowPrice": "120",
-                "highPrice": "3000",
-                "priceCurrency": "USD",
-                "priceValidUntil": "2025-12-31",
-                "availability": "https://schema.org/InStock"
-              }
+              "@type": "Service",
+              "name": "Appliance Removal",
+              "description": "Removal of household appliances including refrigerators, washers, dryers, stoves, and dishwashers.",
+              "serviceType": "Appliance Removal"
             }
           },
           {
             "@type": "Offer",
             "itemOffered": {
-              "@type": "Product",
-              "name": "Southland 7x14 14k Dump Trailer Rental",
-              "description": "7' x 14' dump trailer with 12,308 lb capacity. Ideal for larger commercial and construction projects with maximum hauling capacity.",
-              "brand": {
-                "@type": "Brand",
-                "name": "Southland"
-              },
-              "model": "SL714-14K",
+              "@type": "Service",
+              "name": "Full-Service Junk Removal",
+              "description": "Complete junk removal where we handle all loading and hauling for residential and commercial properties.",
+              "serviceType": "Junk Removal",
               "offers": {
                 "@type": "AggregateOffer",
-                "lowPrice": "130",
-                "highPrice": "3350",
+                "lowPrice": "150",
                 "priceCurrency": "USD",
-                "priceValidUntil": "2025-12-31",
                 "availability": "https://schema.org/InStock"
               }
             }
@@ -121,29 +60,44 @@ export function ServiceSchema() {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Junk Removal Service",
-              "description": "Full-service junk removal for residential and commercial properties. We load and haul everything for you.",
-              "serviceType": "Junk Removal"
+              "name": "Estate & House Cleanouts",
+              "description": "Full property cleanouts for estates, foreclosures, and move-outs.",
+              "serviceType": "House Cleanout"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Hoarder House Cleanouts",
+              "description": "Compassionate, discreet cleanout services for severely cluttered properties.",
+              "serviceType": "Hoarder Cleanout"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Garage Cleanouts",
+              "description": "Complete garage clearing including shelves, boxes, tools, and accumulated junk.",
+              "serviceType": "Garage Cleanout"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Yard Cleanup & Debris Removal",
+              "description": "Brush, branches, yard waste, and construction debris removal.",
+              "serviceType": "Yard Cleanup"
             }
           }
         ]
       },
       "additionalProperty": [
-        {
-          "@type": "PropertyValue",
-          "name": "Veteran Owned",
-          "value": "true"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Same Day Service",
-          "value": "true"
-        },
-        {
-          "@type": "PropertyValue",
-          "name": "Licensed and Insured",
-          "value": "true"
-        }
+        { "@type": "PropertyValue", "name": "Veteran Owned", "value": "true" },
+        { "@type": "PropertyValue", "name": "Same Day Service", "value": "true" },
+        { "@type": "PropertyValue", "name": "Licensed and Insured", "value": "true" }
       ]
     };
 

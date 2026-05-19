@@ -120,7 +120,7 @@ export default function JunkRemovalAgreement({ bookingData, onComplete, onCancel
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">2. Liability for Damages</h4>
                   <p className="text-sm text-gray-800">
-                    You understand and agree that you are <strong>fully responsible and liable</strong> for any and all damages, costs, fines, penalties, or expenses incurred by Molalla Trailer Rental as a result of:
+                    You understand and agree that you are <strong>fully responsible and liable</strong> for any and all damages, costs, fines, penalties, or expenses incurred by Bare Acre Hauling as a result of:
                   </p>
                   <ul className="list-disc list-inside text-sm text-gray-800 mt-2 space-y-1 ml-4">
                     <li>Placing prohibited or hazardous materials in the trailer</li>
@@ -135,7 +135,7 @@ export default function JunkRemovalAgreement({ bookingData, onComplete, onCancel
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-2">3. Inspection Rights</h4>
                   <p className="text-sm text-gray-800">
-                    Molalla Trailer Rental reserves the right to inspect the trailer contents before removal. If prohibited materials are found, we may refuse to haul the load until such materials are removed at your expense, or we may charge additional fees for special handling and disposal.
+                    Bare Acre Hauling reserves the right to inspect the trailer contents before removal. If prohibited materials are found, we may refuse to haul the load until such materials are removed at your expense, or we may charge additional fees for special handling and disposal.
                   </p>
                 </div>
 

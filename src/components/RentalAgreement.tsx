@@ -395,7 +395,7 @@ export default function RentalAgreement({ bookingData, onComplete, onCancel }: R
                   <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                     <h4 className="font-semibold text-gray-800 mb-2">1. Definitions</h4>
                     <p className="text-sm text-gray-700 mb-3">
-                      "Agreement" means all terms and conditions found in this rental agreement. "You" or "your" means the renter. "We" or "our" means Molalla Trailer Rental. "Trailer" means the non-motorized trailer identified in this Agreement.
+                      "Agreement" means all terms and conditions found in this rental agreement. "You" or "your" means the renter. "We" or "our" means Bare Acre Hauling. "Trailer" means the non-motorized trailer identified in this Agreement.
                     </p>
                     <div className="flex items-center gap-3">
                       <label className="text-sm font-semibold text-gray-700">Initial:</label>

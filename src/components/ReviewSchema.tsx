@@ -5,7 +5,7 @@ export function ReviewSchema() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Molalla Trailer Rentals",
+      "name": "Bare Acre Hauling",
       "aggregateRating": {
         "@type": "AggregateRating",
         "ratingValue": "5.0",
@@ -39,7 +39,7 @@ export function ReviewSchema() {
             "ratingValue": "5",
             "bestRating": "5"
           },
-          "reviewBody": "I've rented from several trailer companies in the area, and Molalla Trailer Rentals is by far the best. The 7x14 trailer handled my construction debris perfectly. Great pricing, excellent equipment, and top-notch service.",
+          "reviewBody": "I've used several junk removal companies in the area, and Bare Acre Hauling is by far the best. They cleared my entire garage in a few hours. Great pricing, hard working crew, and top-notch service.",
           "datePublished": "2024-10-22"
         },
         {

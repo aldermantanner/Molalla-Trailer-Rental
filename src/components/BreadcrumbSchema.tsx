@@ -12,22 +12,20 @@ export function BreadcrumbSchema() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://rentmolallatrailers.com/"
+        "item": "https://bareacrehauling.com/"
       }
     ];
 
     const pageNames: { [key: string]: string } = {
-      'booking': 'Book Trailer Rental',
-      'pricing': 'Pricing Calculator',
-      'specifications': 'Trailer Specifications',
+      'booking': 'Book Junk Removal',
+      'pricing': 'Junk Removal Pricing',
       'customer-portal': 'Customer Portal',
-      'availability': 'Check Availability',
       'payment-success': 'Payment Success'
     };
 
     pathSegments.forEach((segment, index) => {
       const pageName = pageNames[segment] || segment.charAt(0).toUpperCase() + segment.slice(1);
-      const itemUrl = `https://rentmolallatrailers.com/${pathSegments.slice(0, index + 1).join('/')}`;
+      const itemUrl = `https://bareacrehauling.com/${pathSegments.slice(0, index + 1).join('/')}`;
 
       breadcrumbList.push({
         "@type": "ListItem",

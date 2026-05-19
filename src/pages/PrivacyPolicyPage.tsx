@@ -34,7 +34,7 @@ export function PrivacyPolicyPage() {
         <div className="prose prose-slate max-w-none">
           <section className="mb-12">
             <p className="text-lg text-gray-600 leading-relaxed">
-              Molalla Trailer Rentals ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website rentmolallatrailers.com (the "Site") or use our services.
+              Bare Acre Hauling ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website bareacrehauling.com (the "Site") or use our services.
             </p>
           </section>
 
@@ -268,7 +268,7 @@ export function PrivacyPolicyPage() {
             </p>
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <p className="font-semibold text-slate-700 mb-1">Molalla Trailer Rentals</p>
+                <p className="font-semibold text-slate-700 mb-1">Bare Acre Hauling</p>
                 <p className="text-gray-600">Molalla, OR</p>
               </div>
               <div>
@@ -278,7 +278,7 @@ export function PrivacyPolicyPage() {
                 </p>
                 <p className="text-gray-600">
                   <strong className="text-slate-700">Email:</strong>{' '}
-                  <a href="mailto:Molallatrailerrental@outlook.com" className="text-green-600 hover:text-green-700 transition-colors">Molallatrailerrental@outlook.com</a>
+                  <a href="mailto:BareAcreHauling@outlook.com" className="text-green-600 hover:text-green-700 transition-colors">BareAcreHauling@outlook.com</a>
                 </p>
               </div>
             </div>

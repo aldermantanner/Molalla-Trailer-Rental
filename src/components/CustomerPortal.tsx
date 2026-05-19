@@ -559,8 +559,8 @@ export function CustomerPortal() {
             </p>
             <p>
               <strong>Email:</strong>{' '}
-              <a href="mailto:Molallatrailerrental@outlook.com" className="underline hover:text-blue-700">
-                Molallatrailerrental@outlook.com
+              <a href="mailto:BareAcreHauling@outlook.com" className="underline hover:text-blue-700">
+                BareAcreHauling@outlook.com
               </a>
             </p>
           </div>

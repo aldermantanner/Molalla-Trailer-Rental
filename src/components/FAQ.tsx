@@ -1,68 +1,59 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 interface FAQItem {
   question: string;
   answer: string;
-  answerLink?: {
-    text: string;
-    url: string;
-  };
 }
 
 const faqs: FAQItem[] = [
   {
-    question: 'What are your trailer rental rates?',
-    answer: 'We offer competitive daily, weekly, and monthly rates. Southland 6x12 10k starts at $120/day, $750/week, or $3,000/month. Southland 7x14 14k starts at $130/day, $825/week, or $3,350/month. Delivery fees vary by location.'
+    question: 'What junk removal services do you offer?',
+    answer: 'We offer a full range of junk removal services including: appliance removal, general trash and junk removal, debris removal, yard cleanup, garage cleanouts, complete house cleanouts, hoarder house cleanouts, furniture removal, and commercial junk removal. If it\'s not hazardous, we can likely haul it.'
   },
   {
-    question: 'What is the weight capacity of your trailers?',
-    answer: 'Our Southland 6x12 trailer has an 8,745 lb capacity, and our Southland 7x14 trailer has a 12,308 lb capacity. Both are perfect for construction debris, yard waste, and general hauling needs.'
+    question: 'How much does junk removal cost?',
+    answer: 'Our pricing is volume-based — you pay based on how much of our truck you fill. Prices start at $150 for small loads (1–2 yards), $250–$350 for mid-size loads (3–4 yards), $425–$550 for larger loads (5–7 yards), and $650–$800 for a full truck (8–15 yards). Final pricing is confirmed on-site.'
   },
   {
-    question: 'Do you deliver trailers?',
-    answer: 'Yes! We offer delivery service throughout Molalla and surrounding areas in Clackamas County. Delivery fees depend on distance. You can also pick up the trailer at our location: 33250 S Wilhoit Rd, Molalla.'
+    question: 'Do you do same-day junk removal?',
+    answer: 'Yes, same-day service is often available depending on schedule. Call or text us at 503-874-3705 and we\'ll do our best to get to you quickly. Priority pickup add-on (+$95) guarantees you the first available slot.'
   },
   {
-    question: 'What can I haul in your dump trailers?',
-    answer: 'Our trailers are perfect for construction debris, yard waste, furniture, appliances, and general junk removal. Please contact us if you have questions about specific materials.'
-  },
-  {
-    question: 'How do I operate the dump feature?',
-    answer: 'Our dump trailers are easy to operate with a hydraulic lift system. We provide a brief demonstration during delivery or pickup. The process is simple and safe when following basic instructions.'
-  },
-  {
-    question: 'What do I need to tow the trailer?',
-    answer: 'You\'ll need a vehicle with appropriate towing capacity and a 2 5/16" ball hitch. We recommend a truck or SUV rated for the trailer\'s weight. Contact us if you\'re unsure about your vehicle\'s compatibility.'
-  },
-  {
-    question: 'How far in advance should I book?',
-    answer: 'We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 503-874-3705 to check current availability.'
+    question: 'Do I need to be home during the junk removal?',
+    answer: 'Not necessarily. As long as we have access to the items and a way to confirm the job scope and payment, we can handle it without you present. Just reach out and we\'ll work out the details.'
   },
   {
     question: 'What areas do you serve?',
-    answer: 'We primarily serve Molalla and surrounding areas in Clackamas County, including Canby, Oregon City, Woodburn, and nearby communities. Contact us to confirm delivery to your specific location.'
+    answer: 'We serve Molalla and surrounding communities throughout Clackamas County, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, and Sandy. Contact us to confirm service to your specific area.'
   },
   {
-    question: 'Do you offer junk removal services?',
-    answer: 'Yes! We provide full-service junk removal where we handle all the loading and hauling for you. This is perfect for estate cleanouts, foreclosure cleanup, or any situation where you need us to do the heavy lifting.',
-    answerLink: {
-      text: 'View our detailed junk removal pricing',
-      url: '/junk-removal-pricing'
-    }
+    question: 'Do you remove appliances?',
+    answer: 'Yes! We remove all types of household appliances including refrigerators, washers, dryers, stoves, dishwashers, microwaves, and more. Appliance removal is one of our most requested services.'
+  },
+  {
+    question: 'Can you help with a hoarder house cleanout?',
+    answer: 'Yes. We offer full hoarder house cleanout services. We work discreetly, respectfully, and efficiently. These jobs are quoted on-site given the variety of material and volume involved. Call us to schedule a walkthrough and estimate.'
+  },
+  {
+    question: 'Do you do estate and full house cleanouts?',
+    answer: 'Absolutely. We specialize in complete house cleanouts for estates, foreclosures, move-outs, and property transitions. We can clear an entire home in a single visit or across multiple trips depending on volume.'
+  },
+  {
+    question: 'What do you NOT take?',
+    answer: 'We cannot take hazardous materials, chemicals, liquids, paint, or asbestos. For special disposal items like concrete, dirt, brick, or roofing shingles, those require a custom quote due to weight surcharges at the dump.'
+  },
+  {
+    question: 'How do I get a quote?',
+    answer: 'The fastest way is to text us photos of what you need removed at 503-874-3705. We\'ll reply with a quick estimate. You can also call us directly or book online and we\'ll reach out to confirm pricing before we show up.'
   },
   {
     question: 'What payment methods do you accept?',
-    answer: 'We accept card, cash, or Venmo. Payment is due at the time of rental or service.'
+    answer: 'We accept card, cash, or Venmo. Payment is collected at the time of service.'
   },
   {
-    question: 'Is there a deposit required?',
-    answer: 'Yes, we require a refundable security deposit for trailer rentals. The deposit amount varies by trailer type and rental duration. The deposit is fully refunded when the trailer is returned in good condition.'
-  },
-  {
-    question: 'Can I extend my rental period?',
-    answer: 'Absolutely! Just give us a call at 503-874-3705 before your rental period ends, and we\'ll be happy to extend it based on availability. Extended rentals may qualify for weekly or monthly rates.'
+    question: 'Are you veteran owned?',
+    answer: 'Yes. Bare Acre Hauling is proudly veteran owned and operated. We offer 10% off for veterans, first responders, and police. Just mention it when you book.'
   }
 ];
 
@@ -80,7 +71,7 @@ export function FAQ() {
           Frequently Asked Questions
         </h2>
         <p className="text-xl text-gray-600 text-center mb-16">
-          Find answers to common questions about our trailer rentals and services
+          Everything you need to know about our junk removal services
         </p>
         <div className="space-y-4">
           {faqs.map((faq, index) => (
@@ -103,32 +94,16 @@ export function FAQ() {
               </button>
               {openIndex === index && (
                 <div className="px-6 pb-5 pt-2">
-                  <p className="text-gray-700 leading-relaxed">
-                    {faq.answer}
-                    {faq.answerLink && (
-                      <>
-                        {' '}
-                        <Link
-                          to={faq.answerLink.url}
-                          onClick={() => window.scrollTo(0, 0)}
-                          className="text-green-600 font-semibold hover:text-green-700 underline"
-                        >
-                          {faq.answerLink.text}
-                        </Link>
-                      </>
-                    )}
-                  </p>
+                  <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
                 </div>
               )}
             </div>
           ))}
         </div>
         <div className="mt-12 text-center bg-white rounded-lg p-8 shadow-md">
-          <h3 className="text-2xl font-bold text-slate-800 mb-3">
-            Still have questions?
-          </h3>
+          <h3 className="text-2xl font-bold text-slate-800 mb-3">Still have questions?</h3>
           <p className="text-gray-600 mb-6">
-            We're here to help! Give us a call or send us an email.
+            We're here to help. Call, text, or send us an email.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -138,7 +113,7 @@ export function FAQ() {
               Call: 503-874-3705
             </a>
             <a
-              href="mailto:Molallatrailerrental@outlook.com"
+              href="mailto:BareAcreHauling@outlook.com"
               className="bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-semibold"
             >
               Email Us

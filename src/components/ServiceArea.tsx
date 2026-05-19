@@ -24,39 +24,31 @@ export function ServiceArea() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="h-8 w-8 text-green-600" />
-              <h2 className="text-4xl font-bold text-slate-800">
-                Service Area
-              </h2>
+              <h2 className="text-4xl font-bold text-slate-800">Service Area</h2>
             </div>
             <p className="text-xl text-gray-600 mb-6">
-              We proudly serve Molalla and surrounding communities throughout Clackamas County and beyond. Our dump trailer rentals and junk removal services are available across the region.
+              Bare Acre Hauling proudly serves Molalla and surrounding communities throughout Clackamas County and beyond.
             </p>
             <p className="text-base text-gray-600 mb-8">
-              Based in Molalla, Oregon, we specialize in serving homeowners, contractors, and businesses throughout Clackamas County. Whether you need a dump trailer in Canby or junk removal in Oregon City, we've got you covered with professional service and competitive rates.
+              Based in Molalla, Oregon, we specialize in serving homeowners, landlords, contractors, and businesses throughout the region. Whether you need a garage cleanout in Canby or an estate cleanout in Oregon City, we've got you covered with professional service and fair pricing.
             </p>
 
             <div className="bg-gray-50 rounded-lg p-6 mb-8">
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">
-                Primary Service Areas
-              </h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">Primary Service Areas</h3>
               <div className="grid grid-cols-2 gap-3">
                 {serviceAreas
                   .filter((area) => area.featured)
                   .map((area, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
-                      <span className="font-semibold text-slate-800">
-                        {area.name}
-                      </span>
+                      <span className="font-semibold text-slate-800">{area.name}</span>
                     </div>
                   ))}
               </div>
             </div>
 
             <div className="bg-gray-50 rounded-lg p-6 mb-8">
-              <h3 className="text-xl font-semibold text-slate-800 mb-4">
-                Extended Service Areas
-              </h3>
+              <h3 className="text-xl font-semibold text-slate-800 mb-4">Extended Service Areas</h3>
               <div className="grid grid-cols-2 gap-3">
                 {serviceAreas
                   .filter((area) => !area.featured)
@@ -70,11 +62,9 @@ export function ServiceArea() {
             </div>
 
             <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-green-900 mb-2">
-                Don't see your city listed?
-              </h3>
+              <h3 className="text-lg font-semibold text-green-900 mb-2">Don't see your city listed?</h3>
               <p className="text-green-800 mb-4">
-                We may still be able to serve your area! Delivery fees vary by distance. Contact us to confirm availability for your location.
+                We may still be able to serve your area! Contact us to confirm availability for your location.
               </p>
               <a
                 href="tel:503-874-3705"
@@ -98,9 +88,7 @@ export function ServiceArea() {
 
             <div className="bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl p-6 shadow-lg">
               <div className="bg-white rounded-lg p-6">
-                <h4 className="text-xl font-bold text-slate-800 mb-4 text-center">
-                  Delivery Information
-                </h4>
+                <h4 className="text-xl font-bold text-slate-800 mb-4 text-center">Contact Information</h4>
 
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
@@ -108,12 +96,8 @@ export function ServiceArea() {
                       <MapPin className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <h5 className="font-semibold text-slate-800 text-sm mb-1">
-                        Pickup Location
-                      </h5>
-                      <p className="text-gray-600 text-sm">
-                        33250 S Wilhoit Rd, Molalla, OR 97038
-                      </p>
+                      <h5 className="font-semibold text-slate-800 text-sm mb-1">Based In</h5>
+                      <p className="text-gray-600 text-sm">Molalla, OR 97038</p>
                     </div>
                   </div>
 
@@ -122,12 +106,8 @@ export function ServiceArea() {
                       <CheckCircle className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <h5 className="font-semibold text-slate-800 text-sm mb-1">
-                        Free Self-Pickup
-                      </h5>
-                      <p className="text-gray-600 text-sm">
-                        Pick up at our location at no extra charge
-                      </p>
+                      <h5 className="font-semibold text-slate-800 text-sm mb-1">Same-Day Available</h5>
+                      <p className="text-gray-600 text-sm">Call or text to check availability</p>
                     </div>
                   </div>
 
@@ -136,12 +116,8 @@ export function ServiceArea() {
                       <CheckCircle className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                      <h5 className="font-semibold text-slate-800 text-sm mb-1">
-                        Delivery Available
-                      </h5>
-                      <p className="text-gray-600 text-sm">
-                        Delivery fees based on distance from Molalla
-                      </p>
+                      <h5 className="font-semibold text-slate-800 text-sm mb-1">Free On-Site Quotes</h5>
+                      <p className="text-gray-600 text-sm">Or text a photo for a fast estimate</p>
                     </div>
                   </div>
                 </div>
@@ -155,7 +131,7 @@ export function ServiceArea() {
                       Call Now
                     </a>
                     <a
-                      href="mailto:Molallatrailerrental@outlook.com"
+                      href="mailto:BareAcreHauling@outlook.com"
                       className="flex-1 bg-slate-700 text-white px-4 py-2.5 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-center text-sm"
                     >
                       Email Us

@@ -21,8 +21,6 @@ const CustomerPortalPage = lazy(() => import('./pages/CustomerPortalPage').then(
 const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage').then(m => ({ default: m.PaymentSuccessPage })));
 const AdCampaignPage = lazy(() => import('./pages/AdCampaignPage').then(m => ({ default: m.AdCampaignPage })));
 const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
-const AvailabilityPage = lazy(() => import('./pages/AvailabilityPage').then(m => ({ default: m.AvailabilityPage })));
-const SpecificationsPage = lazy(() => import('./pages/SpecificationsPage').then(m => ({ default: m.SpecificationsPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage').then(m => ({ default: m.TermsAndConditionsPage })));
 
@@ -69,13 +67,13 @@ function App() {
               <Route path="/" element={<Layout><HomePage /></Layout>} />
               <Route path="/booking" element={<Layout><BookingPage /></Layout>} />
               <Route path="/pricing" element={<Layout><PricingPage /></Layout>} />
-              <Route path="/availability" element={<Layout><AvailabilityPage /></Layout>} />
-              <Route path="/specifications" element={<Layout><SpecificationsPage /></Layout>} />
               <Route path="/junk-removal-pricing" element={<Navigate to="/pricing" replace />} />
               <Route path="/mybookings" element={<Layout><CustomerPortalPage /></Layout>} />
               <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
               <Route path="/privacypolicy" element={<Layout><PrivacyPolicyPage /></Layout>} />
               <Route path="/termsandconditions" element={<Layout><TermsAndConditionsPage /></Layout>} />
+              <Route path="/availability" element={<Navigate to="/" replace />} />
+              <Route path="/specifications" element={<Navigate to="/" replace />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>

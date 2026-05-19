@@ -11,7 +11,7 @@ export function ChatWidget() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const mailtoLink = `mailto:Molallatrailerrental@outlook.com?subject=Quick Question from ${encodeURIComponent(name)}&body=${encodeURIComponent(`Name: ${name}\nContact: ${contact}\n\nMessage:\n${message}`)}`;
+    const mailtoLink = `mailto:BareAcreHauling@outlook.com?subject=Quick Question from ${encodeURIComponent(name)}&body=${encodeURIComponent(`Name: ${name}\nContact: ${contact}\n\nMessage:\n${message}`)}`;
     window.location.href = mailtoLink;
 
     setSubmitted(true);
@@ -71,7 +71,7 @@ export function ChatWidget() {
                       503-874-3705
                     </a>
                     <a
-                      href="mailto:Molallatrailerrental@outlook.com"
+                      href="mailto:BareAcreHauling@outlook.com"
                       className="flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold text-sm"
                     >
                       <Mail className="h-4 w-4" />

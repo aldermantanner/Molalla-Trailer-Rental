@@ -7,10 +7,10 @@ export function JunkRemovalPricingPage() {
   return (
     <>
       <SEOHead
-        title="Junk Removal Pricing - Transparent & Affordable | Molalla Trailer Rental"
-        description="Simple, transparent junk removal pricing. Volume-based rates starting at $150. Choose from DIY, full-service, or cleanout packages. No hidden fees. Serving Molalla, OR."
-        canonicalUrl="https://www.molallatrailerrental.com/junk-removal-pricing"
-        keywords="junk removal pricing, junk hauling cost, furniture removal prices, cleanout services, Molalla junk removal"
+        title="Junk Removal Pricing | Bare Acre Hauling | Molalla, OR"
+        description="Simple, transparent junk removal pricing. Volume-based rates starting at $150. Full-service or cleanout packages. No hidden fees. Serving Molalla and Clackamas County, OR."
+        canonicalUrl="https://bareacrehauling.com/junk-removal-pricing"
+        keywords="junk removal pricing Molalla, junk hauling cost Oregon, appliance removal price, estate cleanout pricing, Bare Acre Hauling"
       />
 
       <div className="min-h-screen bg-gray-50">
@@ -70,7 +70,7 @@ export function JunkRemovalPricingPage() {
                 rel="noopener noreferrer"
                 className="inline-block bg-slate-700 text-white px-8 py-4 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-lg"
               >
-                Book a Trailer
+                Book Online
               </a>
             </div>
           </div>

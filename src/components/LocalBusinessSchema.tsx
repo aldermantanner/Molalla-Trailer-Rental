@@ -5,16 +5,15 @@ export function LocalBusinessSchema() {
     const schema = {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "Molalla Trailer Rentals",
-      "image": "https://rentmolallatrailers.com/IMG_1426.PNG",
-      "@id": "https://rentmolallatrailers.com",
-      "url": "https://rentmolallatrailers.com",
+      "name": "Bare Acre Hauling",
+      "image": "https://bareacrehauling.com/IMG_1426.PNG",
+      "@id": "https://bareacrehauling.com",
+      "url": "https://bareacrehauling.com",
       "telephone": "+15038743705",
-      "email": "Molallatrailerrental@outlook.com",
+      "email": "BareAcreHauling@outlook.com",
       "priceRange": "$$",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "33250 S Wilhoit Rd",
         "addressLocality": "Molalla",
         "addressRegion": "OR",
         "postalCode": "97038",
@@ -28,19 +27,12 @@ export function LocalBusinessSchema() {
       "openingHoursSpecification": {
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
+          "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
         ],
         "opens": "00:00",
         "closes": "23:59"
       },
       "sameAs": [
-        "https://rentmolallatrailers.com",
         "https://www.facebook.com/molallatrailerrental"
       ],
       "contactPoint": {
@@ -51,53 +43,62 @@ export function LocalBusinessSchema() {
         "availableLanguage": "English"
       },
       "areaServed": [
-        {
-          "@type": "City",
-          "name": "Molalla"
-        },
-        {
-          "@type": "City",
-          "name": "Canby"
-        },
-        {
-          "@type": "City",
-          "name": "Oregon City"
-        },
-        {
-          "@type": "City",
-          "name": "Woodburn"
-        },
-        {
-          "@type": "AdministrativeArea",
-          "name": "Clackamas County"
-        }
+        { "@type": "City", "name": "Molalla" },
+        { "@type": "City", "name": "Canby" },
+        { "@type": "City", "name": "Oregon City" },
+        { "@type": "City", "name": "Woodburn" },
+        { "@type": "AdministrativeArea", "name": "Clackamas County" }
       ],
       "additionalType": "https://en.wikipedia.org/wiki/Veteran-owned_business",
-      "description": "Veteran-owned dump trailer rental and junk removal service serving Molalla and surrounding areas. Professional dump trailers and complete junk removal services.",
+      "description": "Veteran-owned junk removal company serving Molalla and Clackamas County, Oregon. Appliance removal, debris removal, garage cleanouts, estate cleanouts, hoarder house cleanouts, yard cleanup, and more.",
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Trailer Rental Services",
+        "name": "Junk Removal Services",
         "itemListElement": [
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Dump Trailer Rental",
-              "description": "Professional-grade dump trailers for daily, weekly, or monthly rental"
-            },
-            "priceSpecification": {
-              "@type": "PriceSpecification",
-              "price": "120",
-              "priceCurrency": "USD",
-              "unitText": "per day"
+              "name": "Appliance Removal",
+              "description": "Removal of household appliances including refrigerators, washers, dryers, and stoves"
             }
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Junk Removal Service",
-              "description": "Full-service junk removal for residential and commercial properties"
+              "name": "Full-Service Junk Removal",
+              "description": "Complete junk removal where we handle all loading and hauling"
+            },
+            "priceSpecification": {
+              "@type": "PriceSpecification",
+              "price": "150",
+              "priceCurrency": "USD",
+              "unitText": "minimum"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Estate & House Cleanouts",
+              "description": "Full property cleanouts for estates, foreclosures, and move-outs"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Hoarder House Cleanouts",
+              "description": "Compassionate and discreet cleanout services for severely cluttered properties"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Debris Removal",
+              "description": "Construction debris, remodel waste, and yard debris removal"
             }
           }
         ]

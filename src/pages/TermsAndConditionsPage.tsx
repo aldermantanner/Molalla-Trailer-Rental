@@ -34,7 +34,7 @@ export function TermsAndConditionsPage() {
         <div className="prose prose-slate max-w-none">
           <section className="mb-12">
             <p className="text-lg text-gray-600 leading-relaxed">
-              Welcome to Molalla Trailer Rentals. These Terms and Conditions ("Terms") govern your use of our website at rentmolallatrailers.com (the "Site") and all services provided by Molalla Trailer Rentals ("we," "us," or "our"), including dump trailer rentals, junk removal services, and related offerings. By accessing our Site or using our services, you agree to be bound by these Terms.
+              Welcome to Bare Acre Hauling. These Terms and Conditions ("Terms") govern your use of our website at bareacrehauling.com (the "Site") and all services provided by Bare Acre Hauling ("we," "us," or "our"), including junk removal services and related offerings. By accessing our Site or using our services, you agree to be bound by these Terms.
             </p>
           </section>
 
@@ -51,7 +51,7 @@ export function TermsAndConditionsPage() {
             <h2 className="text-2xl font-bold text-slate-800 mb-4 pb-2 border-b border-gray-200">
               2. Services
             </h2>
-            <p className="text-gray-600 mb-4">Molalla Trailer Rentals offers the following services:</p>
+            <p className="text-gray-600 mb-4">Bare Acre Hauling offers the following services:</p>
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -289,7 +289,7 @@ export function TermsAndConditionsPage() {
             <ul className="space-y-3 text-gray-600">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Molalla Trailer Rentals provides all trailers and equipment on an "as-is" basis without warranties of any kind, express or implied, including warranties of merchantability or fitness for a particular purpose.</span>
+                <span>Bare Acre Hauling provides all trailers and equipment on an "as-is" basis without warranties of any kind, express or implied, including warranties of merchantability or fitness for a particular purpose.</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -301,7 +301,7 @@ export function TermsAndConditionsPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>You agree to indemnify, defend, and hold harmless Molalla Trailer Rentals, its owners, employees, and agents from any claims, damages, or expenses arising from your use of our trailers or services.</span>
+                <span>You agree to indemnify, defend, and hold harmless Bare Acre Hauling, its owners, employees, and agents from any claims, damages, or expenses arising from your use of our trailers or services.</span>
               </li>
             </ul>
           </section>
@@ -320,7 +320,7 @@ export function TermsAndConditionsPage() {
               10. Intellectual Property
             </h2>
             <p className="text-gray-600">
-              All content on the Site, including text, graphics, logos, images, and software, is the property of Molalla Trailer Rentals or its content suppliers and is protected by United States copyright and trademark laws. You may not reproduce, distribute, modify, or create derivative works from any content on the Site without our express written consent.
+              All content on the Site, including text, graphics, logos, images, and software, is the property of Bare Acre Hauling or its content suppliers and is protected by United States copyright and trademark laws. You may not reproduce, distribute, modify, or create derivative works from any content on the Site without our express written consent.
             </p>
           </section>
 
@@ -363,7 +363,7 @@ export function TermsAndConditionsPage() {
             </p>
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <p className="font-semibold text-slate-700 mb-1">Molalla Trailer Rentals</p>
+                <p className="font-semibold text-slate-700 mb-1">Bare Acre Hauling</p>
                 <p className="text-gray-600">Molalla, OR</p>
               </div>
               <div>
@@ -373,7 +373,7 @@ export function TermsAndConditionsPage() {
                 </p>
                 <p className="text-gray-600">
                   <strong className="text-slate-700">Email:</strong>{' '}
-                  <a href="mailto:Molallatrailerrental@outlook.com" className="text-green-600 hover:text-green-700 transition-colors">Molallatrailerrental@outlook.com</a>
+                  <a href="mailto:BareAcreHauling@outlook.com" className="text-green-600 hover:text-green-700 transition-colors">BareAcreHauling@outlook.com</a>
                 </p>
               </div>
             </div>

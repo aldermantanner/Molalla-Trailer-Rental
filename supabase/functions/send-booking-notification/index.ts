@@ -36,13 +36,16 @@ Deno.serve(async (req: Request) => {
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
     if (!resendApiKey) {
-      console.error("RESEND_API_KEY not configured");
+      console.warn("RESEND_API_KEY not configured — booking notification logged only");
+      console.log("New booking received:", {
+        id: booking.booking_id,
+        customer: booking.customer_name,
+        service: booking.service_type,
+        start: booking.start_date,
+      });
       return new Response(
-        JSON.stringify({ error: "Email service not configured" }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
+        JSON.stringify({ success: true, message: "Notification logged (no email provider)" }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 

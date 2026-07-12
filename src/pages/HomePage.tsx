@@ -131,7 +131,7 @@ export function HomePage() {
             </div>
             <div className="relative flex flex-col items-center justify-center space-y-6">
               <img
-                src="/image.png"
+                src="/Bare_Arce_Hauling_high_res_PNG.png"
                 alt="Bare Acre Hauling junk removal service"
                 className="rounded-2xl shadow-2xl w-auto max-w-full h-auto max-h-96 object-contain"
                 loading="eager"

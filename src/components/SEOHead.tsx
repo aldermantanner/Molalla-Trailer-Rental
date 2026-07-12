@@ -13,7 +13,7 @@ export function SEOHead({
   title = 'Bare Acre Hauling | Junk Removal Molalla OR | Veteran Owned | Clackamas County',
   description = 'Veteran-owned junk removal serving Molalla and Clackamas County, OR. Appliance removal, garage cleanouts, estate cleanouts, hoarder house cleanouts & more. Call 503-874-3705.',
   keywords = 'junk removal Molalla, appliance removal Oregon, garage cleanout Molalla, estate cleanout Clackamas County, hoarder house cleanout Oregon, debris removal Molalla, veteran owned junk removal',
-  ogImage = 'https://bareacrehauling.com/IMG_1426.PNG',
+  ogImage = 'https://bareacrehauling.com/Bare_Arce_Hauling_high_res_PNG.png',
   canonical,
 }: SEOHeadProps) {
   const location = useLocation();

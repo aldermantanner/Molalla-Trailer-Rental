@@ -33,10 +33,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
               >
                 <img
-                  src="/IMG_1426.PNG"
+                  src="/Bare_Arce_Hauling_high_res_PNG.png"
                   alt="Bare Acre Hauling"
-                  className="h-12 w-auto object-contain mix-blend-screen"
-                  style={{ filter: 'brightness(1.2)' }}
+                  className="h-12 w-auto object-contain"
                 />
                 <span className="text-2xl font-bold text-white whitespace-nowrap">Bare Acre Hauling</span>
               </a>
@@ -265,10 +264,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
             className="flex items-center justify-center space-x-2 mb-4 hover:opacity-80 transition-opacity cursor-pointer"
           >
             <img
-              src="/IMG_1426.PNG"
+              src="/Bare_Arce_Hauling_high_res_PNG.png"
               alt="Bare Acre Hauling"
-              className="h-10 w-auto object-contain mix-blend-screen"
-              style={{ filter: 'brightness(1.2)' }}
+              className="h-10 w-auto object-contain"
             />
             <span className="text-xl font-bold text-white">Bare Acre Hauling</span>
           </a>

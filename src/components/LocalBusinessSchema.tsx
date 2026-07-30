@@ -33,7 +33,7 @@ export function LocalBusinessSchema() {
         "closes": "23:59"
       },
       "sameAs": [
-        "https://www.facebook.com/molallatrailerrental"
+        "https://www.facebook.com/bareacrehauling"
       ],
       "contactPoint": {
         "@type": "ContactPoint",

@@ -274,7 +274,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center justify-center gap-6 mb-6">
             <a
-              href="https://www.facebook.com/molallatrailerrental"
+              href="https://www.facebook.com/bareacrehauling"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
@@ -284,7 +284,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <span className="text-sm">Facebook</span>
             </a>
             <a
-              href="https://www.tiktok.com/@molallatrailerrental"
+              href="https://www.tiktok.com/@bareacrehauling"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"

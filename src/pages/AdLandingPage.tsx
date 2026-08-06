@@ -117,6 +117,28 @@ export function AdLandingPage() {
 
       if (error) throw error;
       setSubmitted(true);
+
+      try {
+        await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-lead-notification`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+          },
+          body: JSON.stringify({
+            name: sanitizeText(form.name.trim(), 100),
+            phone: sanitizePhone(form.phone.trim()),
+            email: form.email.trim() || null,
+            zip_code: sanitizeText(form.zip_code.trim(), 10) || null,
+            service_type: form.service_type || null,
+            message: sanitizeText(form.message.trim(), 1000) || null,
+            source: sourceRef.current,
+            campaign: campaignRef.current,
+          }),
+        });
+      } catch {
+        // Lead saved — notification failure is non-fatal
+      }
     } catch {
       setErrors({ message: 'Something went wrong. Please try calling us instead.' });
     } finally {
@@ -149,8 +171,8 @@ export function AdLandingPage() {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold text-white leading-tight mb-4">
-            Junk Removal<br />
-            <span className="text-green-400">Done Right.</span>
+            We Take It<br />
+            <span className="text-green-400">From Here.</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-gray-300 mb-6 leading-relaxed">

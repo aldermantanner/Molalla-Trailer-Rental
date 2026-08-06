@@ -94,8 +94,8 @@ export function HomePage() {
                 <span className="text-yellow-400 font-semibold">Veteran Owned & Operated</span>
               </div>
               <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6">
-                Junk Removal<br />
-                <span className="text-green-400">Done Right.</span>
+                We Take It<br />
+                <span className="text-green-400">From Here.</span>
               </h1>
               <p className="text-xl text-gray-300 mb-6 leading-relaxed">
                 Bare Acre Hauling is Molalla's trusted, veteran-owned junk removal company. Appliances, debris, full estate cleanouts — we haul it all so you don't have to.
@@ -138,7 +138,7 @@ export function HomePage() {
               />
               <div className="flex items-center gap-4">
                 <a
-                  href="https://www.facebook.com/molallatrailerrental"
+                  href="https://www.facebook.com/bareacrehauling"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 hover:bg-white/20 transition-all duration-300 shadow-lg"
@@ -148,7 +148,7 @@ export function HomePage() {
                   <span className="text-white font-medium">Facebook</span>
                 </a>
                 <a
-                  href="https://www.tiktok.com/@molallatrailerrental"
+                  href="https://www.tiktok.com/@bareacrehauling"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 hover:bg-white/20 transition-all duration-300 shadow-lg"

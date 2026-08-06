@@ -24,12 +24,12 @@ const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: str
   switch (status) {
     case 'pending':
       return {
-        subject: '📋 Booking Received - Molalla Trailer Rentals',
+        subject: '📋 Booking Received - Bare Acre Hauling',
         body: `Thank you for your ${serviceType === 'rental' ? 'trailer rental' : 'junk removal'} booking!\n\nYour booking has been received and we'll contact you shortly to confirm details and arrange payment.\n\nWhat's Next:\n- We'll contact you to coordinate ${serviceType === 'rental' ? 'pickup/delivery' : 'service'} details\n- Bring your driver's license ${serviceType === 'rental' ? 'when picking up' : 'on service day'}\n- Payment arrangements will be discussed when we contact you\n\nQuestions? Call us at 503-874-3705`
       };
     case 'confirmed':
       return {
-        subject: '✅ Booking Confirmed - Molalla Trailer Rentals',
+        subject: '✅ Booking Confirmed - Bare Acre Hauling',
         body: `Great news! Your booking has been confirmed.\n\nWhat's Next:\n- We'll contact you to coordinate pickup/delivery\n- Please bring your driver's license when picking up\n- Payment will be processed at pickup\n\nQuestions? Call us at 503-874-3705`
       };
     case 'active':
@@ -40,7 +40,7 @@ const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: str
     case 'completed':
       return {
         subject: '✓ Rental Complete - Thank You!',
-        body: `Your rental has been completed and marked as returned.\n\nNext Steps:\n- Your deposit refund will be processed within 2-3 business days\n- You'll receive a separate confirmation when refund is issued\n\nThank you for choosing Molalla Trailer Rentals! We hope to serve you again.\n\nQuestions? Call 503-874-3705`
+        body: `Your rental has been completed and marked as returned.\n\nNext Steps:\n- Your deposit refund will be processed within 2-3 business days\n- You'll receive a separate confirmation when refund is issued\n\nThank you for choosing Bare Acre Hauling! We hope to serve you again.\n\nQuestions? Call 503-874-3705`
       };
     case 'cancelled':
       return {
@@ -49,7 +49,7 @@ const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: str
       };
     default:
       return {
-        subject: 'Booking Status Update - Molalla Trailer Rentals',
+        subject: 'Booking Status Update - Bare Acre Hauling',
         body: `Your booking status has been updated to: ${status}\n\nFor questions, call 503-874-3705`
       };
   }
@@ -97,9 +97,9 @@ ${totalPrice ? `- Total: $${totalPrice}` : ''}
 ${paymentUrl ? `\n💳 PAY YOUR INVOICE ONLINE:\n${paymentUrl}\n\nPay securely with credit card or bank transfer through QuickBooks.` : ''}
 
 ---
-Molalla Trailer Rentals
+Bare Acre Hauling
 📞 503-874-3705
-🌐 molallatrailerrentals.com
+🌐 bareacrehauling.com
 
 Veteran Owned & Operated
     `.trim();
@@ -123,7 +123,7 @@ Veteran Owned & Operated
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          from: 'Molalla Trailer Rentals <bookings@molallatrailerrentals.com>',
+          from: 'Bare Acre Hauling <bookings@bareacrehauling.com>',
           to: [customerEmail],
           subject: subject,
           text: emailBody,

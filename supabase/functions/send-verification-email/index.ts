@@ -66,7 +66,7 @@ Deno.serve(async (req: Request) => {
     if (resendApiKey) {
       const emailBody = `Hello,
 
-Thank you for booking with Molalla Trailer Rentals!
+Thank you for booking with Bare Acre Hauling!
 
 Your verification code is: ${code}
 
@@ -77,9 +77,9 @@ This code will expire in 30 minutes.
 If you didn't request this code, please ignore this email.
 
 ---
-Molalla Trailer Rentals
+Bare Acre Hauling
 503-874-3705
-molallatrailerrentals.com
+bareacrehauling.com
 Veteran Owned & Operated`.trim();
 
       const resendResponse = await fetch("https://api.resend.com/emails", {
@@ -89,9 +89,9 @@ Veteran Owned & Operated`.trim();
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "Molalla Trailer Rentals <bookings@molallatrailerrentals.com>",
+          from: "Bare Acre Hauling <bookings@bareacrehauling.com>",
           to: [email],
-          subject: "Your Verification Code - Molalla Trailer Rentals",
+          subject: "Your Verification Code - Bare Acre Hauling",
           text: emailBody,
         }),
       });

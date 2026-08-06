@@ -32,7 +32,7 @@ Deno.serve(async (req: Request) => {
   try {
     const booking: BookingNotification = await req.json();
 
-    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "Molallatrailerrental@outlook.com";
+    const adminEmail = Deno.env.get("ADMIN_EMAIL") || "BareAcreHauling@outlook.com";
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
     if (!resendApiKey) {
@@ -80,7 +80,7 @@ Deno.serve(async (req: Request) => {
         "Authorization": `Bearer ${resendApiKey}`,
       },
       body: JSON.stringify({
-        from: "Molalla Trailer Rentals <notifications@rentmolallatrailers.com>",
+        from: "Bare Acre Hauling <notifications@bareacrehauling.com>",
         to: [adminEmail],
         subject: `New Booking: ${booking.customer_name} - ${booking.service_type === 'rental' ? 'Trailer Rental' : 'Junk Removal'}`,
         html: emailBody,

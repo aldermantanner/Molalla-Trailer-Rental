@@ -42,9 +42,31 @@ Deno.serve(async (req: Request) => {
       throw new Error("Invalid service type");
     }
 
+    const sanitizedBooking: Record<string, unknown> = {
+      customer_name: bookingData.customer_name,
+      customer_email: bookingData.customer_email,
+      customer_phone: cleanPhone,
+      service_type: bookingData.service_type,
+      start_date: bookingData.start_date,
+      end_date: bookingData.end_date || null,
+      delivery_address: bookingData.delivery_address || "",
+      delivery_required: Boolean(bookingData.delivery_required),
+      notes: bookingData.notes || "",
+    };
+
+    const optionalFields = [
+      "date_of_birth", "drivers_license_number", "address", "city",
+      "state", "zip_code", "emergency_contact_name", "emergency_contact_phone",
+    ];
+    for (const field of optionalFields) {
+      if (bookingData[field] !== undefined) {
+        sanitizedBooking[field] = bookingData[field];
+      }
+    }
+
     const { data, error } = await supabase
       .from("bookings")
-      .insert(bookingData)
+      .insert(sanitizedBooking)
       .select()
       .single();
 

@@ -20,6 +20,7 @@ const AdminPage = lazy(() => import('./pages/AdminPage').then(m => ({ default: m
 const CustomerPortalPage = lazy(() => import('./pages/CustomerPortalPage').then(m => ({ default: m.CustomerPortalPage })));
 const PaymentSuccessPage = lazy(() => import('./pages/PaymentSuccessPage').then(m => ({ default: m.PaymentSuccessPage })));
 const AdCampaignPage = lazy(() => import('./pages/AdCampaignPage').then(m => ({ default: m.AdCampaignPage })));
+const AdLandingPage = lazy(() => import('./pages/AdLandingPage').then(m => ({ default: m.AdLandingPage })));
 const PricingPage = lazy(() => import('./pages/PricingPage').then(m => ({ default: m.PricingPage })));
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage').then(m => ({ default: m.PrivacyPolicyPage })));
 const TermsAndConditionsPage = lazy(() => import('./pages/TermsAndConditionsPage').then(m => ({ default: m.TermsAndConditionsPage })));
@@ -63,6 +64,7 @@ function App() {
           <Suspense fallback={<LoadingFallback />}>
             <Routes>
               <Route path="/ad" element={<AdCampaignPage />} />
+              <Route path="/ad-landing" element={<AdLandingPage />} />
               <Route path="/success" element={<PaymentSuccessPage />} />
               <Route path="/" element={<Layout><HomePage /></Layout>} />
               <Route path="/booking" element={<Layout><BookingPage /></Layout>} />

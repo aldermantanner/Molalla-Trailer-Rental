@@ -436,7 +436,7 @@ export function CustomerPortal() {
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                     <div className="flex-1 min-w-0">
                       <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-slate-800 mb-1 break-words">
-                        {booking.service_type === 'rental' ? 'Dump Trailer Rental' : 'Junk Removal Service'}
+                        {'Junk Removal Service'}
                       </h4>
                       <p className="text-xs sm:text-sm text-gray-600 break-all">Booking ID: {booking.id.slice(0, 8)}</p>
                     </div>
@@ -454,7 +454,7 @@ export function CustomerPortal() {
                     <div className="flex items-start gap-2 sm:gap-3">
                       <Calendar className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
                       <div className="min-w-0">
-                        <p className="text-xs sm:text-sm font-medium text-gray-700">Rental Period</p>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700">Service Date</p>
                         <p className="text-sm sm:text-base text-gray-900 break-words">
                           {formatDate(booking.start_date)}
                           {booking.end_date && ` - ${formatDate(booking.end_date)}`}
@@ -480,15 +480,7 @@ export function CustomerPortal() {
                       </div>
                     </div>
 
-                    {booking.trailer_type && (
-                      <div className="flex items-start gap-2 sm:gap-3">
-                        <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 mt-1 flex-shrink-0" />
-                        <div className="min-w-0">
-                          <p className="text-xs sm:text-sm font-medium text-gray-700">Trailer Type</p>
-                          <p className="text-sm sm:text-base text-gray-900 break-words">{booking.trailer_type}</p>
-                        </div>
-                      </div>
-                    )}
+
                   </div>
 
                   <div className="pt-3 sm:pt-4 border-t border-gray-200">
@@ -536,7 +528,7 @@ export function CustomerPortal() {
                         )}
                       </button>
                       <p className="text-xs text-gray-600 mt-2 text-center">
-                        Refund amount varies by timing. See rental agreement for details.
+                        Refund amount varies by timing. See service agreement for details.
                       </p>
                     </div>
                   )}

@@ -8,9 +8,9 @@ export function PricingPage() {
     <>
       <SEOHead
         title="Junk Removal Pricing | Bare Acre Hauling | Molalla, OR"
-        description="Transparent, volume-based junk removal pricing. Appliance removal, debris, garage cleanouts, estate cleanouts and more. Serving Molalla and Clackamas County, OR."
+        description="Fair junk removal pricing based on drive time, labor, dump fees, and margin. $150 minimum. Serving Molalla and Clackamas County, OR."
         canonicalUrl="https://www.bareacrehauling.com/pricing"
-        keywords="junk removal pricing Molalla, junk removal cost Oregon, appliance removal price, debris removal Clackamas County, estate cleanout pricing"
+        keywords="junk removal pricing Molalla, junk removal cost Oregon, haul away pricing Clackamas County, estate cleanout cost, debris removal estimate"
       />
 
       <div className="min-h-screen bg-gray-50">
@@ -28,7 +28,7 @@ export function PricingPage() {
               <div>
                 <h1 className="text-4xl font-bold text-white mb-2">Junk Removal Pricing</h1>
                 <p className="text-gray-200 text-lg mb-3">
-                  Transparent, volume-based pricing — no surprises
+                  Cost-factor pricing — drive time, labor, dump fees, and margin
                 </p>
                 <div className="bg-red-600 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 font-semibold text-sm shadow-lg">
                   <span>10% OFF for Veterans, First Responders & Police</span>

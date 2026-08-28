@@ -8,10 +8,26 @@ export function FAQSchema() {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What are your trailer rental rates?",
+          "name": "What junk removal services do you offer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We offer competitive daily, weekly, and monthly rates. Southland 6x12 10k starts at $120/day, $750/week, or $3,000/month. Southland 7x14 14k starts at $130/day, $825/week, or $3,350/month. Delivery fees vary by location."
+            "text": "We offer appliance removal, general trash and junk removal, debris removal, yard cleanup, garage cleanouts, complete house cleanouts, hoarder house cleanouts, furniture removal, and commercial junk removal. If it's not hazardous, we can likely haul it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does junk removal cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Our pricing is volume-based. Small loads (1-2 yards) start at $150, mid-size loads (3-4 yards) are $275-$375, larger loads (5-6 yards) are $425-$550, and full truck loads (7-15 yards) are $625-$750. Final pricing is confirmed on-site."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you offer same-day junk removal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, same-day service is often available depending on our schedule. Call or text us at 503-874-3705 and we'll do our best to get to you quickly."
           }
         },
         {
@@ -19,55 +35,39 @@ export function FAQSchema() {
           "name": "What areas do you serve?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We primarily serve Molalla and surrounding areas in Clackamas County, including Canby, Oregon City, Woodburn, and nearby communities."
+            "text": "We serve Molalla and surrounding communities throughout Clackamas County, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, and Sandy."
           }
         },
         {
           "@type": "Question",
-          "name": "Do you deliver trailers?",
+          "name": "Do you remove appliances?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes! We offer delivery service throughout Molalla and surrounding areas in Clackamas County. Delivery fees depend on distance. You can also pick up the trailer at our location: 33250 S Wilhoit Rd, Molalla."
+            "text": "Yes! We remove all types of household appliances including refrigerators, washers, dryers, stoves, dishwashers, microwaves, and more."
           }
         },
         {
           "@type": "Question",
-          "name": "What can I haul in your dump trailers?",
+          "name": "Can you help with hoarder house and estate cleanouts?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Our trailers are perfect for construction debris, yard waste, furniture, appliances, and general junk removal."
+            "text": "Yes. We offer discreet, respectful hoarder house cleanouts and full estate cleanouts for foreclosures, move-outs, and property transitions. We can clear an entire home in a single visit or across multiple trips. Call us to schedule a walkthrough and estimate."
           }
         },
         {
           "@type": "Question",
-          "name": "What is the weight capacity of your trailers?",
+          "name": "What items do you not take?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Our Southland 6x12 trailer has an 8,745 lb capacity with a GVWR of 11,464 lbs, and our Southland 7x14 trailer has a 12,308 lb capacity with a GVWR of 15,432 lbs."
+            "text": "We cannot take hazardous materials, chemicals, liquids, paint, or asbestos. Items like concrete, dirt, brick, or roofing shingles require a custom quote due to weight surcharges at the dump."
           }
         },
         {
           "@type": "Question",
-          "name": "Is there a deposit required?",
+          "name": "Are you veteran owned?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, we require a $50 refundable security deposit for trailer rentals. The deposit is fully refunded when the trailer is returned in good condition."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How far in advance should I book?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We recommend booking as early as possible, especially during peak season (spring and summer). However, we often have same-day or next-day availability. Call us at 503-874-3705 to check current availability."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you offer junk removal services?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes! We provide full-service junk removal where we handle all the loading and hauling for you. This is perfect for estate cleanouts, foreclosure cleanup, or any situation where you need us to do the heavy lifting."
+            "text": "Yes. Bare Acre Hauling is proudly veteran owned and operated. We offer 10% off for veterans, first responders, and police. Just mention it when you book."
           }
         }
       ]

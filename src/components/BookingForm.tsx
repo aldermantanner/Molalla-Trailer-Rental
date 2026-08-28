@@ -362,7 +362,7 @@ export function BookingForm() {
         {junkServiceLevel !== 'cleanout_special' && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-3">
-              Estimated Volume (Trailer Space) *
+              Estimated Volume (Truck Space) *
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {([

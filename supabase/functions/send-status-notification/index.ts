@@ -20,32 +20,32 @@ interface NotificationRequest {
   rejectionReason?: string;
 }
 
-const getStatusMessage = (status: string, serviceType?: string, paymentUrl?: string, rejectionReason?: string): { subject: string; body: string } => {
+const getStatusMessage = (status: string, _serviceType?: string, _paymentUrl?: string, rejectionReason?: string): { subject: string; body: string } => {
   switch (status) {
     case 'pending':
       return {
-        subject: '📋 Booking Received - Bare Acre Hauling',
-        body: `Thank you for your ${serviceType === 'rental' ? 'trailer rental' : 'junk removal'} booking!\n\nYour booking has been received and we'll contact you shortly to confirm details and arrange payment.\n\nWhat's Next:\n- We'll contact you to coordinate ${serviceType === 'rental' ? 'pickup/delivery' : 'service'} details\n- Bring your driver's license ${serviceType === 'rental' ? 'when picking up' : 'on service day'}\n- Payment arrangements will be discussed when we contact you\n\nQuestions? Call us at 503-874-3705`
+        subject: 'Booking Received - Bare Acre Hauling',
+        body: `Thank you for your junk removal booking!\n\nYour booking has been received and we'll contact you shortly to confirm details and arrange service.\n\nWhat's Next:\n- We'll contact you to coordinate service details\n- Payment arrangements will be discussed when we contact you\n\nQuestions? Call us at 503-874-3705`
       };
     case 'confirmed':
       return {
-        subject: '✅ Booking Confirmed - Bare Acre Hauling',
-        body: `Great news! Your booking has been confirmed.\n\nWhat's Next:\n- We'll contact you to coordinate pickup/delivery\n- Please bring your driver's license when picking up\n- Payment will be processed at pickup\n\nQuestions? Call us at 503-874-3705`
+        subject: 'Booking Confirmed - Bare Acre Hauling',
+        body: `Great news! Your booking has been confirmed.\n\nWhat's Next:\n- We'll contact you to coordinate service details\n- Payment will be arranged when we contact you\n\nQuestions? Call us at 503-874-3705`
       };
     case 'active':
       return {
-        subject: '🚚 Rental Active - Enjoy Your Trailer!',
-        body: `Your rental is now active! You're all set.\n\nReminder:\n- Return by the end date to avoid additional charges\n- Return trailer clean for full deposit refund\n- Contact us if you need to extend your rental\n\nNeed help? Call 503-874-3705`
+        subject: 'Service In Progress - Bare Acre Hauling',
+        body: `Your junk removal service is in progress! Our crew is on site.\n\nQuestions? Call us at 503-874-3705`
       };
     case 'completed':
       return {
-        subject: '✓ Rental Complete - Thank You!',
-        body: `Your rental has been completed and marked as returned.\n\nNext Steps:\n- Your deposit refund will be processed within 2-3 business days\n- You'll receive a separate confirmation when refund is issued\n\nThank you for choosing Bare Acre Hauling! We hope to serve you again.\n\nQuestions? Call 503-874-3705`
+        subject: 'Service Complete - Thank You!',
+        body: `Your junk removal service has been completed.\n\nThank you for choosing Bare Acre Hauling! We hope to serve you again.\n\nQuestions? Call us at 503-874-3705`
       };
     case 'cancelled':
       return {
-        subject: '❌ Booking Cancelled',
-        body: `Your booking has been cancelled.${rejectionReason ? `\n\nReason: ${rejectionReason}` : ''}\n\nIf this was unexpected or you have questions, please contact us:\n📞 503-874-3705\n📧 Reply to this email\n\nWe're here to help!`
+        subject: 'Booking Cancelled',
+        body: `Your booking has been cancelled.${rejectionReason ? `\n\nReason: ${rejectionReason}` : ''}\n\nIf this was unexpected or you have questions, please contact us:\nPhone: 503-874-3705\nReply to this email\n\nWe're here to help!`
       };
     default:
       return {
@@ -67,7 +67,6 @@ Deno.serve(async (req: Request) => {
     const {
       customerEmail,
       customerName,
-      customerPhone,
       bookingId,
       status,
       serviceType,
@@ -94,12 +93,12 @@ Booking Details:
 - Start Date: ${new Date(startDate).toLocaleDateString()}
 ${endDate ? `- End Date: ${new Date(endDate).toLocaleDateString()}` : ''}
 ${totalPrice ? `- Total: $${totalPrice}` : ''}
-${paymentUrl ? `\n💳 PAY YOUR INVOICE ONLINE:\n${paymentUrl}\n\nPay securely with credit card or bank transfer through QuickBooks.` : ''}
+${paymentUrl ? `\nPay your invoice online:\n${paymentUrl}` : ''}
 
 ---
 Bare Acre Hauling
-📞 503-874-3705
-🌐 bareacrehauling.com
+503-874-3705
+bareacrehauling.com
 
 Veteran Owned & Operated
     `.trim();

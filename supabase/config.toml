@@ -1,0 +1,23 @@
+[functions.create-booking]
+verify_jwt = false
+
+[functions.get-customer-bookings]
+verify_jwt = false
+
+[functions.send-automated-reminders]
+verify_jwt = false
+
+[functions.send-booking-notification]
+verify_jwt = false
+
+[functions.send-lead-notification]
+verify_jwt = false
+
+[functions.send-status-notification]
+verify_jwt = false
+
+[functions.send-verification-email]
+verify_jwt = false
+
+[functions.verify-code]
+verify_jwt = false

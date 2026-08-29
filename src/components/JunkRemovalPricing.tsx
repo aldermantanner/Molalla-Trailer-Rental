@@ -15,15 +15,19 @@ const LOAD_SIZES: Record<LoadSize, { label: string; yards: string; laborHours: n
   full:   { label: 'Full Load',   yards: '11–15 yards', laborHours: 4, dumpFee: 284, desc: 'Estate cleanout, full house, hoarder home (~2 tons)' },
 };
 
-const DRIVE_ZONES: Record<DriveZone, { label: string; minutes: number; desc: string }> = {
-  local:   { label: 'Local — Molalla area',        minutes: 30,  desc: '0–15 min one way' },
-  nearby:  { label: 'Nearby — Clackamas County',   minutes: 60,  desc: '15–30 min one way' },
-  far:     { label: 'Far — Portland metro',        minutes: 90,  desc: '30–45 min one way' },
-  distant: { label: 'Distant — outlying areas',    minutes: 120, desc: '45+ min one way' },
+const DRIVE_ZONES: Record<DriveZone, { label: string; minutes: number; miles: number; desc: string }> = {
+  local:   { label: 'Local — Molalla area',        minutes: 30,  miles: 20,  desc: '0–15 min one way' },
+  nearby:  { label: 'Nearby — Clackamas County',   minutes: 60,  miles: 40,  desc: '15–30 min one way' },
+  far:     { label: 'Far — Portland metro',        minutes: 90,  miles: 60,  desc: '30–45 min one way' },
+  distant: { label: 'Distant — outlying areas',    minutes: 120, miles: 80,  desc: '45+ min one way' },
 };
 
 const LABOR_RATE_PER_HOUR = 55;
-const DRIVE_RATE_PER_MIN = 1.0;
+const DIESEL_PRICE = 5.50;
+const TRUCK_MPG = 16;
+const FUEL_COST_PER_MILE = DIESEL_PRICE / TRUCK_MPG;
+const VEHICLE_WEAR_PER_MILE = 0.15;
+const DRIVER_RATE_PER_MIN = 0.45;
 const PROFIT_MARGIN = 0.30;
 const MINIMUM = 150;
 
@@ -52,7 +56,10 @@ export function JunkRemovalPricing() {
   const load = LOAD_SIZES[loadSize];
   const zone = DRIVE_ZONES[driveZone];
 
-  const driveCost = zone.minutes * DRIVE_RATE_PER_MIN;
+  const fuelCost = zone.miles * FUEL_COST_PER_MILE;
+  const wearCost = zone.miles * VEHICLE_WEAR_PER_MILE;
+  const driverTimeCost = zone.minutes * DRIVER_RATE_PER_MIN;
+  const driveCost = fuelCost + wearCost + driverTimeCost;
   const laborCost = workers * load.laborHours * LABOR_RATE_PER_HOUR;
   const dumpFee = load.dumpFee;
   const subtotal = driveCost + laborCost + dumpFee;
@@ -187,7 +194,7 @@ export function JunkRemovalPricing() {
             </h4>
             <div className="space-y-2.5 text-sm sm:text-base">
               <div className="flex items-center justify-between py-1">
-                <span className="text-gray-600 flex items-center gap-2"><MapPin className="h-4 w-4 text-blue-500" />Drive time ({zone.minutes} min round-trip)</span>
+                <span className="text-gray-600 flex items-center gap-2"><MapPin className="h-4 w-4 text-blue-500" />Drive ({zone.miles} mi round-trip · fuel + driver)</span>
                 <span className="font-semibold text-slate-700">{fmt(driveCost)}</span>
               </div>
               <div className="flex items-center justify-between py-1">

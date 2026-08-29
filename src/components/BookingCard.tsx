@@ -77,16 +77,13 @@ export function BookingCard({
               {new Date(booking.created_at).toLocaleDateString()}
             </span>
             <span className="font-semibold text-green-600">
-              {booking.service_type === 'rental' ? 'Trailer Rental' : 'Junk Removal'}
+              Junk Removal
             </span>
           </div>
         </div>
         <div className="text-left sm:text-right flex-shrink-0">
-          {booking.service_type === 'rental' && (
+          {booking.total_price && Number(booking.total_price) > 0 && (
             <div className="text-xl sm:text-2xl font-bold text-green-600">${booking.total_price}</div>
-          )}
-          {booking.service_type === 'junk_removal' && (
-            <div className="text-sm sm:text-base lg:text-lg font-semibold text-gray-600">Quote Needed</div>
           )}
         </div>
       </div>
@@ -307,7 +304,7 @@ export function BookingCard({
                 <option value="pending">Pending</option>
                 <option value="awaiting_approval">Awaiting Approval</option>
                 <option value="confirmed">Confirmed</option>
-                <option value="active">Active Rental</option>
+                <option value="active">In Progress</option>
                 <option value="overdue">Overdue</option>
                 <option value="completed">Completed</option>
                 <option value="cancelled">Cancelled</option>

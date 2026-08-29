@@ -97,7 +97,7 @@ export function BookingFilters({
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          <span className="hidden sm:inline">Active Rentals</span>
+          <span className="hidden sm:inline">Active Jobs</span>
           <span className="sm:hidden">Active</span> ({getCount('active')})
         </button>
         <button

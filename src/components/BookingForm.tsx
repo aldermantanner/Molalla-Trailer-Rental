@@ -321,7 +321,7 @@ export function BookingForm() {
           <label className="block text-sm font-semibold text-gray-700 mb-3">
             Choose Your Service Level *
           </label>
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => setJunkServiceLevel('you_fill')}

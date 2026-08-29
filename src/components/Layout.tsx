@@ -35,9 +35,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <img
                   src="/Bare_Arce_Hauling_high_res_PNG.png"
                   alt="Bare Acre Hauling"
-                  className="h-12 w-auto object-contain"
+                  className="h-10 sm:h-12 w-auto object-contain flex-shrink-0"
                 />
-                <span className="text-2xl font-bold text-white whitespace-nowrap">Bare Acre Hauling</span>
+                <span className="text-lg sm:text-2xl font-bold text-white whitespace-nowrap">Bare Acre Hauling</span>
               </a>
             </div>
 
@@ -314,7 +314,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               Terms & Conditions
             </Link>
           </div>
-          <p>&copy; 2025 Bare Acre Hauling. All rights reserved.</p>
+          <p>&copy; 2025-2026 Bare Acre Hauling. All rights reserved.</p>
         </div>
       </footer>
     </div>

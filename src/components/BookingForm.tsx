@@ -25,6 +25,7 @@ export function BookingForm() {
   const [awaitingApproval, setAwaitingApproval] = useState(false);
 
   const [junkServiceLevel, setJunkServiceLevel] = useState<JunkServiceLevel>('full_service');
+  const [junkDays, setJunkDays] = useState(1);
   const [junkVolume, setJunkVolume] = useState<JunkVolume>('3-4');
   const [junkAddOns, setJunkAddOns] = useState({
     noLift: false,
@@ -38,7 +39,7 @@ export function BookingForm() {
     let addOnCost = 0;
     if (junkAddOns.noLift) addOnCost += 75;
     if (junkAddOns.priorityPickup) addOnCost += 99;
-    if (junkAddOns.dumpFeeProtection) addOnCost += 125;
+    if (junkAddOns.dumpFeeProtection) addOnCost += 250;
 
     if (junkServiceLevel === 'cleanout_special') {
       return { min: 799 + addOnCost, max: 799 + addOnCost, isFixed: true };
@@ -53,13 +54,10 @@ export function BookingForm() {
 
     let estimate = volumePricing[junkVolume];
     if (junkServiceLevel === 'you_fill') {
-      estimate = {
-        min: 250 + volumePricing[junkVolume].min,
-        max: 250 + volumePricing[junkVolume].max,
-      };
+      estimate = { min: 250 * junkDays, max: 250 * junkDays };
     }
 
-    return { min: estimate.min + addOnCost, max: estimate.max + addOnCost, isFixed: false };
+    return { min: estimate.min + addOnCost, max: estimate.max + addOnCost, isFixed: junkServiceLevel === 'you_fill' };
   };
 
   const uploadJunkPhotos = async (bookingId: string): Promise<string[]> => {
@@ -97,16 +95,17 @@ export function BookingForm() {
     try {
       const estimate = calculateJunkRemovalEstimate();
       const serviceLevelNames = {
-        you_fill: 'You Fill, We Dump',
+        you_fill: 'You Load, We Haul — $250/day',
         full_service: 'Full-Service Junk Removal',
         cleanout_special: 'Cleanout Special',
       };
       let bookingNotes = `Service Level: ${serviceLevelNames[junkServiceLevel]}\n`;
+      if (junkServiceLevel === 'you_fill') bookingNotes += `Number of Days: ${junkDays}\n`;
       bookingNotes += `Estimated Volume: ${junkVolume} cubic yards\n`;
       if (junkMaterialType) bookingNotes += `Material Type: ${junkMaterialType}\n`;
       if (junkAddOns.noLift) bookingNotes += `Add-on: No-Lift Guarantee (+$75)\n`;
       if (junkAddOns.priorityPickup) bookingNotes += `Add-on: Priority Pickup (+$99)\n`;
-      if (junkAddOns.dumpFeeProtection) bookingNotes += `Add-on: Dump Fee Protection (+$125)\n`;
+      if (junkAddOns.dumpFeeProtection) bookingNotes += `Add-on: Heavy Material Allowance (+$250)\n`;
       if (estimate) {
         bookingNotes += estimate.isFixed
           ? `Estimated Price: $${estimate.min}\n`
@@ -329,9 +328,9 @@ export function BookingForm() {
                 junkServiceLevel === 'you_fill' ? 'border-gray-600 bg-gray-50' : 'border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="font-semibold text-gray-900 mb-1">Good</div>
-              <div className="text-xs text-gray-600 mb-2">You Fill, We Dump</div>
-              <div className="text-sm text-gray-700">Most affordable</div>
+              <div className="font-semibold text-gray-900 mb-1">You Load, We Haul</div>
+              <div className="text-xs text-gray-600 mb-2">$250 per day</div>
+              <div className="text-sm text-gray-700">You load it, we haul and dispose of it</div>
             </button>
             <button
               type="button"
@@ -357,6 +356,26 @@ export function BookingForm() {
               <div className="text-sm text-gray-700">Full load, $799</div>
             </button>
           </div>
+          {junkServiceLevel === 'you_fill' && (
+            <div className="mt-4 max-w-sm">
+              <label htmlFor="junk-days" className="block text-sm font-semibold text-gray-700 mb-2">
+                How many days do you need? *
+              </label>
+              <select
+                id="junk-days"
+                value={junkDays}
+                onChange={(event) => setJunkDays(Number(event.target.value))}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+              >
+                {[1, 2, 3, 4, 5, 6, 7].map((days) => (
+                  <option key={days} value={days}>
+                    {days} {days === 1 ? 'day' : 'days'} — ${(days * 250).toLocaleString()}
+                  </option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-500 mt-1">You Load, We Haul is $250 per day.</p>
+            </div>
+          )}
         </div>
 
         {junkServiceLevel !== 'cleanout_special' && (
@@ -462,7 +481,7 @@ export function BookingForm() {
             {([
               ['noLift', 'No-Lift Guarantee', '+$75', 'text-blue-600', "You don't lift a thing — we load everything"],
               ['priorityPickup', 'Priority Pickup', '+$99', 'text-purple-600', 'First available slot or same-day when available'],
-              ['dumpFeeProtection', 'Dump Fee Protection', '+$125', 'text-green-600', 'Covers disposal costs up to 2 tons'],
+              ['dumpFeeProtection', 'Heavy Material Allowance', '+$250', 'text-orange-600', 'Adds disposal allowance for dirt, concrete, brick, asphalt, or roofing; full loads may exceed 2 tons'],
             ] as const).map(([key, label, price, color, desc]) => (
               <label key={key} className="flex items-start gap-3 p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-gray-300 transition-all">
                 <input

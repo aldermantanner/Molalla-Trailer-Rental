@@ -8,11 +8,13 @@ type LoadSize = 'small' | 'medium' | 'large' | 'full';
 type DriveZone = 'local' | 'nearby' | 'far' | 'distant';
 type ServiceLevel = 'diy' | 'full';
 
-const LOAD_SIZES: Record<LoadSize, { label: string; yards: string; laborHours: number; dumpFee: number; desc: string }> = {
-  small:  { label: 'Small',       yards: '1–3 yards',   laborHours: 1, dumpFee: 45,  desc: 'A few appliances, small pile of junk' },
-  medium: { label: 'Medium',      yards: '4–6 yards',   laborHours: 2, dumpFee: 85,  desc: 'Room cleanout, garage items, furniture' },
-  large:  { label: 'Large',       yards: '7–10 yards',  laborHours: 3, dumpFee: 213, desc: 'Garage cleanout, remodel debris (~1.5 tons)' },
-  full:   { label: 'Full Load',   yards: '11–15 yards', laborHours: 4, dumpFee: 284, desc: 'Estate cleanout, full house, hoarder home (~2 tons)' },
+type MaterialType = 'standard' | 'heavy';
+
+const LOAD_SIZES: Record<LoadSize, { label: string; yards: string; laborHours: number; standardDumpFee: number; heavyDumpFee: number; desc: string }> = {
+  small:  { label: 'Small',       yards: '1–3 yards',   laborHours: 1, standardDumpFee: 45,  heavyDumpFee: 90,  desc: 'A few appliances, small pile of junk' },
+  medium: { label: 'Medium',      yards: '4–6 yards',   laborHours: 2, standardDumpFee: 85,  heavyDumpFee: 180, desc: 'Room cleanout, garage items, furniture' },
+  large:  { label: 'Large',       yards: '7–10 yards',  laborHours: 3, standardDumpFee: 213, heavyDumpFee: 450, desc: 'Garage cleanout, remodel debris' },
+  full:   { label: 'Full Load',   yards: '11–15 yards', laborHours: 4, standardDumpFee: 284, heavyDumpFee: 750, desc: 'Estate cleanout, full house, hoarder home' },
 };
 
 const DRIVE_ZONES: Record<DriveZone, { label: string; minutes: number; miles: number; desc: string }> = {
@@ -51,8 +53,10 @@ export function JunkRemovalPricing() {
   const [loadSize, setLoadSize] = useState<LoadSize>('medium');
   const [driveZone, setDriveZone] = useState<DriveZone>('local');
   const [serviceLevel, setServiceLevel] = useState<ServiceLevel>('full');
+  const [diyDays, setDiyDays] = useState(1);
+  const [materialType, setMaterialType] = useState<MaterialType>('standard');
 
-  const workers = serviceLevel === 'full' ? 2 : 1;
+  const workers = serviceLevel === 'full' ? 2 : 0;
   const load = LOAD_SIZES[loadSize];
   const zone = DRIVE_ZONES[driveZone];
 
@@ -61,8 +65,9 @@ export function JunkRemovalPricing() {
   const driverTimeCost = zone.minutes * DRIVER_RATE_PER_MIN;
   const driveCost = fuelCost + wearCost + driverTimeCost;
   const laborCost = workers * load.laborHours * LABOR_RATE_PER_HOUR;
-  const dumpFee = load.dumpFee;
-  const subtotal = driveCost + laborCost + dumpFee;
+  const serviceCost = serviceLevel === 'diy' ? 250 * diyDays : laborCost;
+  const dumpFee = materialType === 'heavy' ? load.heavyDumpFee : load.standardDumpFee;
+  const subtotal = driveCost + serviceCost + dumpFee;
   const profit = subtotal * PROFIT_MARGIN;
   const rawTotal = subtotal + profit;
   const total = Math.max(rawTotal, MINIMUM);
@@ -159,6 +164,36 @@ export function JunkRemovalPricing() {
             </div>
           </div>
 
+          {/* Material Type */}
+          <div>
+            <label className="block text-sm font-bold text-slate-700 mb-3">What are we hauling?</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+              <button
+                onClick={() => setMaterialType('standard')}
+                className={`rounded-xl p-4 text-left border-2 transition-all ${materialType === 'standard' ? 'border-green-500 bg-green-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'}`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`font-bold text-sm sm:text-base ${materialType === 'standard' ? 'text-green-700' : 'text-slate-700'}`}>Standard Materials</span>
+                  {materialType === 'standard' && <Check className="h-5 w-5 text-green-600" />}
+                </div>
+                <div className="text-xs text-gray-500">Household junk, furniture, appliances, yard waste, and mixed debris</div>
+              </button>
+              <button
+                onClick={() => setMaterialType('heavy')}
+                className={`rounded-xl p-4 text-left border-2 transition-all ${materialType === 'heavy' ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'}`}
+              >
+                <div className="flex items-center justify-between mb-1">
+                  <span className={`font-bold text-sm sm:text-base ${materialType === 'heavy' ? 'text-orange-700' : 'text-slate-700'}`}>Heavy Materials</span>
+                  {materialType === 'heavy' && <Check className="h-5 w-5 text-orange-600" />}
+                </div>
+                <div className="text-xs text-gray-500">Dirt, concrete, brick, asphalt, roofing, and other dense materials</div>
+              </button>
+            </div>
+            {materialType === 'heavy' && (
+              <p className="mt-2 text-xs text-orange-700">Heavy-material estimates include a larger disposal allowance. Final pricing is confirmed by actual weight.</p>
+            )}
+          </div>
+
           {/* Service Level */}
           <div>
             <label className="block text-sm font-bold text-slate-700 mb-3">Service level?</label>
@@ -168,10 +203,10 @@ export function JunkRemovalPricing() {
                 className={`rounded-xl p-4 text-left border-2 transition-all ${serviceLevel === 'diy' ? 'border-green-500 bg-green-50 shadow-md' : 'border-gray-200 bg-white hover:border-gray-300'}`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className={`font-bold text-sm sm:text-base ${serviceLevel === 'diy' ? 'text-green-700' : 'text-slate-700'}`}>You Load, We Haul</span>
+                  <span className={`font-bold text-sm sm:text-base ${serviceLevel === 'diy' ? 'text-green-700' : 'text-slate-700'}`}>You Load, We Haul — $250/Day</span>
                   {serviceLevel === 'diy' && <Check className="h-5 w-5 text-green-600" />}
                 </div>
-                <div className="text-xs text-gray-500">1 worker — you do the loading, we handle hauling and disposal</div>
+                <div className="text-xs text-gray-500">$250 per day — you do the loading, we handle hauling and disposal</div>
               </button>
               <button
                 onClick={() => setServiceLevel('full')}
@@ -184,6 +219,25 @@ export function JunkRemovalPricing() {
                 <div className="text-xs text-gray-500">2 workers — we load everything, haul it, and clean up</div>
               </button>
             </div>
+            {serviceLevel === 'diy' && (
+              <div className="mt-3 max-w-sm">
+                <label htmlFor="diy-days" className="block text-sm font-semibold text-slate-700 mb-2">
+                  How many days?
+                </label>
+                <select
+                  id="diy-days"
+                  value={diyDays}
+                  onChange={(event) => setDiyDays(Number(event.target.value))}
+                  className="w-full rounded-lg border-2 border-gray-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                >
+                  {[1, 2, 3, 4, 5, 6, 7].map((days) => (
+                    <option key={days} value={days}>
+                      {days} {days === 1 ? 'day' : 'days'} — ${(days * 250).toLocaleString()}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           {/* Cost Breakdown */}
@@ -198,11 +252,11 @@ export function JunkRemovalPricing() {
                 <span className="font-semibold text-slate-700">{fmt(driveCost)}</span>
               </div>
               <div className="flex items-center justify-between py-1">
-                <span className="text-gray-600 flex items-center gap-2"><Users className="h-4 w-4 text-green-500" />Labor ({workers} {workers === 1 ? 'worker' : 'workers'} × {load.laborHours} {load.laborHours === 1 ? 'hr' : 'hrs'})</span>
-                <span className="font-semibold text-slate-700">{fmt(laborCost)}</span>
+                <span className="text-gray-600 flex items-center gap-2"><Users className="h-4 w-4 text-green-500" />{serviceLevel === 'diy' ? `Service day rate (${diyDays} ${diyDays === 1 ? 'day' : 'days'})` : `Labor (${workers} workers × ${load.laborHours} ${load.laborHours === 1 ? 'hr' : 'hrs'})`}</span>
+                <span className="font-semibold text-slate-700">{fmt(serviceCost)}</span>
               </div>
               <div className="flex items-center justify-between py-1">
-                <span className="text-gray-600 flex items-center gap-2"><Trash2 className="h-4 w-4 text-orange-500" />Dump fees (est. {load.label.toLowerCase()})</span>
+                <span className="text-gray-600 flex items-center gap-2"><Trash2 className="h-4 w-4 text-orange-500" />Dump fees ({materialType === 'heavy' ? 'heavy material' : 'standard material'})</span>
                 <span className="font-semibold text-slate-700">{fmt(dumpFee)}</span>
               </div>
               <div className="flex items-center justify-between py-1">
@@ -228,7 +282,7 @@ export function JunkRemovalPricing() {
           <div className="space-y-3">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
               <p className="text-xs sm:text-sm text-blue-900">
-                <strong>This is an estimate.</strong> Final pricing is confirmed on-site based on actual load size, material type, and disposal weight. Text us photos for a firm quote before we arrive.
+                <strong>This is an estimate.</strong> Heavy materials such as dirt and concrete are priced using a larger disposal allowance because a full load can exceed 2 tons. Final pricing is confirmed on-site based on actual load size, material type, and disposal weight.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3">

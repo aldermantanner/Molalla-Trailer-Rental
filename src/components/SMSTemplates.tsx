@@ -15,17 +15,17 @@ export function SMSTemplates({ booking, isOpen, onClose }: SMSTemplatesProps) {
 
     switch (status) {
       case 'pickup_reminder':
-        return `Hi ${firstName}, reminder: Your Molalla Trailer pickup is tomorrow! Bring your driver's license. Call 503-500-6121 with questions.`;
+        return `Hi ${firstName}, reminder: Your Bare Acre Hauling pickup is tomorrow! Bring your driver's license. Call 503-500-6121 with questions.`;
       case 'return_reminder':
-        return `Hi ${firstName}, reminder: Trailer return due tomorrow by end of day. Need extension? Call 503-500-6121 - Molalla Trailer`;
+        return `Hi ${firstName}, reminder: Trailer return due tomorrow by end of day. Need extension? Call 503-500-6121 - Bare Acre Hauling`;
       case 'overdue':
-        return `${firstName}, your trailer rental is OVERDUE. Please return ASAP or call 503-500-6121. Late fees apply. - Molalla Trailer`;
+        return `${firstName}, your trailer rental is OVERDUE. Please return ASAP or call 503-500-6121. Late fees apply. - Bare Acre Hauling`;
       case 'active':
         return `${firstName}, your trailer rental is active! Return by ${booking.end_date ? new Date(booking.end_date).toLocaleDateString() : 'end date'}. Questions? 503-500-6121`;
       case 'completed':
-        return `Thank you ${firstName}! Rental complete. Your deposit refund will be processed within 2-3 days. - Molalla Trailer Rentals`;
+        return `Thank you ${firstName}! Rental complete. Your deposit refund will be processed within 2-3 days. - Bare Acre Hauling`;
       default:
-        return `Hi ${firstName}, this is Molalla Trailer Rentals regarding your booking. Call 503-500-6121 if you have questions.`;
+        return `Hi ${firstName}, this is Bare Acre Hauling regarding your booking. Call 503-500-6121 if you have questions.`;
     }
   };
 

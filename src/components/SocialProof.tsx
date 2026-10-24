@@ -51,6 +51,8 @@ export function SocialProof() {
             <span className="bg-white/20 px-4 py-2 rounded-full">Canby</span>
             <span className="bg-white/20 px-4 py-2 rounded-full">Oregon City</span>
             <span className="bg-white/20 px-4 py-2 rounded-full">Woodburn</span>
+            <span className="bg-white/20 px-4 py-2 rounded-full">Salem</span>
+            <span className="bg-white/20 px-4 py-2 rounded-full">Keizer</span>
             <span className="bg-white/20 px-4 py-2 rounded-full">Clackamas County</span>
           </div>
         </div>

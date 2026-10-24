@@ -35,7 +35,7 @@ export function FAQSchema() {
           "name": "What areas do you serve?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "We serve Molalla and surrounding communities throughout Clackamas County, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, and Sandy."
+            "text": "We serve Molalla and surrounding communities throughout Clackamas and Marion Counties, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, Sandy, Salem, and Keizer."
           }
         },
         {

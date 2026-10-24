@@ -67,6 +67,8 @@ export function InteractiveMap() {
       { name: 'Gladstone', coords: [45.3812, -122.5945] as [number, number], type: 'extended' },
       { name: 'Milwaukie', coords: [45.4462, -122.6395] as [number, number], type: 'extended' },
       { name: 'Sandy', coords: [45.3976, -122.2612] as [number, number], type: 'extended' },
+      { name: 'Salem', coords: [44.9429, -123.0351] as [number, number], type: 'extended' },
+      { name: 'Keizer', coords: [44.9901, -123.0262] as [number, number], type: 'extended' },
     ];
 
     cities.forEach((city) => {

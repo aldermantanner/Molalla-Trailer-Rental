@@ -40,7 +40,7 @@ Deno.serve(async (req: Request) => {
     for (const booking of pendingBookings || []) {
       const twilioUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/send-sms-notification`;
       
-      const message = `Hi ${booking.customer_name}, this is Molalla Trailer Rental. Your ${booking.service_type === 'junk_removal' ? 'junk removal' : 'material delivery'} booking is pending payment. We'll send you a payment link shortly. Questions? Call 503-500-6121.`;
+      const message = `Hi ${booking.customer_name}, this is Bare Acre Hauling. Your ${booking.service_type === 'junk_removal' ? 'junk removal' : 'material delivery'} booking is pending payment. We'll send you a payment link shortly. Questions? Call 503-500-6121.`;
 
       try {
         const response = await fetch(twilioUrl, {

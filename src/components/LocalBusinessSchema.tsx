@@ -47,6 +47,9 @@ export function LocalBusinessSchema() {
         { "@type": "City", "name": "Canby" },
         { "@type": "City", "name": "Oregon City" },
         { "@type": "City", "name": "Woodburn" },
+        { "@type": "City", "name": "Wilsonville" },
+        { "@type": "City", "name": "Salem" },
+        { "@type": "City", "name": "Keizer" },
         { "@type": "AdministrativeArea", "name": "Clackamas County" }
       ],
       "additionalType": "https://en.wikipedia.org/wiki/Veteran-owned_business",

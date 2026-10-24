@@ -58,6 +58,10 @@ export function LocalSEOContent() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-600 font-bold mr-2">✓</span>
+                  <span><strong>Salem &amp; Keizer</strong> — Scheduled service throughout the area</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-600 font-bold mr-2">✓</span>
                   <span><strong>Clackamas County</strong> — Complete regional coverage</span>
                 </li>
               </ul>

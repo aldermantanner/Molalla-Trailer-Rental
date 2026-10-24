@@ -1,71 +1,33 @@
-import { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
-import { supabase } from '../lib/supabase';
 
 interface Testimonial {
   id: string;
   customer_name: string;
   rating: number;
   review_text: string;
-  service_type: string;
-  is_featured: boolean;
+  service_label: string;
 }
 
-export function Testimonials() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
-  const [loading, setLoading] = useState(true);
+// Real customer reviews only. Add new ones here (no database needed).
+// The Supabase "testimonials" table is no longer used.
+const TESTIMONIALS: Testimonial[] = [
+  {
+    id: 'alex-m',
+    customer_name: 'Alex M., Molalla OR',
+    rating: 5,
+    review_text:
+      'Quick, efficient service made junk removal easy. Their top-notch customer service is highly recommended!',
+    service_label: 'Junk Removal',
+  },
+];
 
-  useEffect(() => {
-    fetchTestimonials();
-  }, []);
+interface TestimonialsProps {
+  /** Review ids already shown elsewhere on the page, so they are not repeated. */
+  excludeIds?: string[];
+}
 
-  const fetchTestimonials = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('testimonials')
-        .select('*')
-        .eq('approved', true)
-        .eq('is_featured', true)
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setTestimonials(data || []);
-    } catch (error) {
-      console.error('Error fetching testimonials:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const renderStars = (rating: number) => {
-    return (
-      <div className="flex gap-1 mb-3">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            className={`h-5 w-5 ${
-              i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
-            }`}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  const getServiceLabel = (serviceType: string) => {
-    switch (serviceType) {
-      case 'rental':
-        return 'Hauling';
-      case 'junk_removal':
-        return 'Junk Removal';
-      default:
-        return 'Customer';
-    }
-  };
-
-  if (loading) {
-    return null;
-  }
+export function Testimonials({ excludeIds = [] }: TestimonialsProps) {
+  const testimonials = TESTIMONIALS.filter((t) => !excludeIds.includes(t.id));
 
   if (testimonials.length === 0) {
     return null;
@@ -86,13 +48,22 @@ export function Testimonials() {
               key={testimonial.id}
               className="bg-gray-50 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow"
             >
-              {renderStars(testimonial.rating)}
+              <div className="flex gap-1 mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`h-5 w-5 ${
+                      i < testimonial.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'
+                    }`}
+                  />
+                ))}
+              </div>
               <p className="text-gray-700 mb-4 text-lg leading-relaxed">
                 "{testimonial.review_text}"
               </p>
               <div className="border-t border-gray-200 pt-4">
                 <p className="font-semibold text-slate-800">{testimonial.customer_name}</p>
-                <p className="text-sm text-gray-600">{getServiceLabel(testimonial.service_type)}</p>
+                <p className="text-sm text-gray-600">{testimonial.service_label}</p>
               </div>
             </div>
           ))}

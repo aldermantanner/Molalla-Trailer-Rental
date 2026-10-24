@@ -7,6 +7,7 @@ export function LocalBusinessSchema() {
       "@type": "LocalBusiness",
       "name": "Bare Acre Hauling",
       "image": "https://bareacrehauling.com/Bare_Arce_Hauling_high_res_PNG.png",
+      "logo": "https://bareacrehauling.com/web-app-manifest-512x512.png",
       "@id": "https://bareacrehauling.com",
       "url": "https://bareacrehauling.com",
       "telephone": "+15038743705",

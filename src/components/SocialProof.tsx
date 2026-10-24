@@ -27,8 +27,8 @@ export function SocialProof() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-3">
               <Calendar className="h-8 w-8" />
             </div>
-            <div className="text-4xl font-bold">2000+</div>
-            <div className="text-sm opacity-90">Rentals Completed</div>
+            <div className="text-4xl font-bold">100+</div>
+            <div className="text-sm opacity-90">Satisfied Customers</div>
             <div className="text-xs opacity-75">And counting</div>
           </div>
 

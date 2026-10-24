@@ -290,11 +290,11 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Review + Gavin */}
+          {/* Review + Tanner */}
           <div className="flex flex-col md:flex-row items-center gap-6 bg-slate-50 rounded-2xl p-7 shadow-sm">
             <img
               src="/gavin.jpg"
-              alt="Gavin, owner of Bare Acre Hauling"
+              alt="Tanner, owner of Bare Acre Hauling"
               className="w-20 h-20 rounded-full object-cover object-top flex-shrink-0 border-4 border-white shadow-md"
               loading="lazy"
             />

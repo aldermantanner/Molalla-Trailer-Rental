@@ -290,8 +290,8 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* Review + Tanner */}
-          <div className="flex flex-col md:flex-row items-center gap-6 bg-slate-50 rounded-2xl p-7 shadow-sm">
+          {/* Review + Tanner (nav "Reviews" link lands here) */}
+          <div id="reviews" className="scroll-mt-24 flex flex-col md:flex-row items-center gap-6 bg-slate-50 rounded-2xl p-7 shadow-sm">
             <img
               src="/gavin.jpg"
               alt="Tanner, owner of Bare Acre Hauling"
@@ -434,9 +434,8 @@ export function HomePage() {
 
       <SocialProof />
 
-      <div id="reviews">
-        <Testimonials />
-      </div>
+      {/* Extra reviews (Alex M. is already shown in the card above) */}
+      <Testimonials excludeIds={['alex-m']} />
 
       <ServiceArea />
 

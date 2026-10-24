@@ -20,7 +20,7 @@ export function SocialProof() {
             </div>
             <div className="text-4xl font-bold">500+</div>
             <div className="text-sm opacity-90">Happy Customers</div>
-            <div className="text-xs opacity-75">Since 2020</div>
+            <div className="text-xs opacity-75">Since 2025</div>
           </div>
 
           <div className="space-y-2">

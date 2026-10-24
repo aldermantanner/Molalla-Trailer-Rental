@@ -516,7 +516,7 @@ export function AdLandingPage() {
       <footer className="bg-slate-900 text-gray-400 px-4 py-6 text-center">
         <p className="text-sm font-semibold text-white mb-1">Bare Acre Hauling</p>
         <p className="text-xs mb-3">Veteran Owned & Operated | Molalla, OR</p>
-        <p className="text-xs">Serving Molalla, Canby, Oregon City, Woodburn, Silverton &amp; surrounding areas</p>
+        <p className="text-xs">Serving Molalla, Canby, Oregon City, Woodburn, Silverton, Salem, Keizer &amp; surrounding areas</p>
         <p className="text-xs mt-3">&copy; 2025 Bare Acre Hauling. All rights reserved.</p>
       </footer>
 

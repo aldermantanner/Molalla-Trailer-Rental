@@ -14,7 +14,9 @@ export function ServiceArea() {
     { name: 'Lake Oswego', featured: false },
     { name: 'Gladstone', featured: false },
     { name: 'Milwaukie', featured: false },
-    { name: 'Sandy', featured: false }
+    { name: 'Sandy', featured: false },
+    { name: 'Salem', featured: false },
+    { name: 'Keizer', featured: false }
   ];
 
   return (

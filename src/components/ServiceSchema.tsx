@@ -26,7 +26,10 @@ export function ServiceSchema() {
         { "@type": "City", "name": "Oregon City", "containedInPlace": { "@type": "State", "name": "Oregon" } },
         { "@type": "City", "name": "Woodburn", "containedInPlace": { "@type": "State", "name": "Oregon" } },
         { "@type": "City", "name": "Silverton", "containedInPlace": { "@type": "State", "name": "Oregon" } },
-        { "@type": "City", "name": "Estacada", "containedInPlace": { "@type": "State", "name": "Oregon" } }
+        { "@type": "City", "name": "Estacada", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Wilsonville", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Salem", "containedInPlace": { "@type": "State", "name": "Oregon" } },
+        { "@type": "City", "name": "Keizer", "containedInPlace": { "@type": "State", "name": "Oregon" } }
       ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",

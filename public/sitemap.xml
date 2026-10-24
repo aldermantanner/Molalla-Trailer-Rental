@@ -34,12 +34,4 @@
     <priority>0.6</priority>
   </url>
 
-  <!-- Availability Page -->
-  <url>
-    <loc>https://bareacrehauling.com/availability</loc>
-    <lastmod>2026-07-30</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-
 </urlset>

@@ -147,7 +147,7 @@ export function AdCampaign({ onBookNow }: AdCampaignProps) {
             </a>
           </div>
           <p className="mt-6 text-gray-600 text-lg">
-            Serving Molalla, Canby, Oregon City, Woodburn, Silverton & surrounding areas
+            Serving Molalla, Canby, Oregon City, Woodburn, Silverton, Salem, Keizer & surrounding areas
           </p>
         </div>
       </div>

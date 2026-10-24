@@ -25,7 +25,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: 'What areas do you serve?',
-    answer: 'We serve Molalla and surrounding communities throughout Clackamas County, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, and Sandy. Contact us to confirm service to your specific area.'
+    answer: 'We serve Molalla and surrounding communities throughout Clackamas and Marion Counties, including Canby, Oregon City, Woodburn, Silverton, Estacada, Wilsonville, West Linn, Lake Oswego, Gladstone, Milwaukie, Sandy, Salem, and Keizer. Contact us to confirm service to your specific area.'
   },
   {
     question: 'Do you remove appliances?',

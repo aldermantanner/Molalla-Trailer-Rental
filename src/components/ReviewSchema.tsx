@@ -18,20 +18,6 @@ export function ReviewSchema() {
           "@type": "Review",
           "author": {
             "@type": "Person",
-            "name": "Sarah M."
-          },
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "reviewBody": "Outstanding service! The trailer was clean, the drop-off was right on time, and the whole process was seamless. As a veteran myself, I really appreciate supporting a fellow veteran-owned business. Will definitely use again!",
-          "datePublished": "2024-11-15"
-        },
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
             "name": "Mike T."
           },
           "reviewRating": {
@@ -41,20 +27,6 @@ export function ReviewSchema() {
           },
           "reviewBody": "I've used several junk removal companies in the area, and Bare Acre Hauling is by far the best. They cleared my entire garage in a few hours. Great pricing, hard working crew, and top-notch service.",
           "datePublished": "2024-10-22"
-        },
-        {
-          "@type": "Review",
-          "author": {
-            "@type": "Person",
-            "name": "Jennifer L."
-          },
-          "reviewRating": {
-            "@type": "Rating",
-            "ratingValue": "5",
-            "bestRating": "5"
-          },
-          "reviewBody": "Needed a trailer on short notice for yard cleanup. They delivered same day! The hydraulic dump feature made unloading so easy. Highly recommend for anyone in the Molalla or Canby area.",
-          "datePublished": "2024-09-30"
         },
         {
           "@type": "Review",

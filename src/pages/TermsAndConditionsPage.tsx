@@ -55,10 +55,6 @@ export function TermsAndConditionsPage() {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span><strong className="text-slate-700">Dump Trailer Rentals:</strong> Daily, weekly, and monthly rental of dump trailers for personal and commercial use.</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
                 <span><strong className="text-slate-700">Junk Removal:</strong> Full-service junk removal, "You Fill, We Dump" packages, cleanout specials, and landlord/move-out services.</span>
               </li>
               <li className="flex items-start gap-3">

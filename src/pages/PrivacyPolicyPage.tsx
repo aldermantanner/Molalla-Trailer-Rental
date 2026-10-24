@@ -105,7 +105,7 @@ export function PrivacyPolicyPage() {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Process and manage your trailer rental bookings and junk removal services</span>
+                <span>Process and manage your junk removal bookings and services</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
@@ -117,7 +117,7 @@ export function PrivacyPolicyPage() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>
-                <span>Verify your identity and eligibility for trailer rental services</span>
+                <span>Verify your identity for our services</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="w-1.5 h-1.5 bg-green-500 rounded-full mt-2.5 flex-shrink-0"></span>

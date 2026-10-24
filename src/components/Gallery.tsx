@@ -61,7 +61,7 @@ export function Gallery() {
         </div>
         <div className="mt-12 text-center">
           <p className="text-gray-600 text-lg mb-4">
-            Ready to start your project? Our professional trailers are available for daily, weekly, or monthly rentals.
+            Ready to start your project? We haul away furniture, appliances, yard debris, and full cleanouts.
           </p>
           <a
             href="tel:503-874-3705"

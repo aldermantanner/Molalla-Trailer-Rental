@@ -81,7 +81,7 @@ export function ExitIntentPopup({ onBookClick }: ExitIntentPopupProps) {
             Wait! Before You Go...
           </h2>
           <p className="text-lg text-gray-600">
-            Get <span className="text-red-600 font-bold">$10 OFF</span> your first rental!
+            Get <span className="text-red-600 font-bold">$10 OFF</span> your first junk removal!
           </p>
         </div>
 
@@ -91,7 +91,7 @@ export function ExitIntentPopup({ onBookClick }: ExitIntentPopupProps) {
             <span className="text-2xl font-bold text-red-600">FIRST10</span>
           </div>
           <p className="text-center text-gray-700 font-semibold">
-            Use code at checkout for $10 off any rental!
+            Use code at checkout for $10 off any junk removal!
           </p>
           <p className="text-center text-sm text-gray-600 mt-2">
             Valid for new customers • Expires in 7 days

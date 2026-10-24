@@ -380,7 +380,7 @@ async function createInvoice(input: BookingInput, customer: QBOCustomer): Promis
     Line: invoiceLines,
     PrivateNote: privateNote,
     CustomerMemo: {
-      value: `Thank you for choosing Molalla Trailer Rental! Booking #${input.booking_id}`,
+      value: `Thank you for choosing Bare Acre Hauling! Booking #${input.booking_id}`,
     },
   };
 

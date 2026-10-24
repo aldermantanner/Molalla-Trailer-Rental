@@ -55,7 +55,7 @@ export function Testimonials() {
   const getServiceLabel = (serviceType: string) => {
     switch (serviceType) {
       case 'rental':
-        return 'Trailer Rental';
+        return 'Hauling';
       case 'junk_removal':
         return 'Junk Removal';
       default:
@@ -78,7 +78,7 @@ export function Testimonials() {
           What Our Customers Say
         </h2>
         <p className="text-xl text-gray-600 text-center mb-16 max-w-3xl mx-auto">
-          Read reviews from satisfied customers who have used our dump trailer rentals, junk removal, and material delivery services.
+          Read reviews from satisfied customers who have trusted us with their junk removal and hauling.
         </p>
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((testimonial) => (
